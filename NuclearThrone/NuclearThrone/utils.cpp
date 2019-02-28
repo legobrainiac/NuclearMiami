@@ -44,13 +44,13 @@ std::string utils::GetParameterValue(std::string parameter, std::string descript
 		size_t qmarkStart = descriptor.find('"', index);
 		size_t qmarkEnd = descriptor.find('"', qmarkStart + 1);
         
-        if((qmarkEnd - qmarkStart) == 1) return std::string("0");
+        if((qmarkEnd - qmarkStart) == 1) return std::string(" ");
         
 		descriptor = descriptor.substr(qmarkStart + 1, qmarkEnd - qmarkStart - 1);
 		return descriptor;
 	}
 	else
-        return std::string("0");
+        return std::string(" ");
 }
 
 void utils::DrawRectLines(const Rectf & rect, float lineWidth)

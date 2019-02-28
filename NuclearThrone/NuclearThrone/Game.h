@@ -5,6 +5,7 @@
 
 class Core;
 class SoundEffect;
+class SoundStream;
 
 class Game
 {
@@ -34,6 +35,9 @@ class Game
 	TUiNode* m_pMenu;
 	ExitFlags* m_ExitFlags;
     float m_ElapsedTime;
+	
+	// Sound
+	SoundStream* m_pMenuMusic;
 	
 	// FUNCTIONS
 	void Initialize();
