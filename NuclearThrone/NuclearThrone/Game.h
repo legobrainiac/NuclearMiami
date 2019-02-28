@@ -4,6 +4,7 @@
 #include "structs.h"
 
 class Core;
+class SoundEffect;
 
 class Game
 {
@@ -33,7 +34,7 @@ class Game
 	TUiNode* m_pMenu;
 	ExitFlags* m_ExitFlags;
     float m_ElapsedTime;
-    
+	
 	// FUNCTIONS
 	void Initialize();
 	void Cleanup();

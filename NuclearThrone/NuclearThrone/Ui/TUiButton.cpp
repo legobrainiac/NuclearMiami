@@ -1,6 +1,7 @@
 #include "pch.h"
 
 #include "../Texture.h"
+#include "../SoundEffect.h"
 #include "TUiButton.h"
 
 TUiButton::TUiButton(std::ifstream& descriptorStream, std::string descriptor)
@@ -10,12 +11,16 @@ TUiButton::TUiButton(std::ifstream& descriptorStream, std::string descriptor)
     
 	m_pTextTexture = new Texture(m_Text, "Resources/Fonts/DIN-Light.otf", 100, Color4f{ 1.f, 1.f,1.f, 1.f });
 	m_pTexture = new Texture(m_BackgroundTextureLocation);
+	m_pHoverSound = new SoundEffect(m_HoverSoundLocation);
+	m_pClickSound = new SoundEffect(m_ClickSoundLocation);
 }
 
 TUiButton::~TUiButton()
 {
 	delete m_pTexture;
 	delete m_pTextTexture;
+	delete m_pHoverSound;
+	delete m_pClickSound;
 }
 
 void TUiButton::Draw(const Window& window)
@@ -34,6 +39,19 @@ void TUiButton::Draw(const Window& window)
 void TUiButton::Update(float dt, Point2f mousePos)
 {
 	m_IsOverlapped = m_Rect.ContainsPoint(mousePos);
+	
+	if(m_IsOverlapped && !m_IsOverlappedTriggered)
+	{
+		m_IsOverlappedTriggered = true;
+		
+		if(m_pHoverSound->IsLoaded())m_pHoverSound->Play(0);
+		
+		for(auto& callback : m_HoverCallbacks)
+			callback();
+	}
+	
+	if(!m_IsOverlapped)
+		m_IsOverlappedTriggered = false;
     
     // Handle callbacks for the button
     if(SDL_GetMouseState(nullptr, nullptr) == SDL_BUTTON_LEFT && m_IsOverlapped)
@@ -44,6 +62,8 @@ void TUiButton::Update(float dt, Point2f mousePos)
             
             for(auto& callback : m_ClickCallbacks)
                 callback();
+			
+			if(m_pClickSound->IsLoaded())m_pClickSound->Play(0);
         }
         else
         {
@@ -64,12 +84,20 @@ void TUiButton::ProcessDescriptor(std::ifstream & descriptorStream, std::string 
 {
 	m_Text = utils::GetParameterValue("text", descriptor);
 	m_BackgroundTextureLocation = utils::GetParameterValue("texture", descriptor);
+	m_ClickSoundLocation = utils::GetParameterValue("clickSound", descriptor);
+	m_HoverSoundLocation = utils::GetParameterValue("hoverSound", descriptor);
 }
 
 void TUiButton::RegisterClickCallBack(std::function<void()> callback)
 {
 	m_ClickCallbacks.push_back(callback);
     std::cout << "Click callback registered for " << m_Id << std::endl;
+}
+
+void TUiButton::RegisterHoverCallBack(std::function<void()> callback)
+{
+	m_HoverCallbacks.push_back(callback);
+    std::cout << "Hover callback registered for " << m_Id << std::endl;
 }
 
 void TUiButton::RegisterClickDeltaCallBack(std::function<void(float deltaPressed)> callback)

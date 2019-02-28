@@ -5,6 +5,10 @@
 #include "Game.h"
 #include "Core.h"
 #include "structs.h"
+
+#include "SoundEffect.h"
+#include "SoundStream.h"
+
 #include "Ui/TUiManager.h"
 #include "Ui/TUiButton.h"
 #include "Ui/TUiContainer.h"
@@ -19,7 +23,6 @@ Game::~Game()
 {
 	Cleanup();
 }
-
 
 // TODO(tomas): GameObject class
 // TODO(tomas): Player class
@@ -42,19 +45,11 @@ void Game::Update(float dt)
     m_ElapsedTime += dt;
     TUiManager::Get().Update(dt, m_MousePosition);
 	
-	// Exit update if the game is paused, ui still gets updated
-	if(m_ScreenState == ScreenState::Paused || m_ScreenState == ScreenState::MainMenu) return;
-    
-    // Check keyboard state
-    //const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
-    //if ( pStates[SDL_SCANCODE_RIGHT] )
-    //{
-    //	std::cout << "Right arrow key is down\n";
-    //}
-    //if ( pStates[SDL_SCANCODE_LEFT] && pStates[SDL_SCANCODE_UP])
-    //{
-    //	std::cout << "Left and up arrow keys are down\n";
-    //}
+	// Don't update if the game is paused, ui still gets updated
+	if(m_ScreenState != ScreenState::Paused || m_ScreenState != ScreenState::MainMenu)
+	{
+		// Update game in here
+	}
 }
 
 void Game::Draw() const
@@ -149,7 +144,7 @@ void Game::UiCallbackSetUp()
     
     if (pSettingsButton)
     {
-        auto callback = [](){
+        auto callback = [&](){
             auto settings = TUiManager::Get().GetComponent<TUiContainer>("settings");
             if(settings) settings->SetActive(true);
             
@@ -178,7 +173,7 @@ void Game::UiCallbackSetUp()
     if(pInfoButton)
     {
         pInfoButton->RegisterClickCallBack(
-            [](){
+            [&](){
             auto menu = TUiManager::Get().GetComponent<TUiContainer>("menu");
             if(menu) menu->SetActive(true);
             

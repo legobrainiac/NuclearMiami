@@ -1,4 +1,21 @@
-﻿  Core.cpp
+﻿  pch.cpp
+  Core.cpp
   Game.cpp
+  Matrix2x3.cpp
+  SVGParser.cpp
+  SoundEffect.cpp
+  SoundStream.cpp
+  Sprite.cpp
+  Texture.cpp
+  TUiButton.cpp
+  TUiContainer.cpp
+  TUiLabel.cpp
+  TUiManager.cpp
+  TUiNode.cpp
+  Vector2f.cpp
+  main.cpp
+  structs.cpp
+  utils.cpp
   Generating Code...
+     Creating library C:\Repositories\1DAE_PROG_FINAL\NuclearThrone\Debug\NuclearThrone.lib and object C:\Repositories\1DAE_PROG_FINAL\NuclearThrone\Debug\NuclearThrone.exp
   NuclearThrone.vcxproj -> C:\Repositories\1DAE_PROG_FINAL\NuclearThrone\Debug\NuclearThrone.exe
