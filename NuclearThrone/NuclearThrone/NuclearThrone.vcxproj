@@ -23,7 +23,7 @@
     <ProjectGuid>{A3F10FD1-C519-4A77-BB9A-9F2E392A0F66}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>NuclearThrone</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

@@ -17,7 +17,6 @@ public TUiNode
 	TUiButton(std::ifstream& descriptorStream, std::string descriptor);
 	~TUiButton();
     
-	// Inherited via TUiNode
 	virtual void Draw(const Window& window) override;
 	virtual void Update(float dt, Point2f mousePos) override;
 	virtual void ProcessDescriptor(std::ifstream& descriptorStream, std::string descriptor) override;

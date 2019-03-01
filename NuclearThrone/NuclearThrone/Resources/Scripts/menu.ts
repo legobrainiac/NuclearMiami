@@ -12,3 +12,6 @@ TLabel(id="titleLabel", sizeX"0.7", sizeY="0.3", posX="0.15", posY="0.75", ptSiz
 TLabel(id="subTitleLabel", sizeX"0.2", sizeY="0.1", posX="0.1", posY="0.65", ptSize="50", text="Settings:")
 TEndContainer()
 
+TContainer(id="charSelection", sizeX="0.8", sizeY="0.8", posX="0.1", posY="0.1", title="Character Selection", drawOutline="0", startHidden="1")
+TButton(id="next", sizeX="0.2", sizeY="0.1", posX="0.4", posY="0.20", text=">", texture="Resources/Images/button.png", clickSound="Resources/Audio/click.wav", hoverSound="Resources/Audio/hover.wav")
+TEndContainer()

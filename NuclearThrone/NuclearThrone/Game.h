@@ -9,7 +9,7 @@ class SoundStream;
 
 class Game
 {
-    public:
+public:
 	explicit Game(const Window& window);
 	Game(const Game& other) = delete;
 	Game& operator=(const Game& other) = delete;

@@ -27,6 +27,7 @@ Game::~Game()
 // TODO(tomas): GameObject class
 // TODO(tomas): Player class
 // TODO(tomas): Think about how i wanna do the background of the menu, once we have the scene working i can make a small scene with just the ai agents going abouts
+// TODO(tomas): rule of five for all the ui, generally clean up and bring it up to standars, forgot p prefix for a lot of the points
 void Game::Initialize()
 {
     // Load UI from the menu tankscript file
