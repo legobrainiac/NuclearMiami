@@ -8,8 +8,8 @@ TLabel(id="titleLabel", sizeX="0.7", sizeY="0.3", posX="0.15", posY="0.75", ptSi
 TEndContainer()
 
 TContainer(id="settings", sizeX="0.8", sizeY="0.8", posX="0.1", posY="0.1", title="Settings", drawOutline="0", startHidden="1")
-TLabel(id="titleLabel", sizeX"0.7", sizeY="0.3", posX="0.15", posY="0.75", ptSize="100", text="Nuclear Throne!")
-TLabel(id="subTitleLabel", sizeX"0.2", sizeY="0.1", posX="0.1", posY="0.65", ptSize="50", text="Settings:")
+TLabel(id="titleLabel", sizeX"0.3", sizeY="0.15", posX="0", posY="0.85", ptSize="100", text="Settings: ")
+TButton(id="fullscreenToggle", sizeX="0.2", sizeY="0.1", posX="0.4", posY="0.80", text="Toggle FullScreen", texture="Resources/Images/button.png", clickSound="Resources/Audio/click.wav", hoverSound="Resources/Audio/hover.wav")
 TEndContainer()
 
 TContainer(id="charSelection", sizeX="0.8", sizeY="0.8", posX="0.1", posY="0.1", title="Character Selection", drawOutline="0", startHidden="1")

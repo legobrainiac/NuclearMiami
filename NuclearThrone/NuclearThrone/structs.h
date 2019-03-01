@@ -16,6 +16,8 @@ struct Window
 struct ExitFlags
 {
     bool shouldExit;
+	bool isFullScreen;
+	SDL_Window* pWindow;
 };
 
 struct Point2f
@@ -107,4 +109,3 @@ struct Ellipsef
 	float radiusX;
 	float radiusY;
 };
-

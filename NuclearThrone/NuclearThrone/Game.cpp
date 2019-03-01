@@ -13,8 +13,11 @@
 #include "Ui/TUiButton.h"
 #include "Ui/TUiContainer.h"
 
+#include "GameObject.h"
+
 Game::Game(const Window& window)
 : m_Window(window)
+, m_pTestGameObject(new GameObject(Vector2f{200.f, 200.f}, Vector2f{2.f, 2.f}, 35.f))
 {
 	Initialize();
 }
@@ -24,10 +27,12 @@ Game::~Game()
 	Cleanup();
 }
 
-// TODO(tomas): GameObject class
-// TODO(tomas): Player class
+// TODO(tomas): GameObject { v3 m_Position; GameObject* m_Parent; std::vector<GameObject*> m_Children; }
+// TODO(tomas): Player : public GameObject { Weapon* m_pWeapon; } 
+// TODO(tomas): Weapon : public GameObject
 // TODO(tomas): Think about how i wanna do the background of the menu, once we have the scene working i can make a small scene with just the ai agents going abouts
 // TODO(tomas): rule of five for all the ui, generally clean up and bring it up to standars, forgot p prefix for a lot of the points
+// TODO(tomas): rename ExitFlags to CoreFlags or something that makes more sense
 void Game::Initialize()
 {
     // Load UI from the menu tankscript file
@@ -49,6 +54,7 @@ void Game::Cleanup()
 {
 	delete &TUiManager::Get();
 	delete m_pMenuMusic;
+	delete m_pTestGameObject;
 }
 
 void Game::Update(float dt)
@@ -57,9 +63,14 @@ void Game::Update(float dt)
 	TUiManager::Get().Update(dt, m_MousePosition);
 	
 	// Don't update if the game is paused, ui still gets updated
-	if(m_ScreenState != ScreenState::Paused || m_ScreenState != ScreenState::MainMenu)
+	if(m_ScreenState != ScreenState::Paused &&  m_ScreenState != ScreenState::MainMenu)
 	{
 		// Update game in here
+		m_pTestGameObject->Update(dt);
+		m_pTestGameObject->Rotate(10.f * dt);
+		m_pTestGameObject->Translate(Vector2f{50.f, 0.f} * dt);
+		m_pTestGameObject->Scale(Vector2f{0.1f, 0.f} * dt);
+		m_pTestGameObject->SetZLayer(-0.1f);
 	}
 }
 
@@ -67,6 +78,11 @@ void Game::Draw() const
 {
 	ClearBackground();
 	TUiManager::Get().Draw(m_Window);
+	if(m_ScreenState != ScreenState::Paused &&  m_ScreenState != ScreenState::MainMenu)
+	{
+		// Draw game in here
+		m_pTestGameObject->Draw();
+	}
 }
 
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent & e)
@@ -78,7 +94,7 @@ void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 {
 	switch (e.keysym.sym)
 	{
-		case SDLK_t:
+		case SDLK_w:
 		break;
 	}
 }
@@ -118,7 +134,9 @@ void Game::ProcessMouseUpEvent(const SDL_MouseButtonEvent& e)
 void Game::ClearBackground() const
 {
 	glClearColor(0.4f, 0.4f, 0.8f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	
+	//Z-Ordering
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Game::StartGame(std::string level)
@@ -198,6 +216,28 @@ void Game::UiCallbackSetUp()
 			auto menu = TUiManager::Get().GetComponent<TUiContainer>("menu.label1");
 			if(menu) menu->SetSize(Vector2f {deltaPressed, 0.5f});
 			} 
+			);
+	}
+	
+	// Toggle full screen button
+	TUiButton* toggleFullScreenButton = TUiManager::Get().GetComponent<TUiButton>("settings.fullscreenToggle");
+	
+	if(toggleFullScreenButton)
+	{
+		toggleFullScreenButton->RegisterClickCallBack(
+			[&](){
+			m_ExitFlags->isFullScreen = !m_ExitFlags->isFullScreen;
+			
+			// Set fullscreen if not in full screen
+			if(m_ExitFlags->isFullScreen) 
+			{
+			SDL_SetWindowFullscreen(m_ExitFlags->pWindow, SDL_WINDOW_FULLSCREEN); 
+			return;
+			}
+			
+			// Exit fullscreen if in fullscreen
+			SDL_SetWindowFullscreen(m_ExitFlags->pWindow, 0);
+			}
 			);
 	}
 }

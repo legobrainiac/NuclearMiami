@@ -6,6 +6,7 @@
 class Core;
 class SoundEffect;
 class SoundStream;
+class GameObject;
 
 class Game
 {
@@ -35,6 +36,8 @@ public:
 	TUiNode* m_pMenu;
 	ExitFlags* m_ExitFlags;
     float m_ElapsedTime;
+	
+	GameObject* m_pTestGameObject;
 	
 	// Sound
 	SoundStream* m_pMenuMusic;

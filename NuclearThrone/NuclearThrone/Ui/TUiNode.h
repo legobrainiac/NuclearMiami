@@ -14,7 +14,7 @@
 
 class TUiNode
 {
-public:
+	public:
 	TUiNode();
 	TUiNode(std::ifstream& descriptorStream, std::string descriptor);
 	virtual ~TUiNode();
@@ -41,7 +41,7 @@ public:
 	void SetSize(Vector2f newSize);
     void SetActive(bool val);
     
-protected:
+	protected:
 	TUiNode* m_Parent;
 	std::vector<TUiNode*> m_Children;
     

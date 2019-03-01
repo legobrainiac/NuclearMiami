@@ -126,6 +126,8 @@ void Core::Run()
     
 	// Create the Game object
 	Game game{ m_Window };
+	
+	m_ExitFlags.pWindow = m_pWindow;
     game.SetExitFlags(&m_ExitFlags);
     
 	// Set start time
