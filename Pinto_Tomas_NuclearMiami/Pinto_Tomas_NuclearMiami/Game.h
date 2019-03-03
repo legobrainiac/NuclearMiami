@@ -9,6 +9,7 @@ class SoundStream;
 class GameObject;
 class Player;
 class Scene;
+class Camera;
 
 class Game
 {
@@ -45,6 +46,7 @@ public:
 	// Scene
 	Scene* m_pScene;
 	Player* m_pPlayer;
+	Camera* m_pCamera;
 	
 	// FUNCTIONS
 	void Initialize();

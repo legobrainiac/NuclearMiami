@@ -17,10 +17,12 @@
 
 #include "GameObject.h"
 #include "Player.h"
+#include "Camera.h"
 
 Game::Game(const Window& window)
 : m_Window(window)
 , m_pPlayer(new Player(Vector2f{200.f, 200.f},Vector2f{3.f, 3.f}, 0.f))
+, m_pCamera(new Camera(960.f, 540.f))
 {
 	m_pScene = new Scene("Resources/Scenes/Scene1/scene1.png", "", m_pPlayer);
 	
@@ -32,12 +34,10 @@ Game::~Game()
 	Cleanup();
 }
 
-// TODO(tomas): GameObject { v3 m_Position; GameObject* m_Parent; std::vector<GameObject*> m_Children; }
-// TODO(tomas): Player : public GameObject { Weapon* m_pWeapon; } 
-// TODO(tomas): Weapon : public GameObject
 // TODO(tomas): Think about how i wanna do the background of the menu, once we have the scene working i can make a small scene with just the ai agents going abouts
 // TODO(tomas): rule of five for all the ui, generally clean up and bring it up to standars, forgot p prefix for a lot of the points
 // TODO(tomas): rename ExitFlags to CoreFlags or something that makes more sense
+// TODO(tomas): Implement an active camera thing to allow switching between cameras
 void Game::Initialize()
 {
     // Load UI from the menu tankscript file
@@ -60,6 +60,7 @@ void Game::Cleanup()
 	delete &TUiManager::Get();
 	delete m_pMenuMusic;
 	delete m_pScene;
+	delete m_pCamera;
 }
 
 void Game::Update(float dt)
@@ -81,10 +82,16 @@ void Game::Draw() const
 
 	if(m_ScreenState != ScreenState::Paused &&  m_ScreenState != ScreenState::MainMenu)
 	{
-		// Draw game in here
+		glPushMatrix();
+		glScalef(m_Window.width / m_pCamera->GetWidth(), m_Window.height /  m_pCamera->GetHeight(), 0.f);
+		glTranslatef(-m_pCamera->GetPosition(m_pPlayer->GetPosition()).x, -m_pCamera->GetPosition(m_pPlayer->GetPosition()).y, 0.f);
+		// DRAW
+
 		m_pScene->Draw();
+		
+		// ENDDRAW
+		glPopMatrix();
 	}
-	
 	TUiManager::Get().Draw(m_Window);
 }
 
