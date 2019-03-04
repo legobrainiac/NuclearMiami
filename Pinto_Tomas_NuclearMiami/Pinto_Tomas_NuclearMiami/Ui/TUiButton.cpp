@@ -9,7 +9,7 @@ TUiButton::TUiButton(std::ifstream& descriptorStream, std::string descriptor)
 	TUiNode::ProcessDescriptor(descriptorStream, descriptor);
 	ProcessDescriptor(descriptorStream, descriptor);
     
-	m_pTextTexture = new Texture(m_Text, "Resources/Fonts/DIN-Light.otf", 40, Color4f{ 1.f, 1.f,1.f, 1.f });
+	m_pTextTexture = new Texture(m_Text, "Resources/Fonts/munro.ttf", 40, Color4f{ 1.f, 1.f,1.f, 1.f });
 	m_pTexture = new Texture(m_BackgroundTextureLocation);
 	m_pHoverSound = new SoundEffect(m_HoverSoundLocation);
 	m_pClickSound = new SoundEffect(m_ClickSoundLocation);

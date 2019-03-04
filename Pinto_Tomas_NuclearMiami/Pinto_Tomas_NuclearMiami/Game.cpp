@@ -6,7 +6,6 @@
 #include "Core.h"
 #include "structs.h"
 
-#include "Scene.h"
 
 #include "SoundEffect.h"
 #include "SoundStream.h"
@@ -17,6 +16,7 @@
 
 #include "GameObject.h"
 #include "Player.h"
+#include "Scene.h"
 #include "Camera.h"
 
 Game::Game(const Window& window)
