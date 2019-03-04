@@ -23,7 +23,7 @@
     <ProjectGuid>{D0FA7E4C-FD42-4C46-A5E3-F5B97DCAEDB8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>PintoTomasNuclearMiami</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -202,6 +202,9 @@
     <ClCompile Include="Ui\TUiNode.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="Vector2f.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pinto_Tomas_NuclearMiami.xlsx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

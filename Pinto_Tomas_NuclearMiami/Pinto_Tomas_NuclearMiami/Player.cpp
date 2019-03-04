@@ -1,10 +1,15 @@
 #include "pch.h"
 #include "Player.h"
 #include "Texture.h"
+#include "Scene.h"
+#include "Camera.h"
 
-Player::Player(const Vector2f& position, const Vector2f& scale, float rotation)
+Player::Player(const Vector2f& position, const Vector2f& scale, float rotation, const Point2f& mousePos, Scene* scene, Camera* camera)
 : GameObject(position, scale, rotation)
 , m_pTexture(new Texture("Resources/Images/Characters/char1.png"))
+, m_MousePos(mousePos)
+, m_pCamera(camera)
+, m_pScene(scene)
 {
 }
 
@@ -54,6 +59,28 @@ void Player::Update(float dt)
     {
     	Translate(Vector2f{-200.f, 0.f} * dt);
     }
-    	
+		
 	GameObject::Update(dt);
+}
+
+void Player::Shoot()
+{
+	if(SDL_GetMouseState(nullptr, nullptr) == SDL_BUTTON_LEFT)
+    {
+		Point2f mousePosWS = Point2f{m_MousePos.x, m_MousePos.y} - Point2f{1280.f / 2.f, 720 / 2.f};
+		Vector2f dir {Point2f{m_Position.x, m_Position.y}, mousePosWS };	
+		
+		//m_pScene->Add(new Projectile(dir.Normalized()));
+	}
+	
+}
+
+void Player::DrawShootRay() const
+{
+	Point2f mousePosWS = Point2f{m_MousePos.x, m_MousePos.y} - Point2f{1280.f / 2.f, 720 / 2.f};
+	
+	glPushMatrix();
+	glTranslatef(m_Position.x, m_Position.y, 0.f);
+	utils::DrawLine(Point2f{0.f, 0.f}, mousePosWS, 5.f);
+	glPopMatrix();
 }

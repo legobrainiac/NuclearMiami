@@ -150,4 +150,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Pinto_Tomas_NuclearMiami.xlsx" />
+  </ItemGroup>
 </Project>

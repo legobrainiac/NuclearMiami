@@ -32,6 +32,20 @@ struct Point2f
 	{
 		return std::sqrt(std::pow(other.x - this->x, 2.f) + std::pow(other.y - this->y, 2.f));
 	}
+	
+	Point2f& operator+(Point2f rhs)
+	{
+        x += rhs.x;
+		y += rhs.y;
+		return *this;
+	}
+	
+	Point2f& operator-(Point2f rhs)
+	{
+        x -= rhs.x;
+		y -= rhs.y;
+		return *this;
+	}
 };
 
 struct Rectf

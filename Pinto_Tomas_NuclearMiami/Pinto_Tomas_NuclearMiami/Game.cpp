@@ -6,7 +6,6 @@
 #include "Core.h"
 #include "structs.h"
 
-
 #include "SoundEffect.h"
 #include "SoundStream.h"
 
@@ -21,11 +20,12 @@
 
 Game::Game(const Window& window)
 : m_Window(window)
-, m_pPlayer(new Player(Vector2f{200.f, 200.f},Vector2f{3.f, 3.f}, 0.f))
 , m_pCamera(new Camera(960.f, 540.f))
 {
-	m_pScene = new Scene("Resources/Scenes/Scene1/scene1.png", "", m_pPlayer);
+	m_pScene = new Scene("Resources/Scenes/Scene1/scene1.png", "", nullptr);
+	m_pPlayer = new Player(Vector2f{0.f, 0.f},Vector2f{3.f, 3.f}, 0.f, m_MousePosition, m_pScene, m_pCamera);
 	
+	m_pScene->Add(m_pPlayer);
 	Initialize();
 }
 
@@ -91,6 +91,18 @@ void Game::Draw() const
 		
 		// ENDDRAW
 		glPopMatrix();
+		
+		// TEST
+		//glPushMatrix();
+		
+/*		Point2f wsCameraPosition =  m_pCamera->GetPosition(m_pPlayer->GetPosition());
+		Point2f wsMousePosition = Point2f{m_MousePosition.x + wsCameraPosition.x, m_MousePosition.y + wsCameraPosition.y};
+		
+		glTranslatef(-m_pCamera->GetPosition(m_pPlayer->GetPosition()).x, -m_pCamera->GetPosition(m_pPlayer->GetPosition()).y, 0.f);
+		m_pPlayer->DrawShootRay(wsMousePosition);
+		glPopMatrix();*/
+		
+		// ENDTEST
 	}
 	TUiManager::Get().Draw(m_Window);
 }
