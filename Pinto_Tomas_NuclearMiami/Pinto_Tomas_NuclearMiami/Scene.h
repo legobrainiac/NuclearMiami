@@ -36,6 +36,10 @@ private:
 		
 	std::vector<GameObject*> m_Scene;
 	Vector2f m_PlayerSpawn;
+	
+	// GameObject Buffer
+	bool m_Dirty;
+	std::vector<GameObject*> m_AddBuffer;
 };
 
 #endif //!SCENE_H

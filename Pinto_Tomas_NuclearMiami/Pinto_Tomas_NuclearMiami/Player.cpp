@@ -3,13 +3,14 @@
 #include "Texture.h"
 #include "Scene.h"
 #include "Camera.h"
+#include "Projectile.h"
 
-Player::Player(const Vector2f& position, const Vector2f& scale, float rotation, const Point2f& mousePos, Scene* scene, Camera* camera)
+Player::Player(const Vector2f& position, const Vector2f& scale, float rotation, Scene* scene, Camera* camera)
 : GameObject(position, scale, rotation)
 , m_pTexture(new Texture("Resources/Images/Characters/char1.png"))
-, m_MousePos(mousePos)
 , m_pCamera(camera)
 , m_pScene(scene)
+, m_Timer(0.f)
 {
 }
 
@@ -35,7 +36,17 @@ void Player::Draw() const
 
 void Player::Update(float dt)
 {
-	Rotate(10.f * dt);
+	m_Timer += dt;
+	
+	// Get direction from player to cursor
+	Point2f mousePosWS = m_pCamera->GetMouseWS(m_Position);
+	Vector2f dir {Point2f{m_Position.x, m_Position.y}, mousePosWS };	
+	
+	// Look at cursor
+	m_Rotation = -(std::atan2(dir.x, dir.y) * 180 / PI);
+	
+	// Test if it should be shooting
+	Shoot(dir);
 	
 	//Check keyboard state
     const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
@@ -58,29 +69,23 @@ void Player::Update(float dt)
 	if(pStates[SDL_SCANCODE_A])
     {
     	Translate(Vector2f{-200.f, 0.f} * dt);
+    }		
+	
+	if(pStates[SDL_SCANCODE_T])
+    {
+    	std::cout << GameObject::GetInstanceCount() << std::endl;
     }
-		
+	
+	// Base Update
 	GameObject::Update(dt);
 }
 
-void Player::Shoot()
+void Player::Shoot(const Vector2f& direction)
 {
-	if(SDL_GetMouseState(nullptr, nullptr) == SDL_BUTTON_LEFT)
+	if(SDL_GetMouseState(nullptr, nullptr) == SDL_BUTTON_LEFT && m_Timer > 0.1f)
     {
-		Point2f mousePosWS = Point2f{m_MousePos.x, m_MousePos.y} - Point2f{1280.f / 2.f, 720 / 2.f};
-		Vector2f dir {Point2f{m_Position.x, m_Position.y}, mousePosWS };	
-		
-		//m_pScene->Add(new Projectile(dir.Normalized()));
+		m_Timer = 0.f;
+		Projectile* projectile = new Projectile(m_Position, Vector2f {0.f, 0.f}, 0.f, direction.Normalized());
+		m_pScene->Add(projectile);
 	}
-	
-}
-
-void Player::DrawShootRay() const
-{
-	Point2f mousePosWS = Point2f{m_MousePos.x, m_MousePos.y} - Point2f{1280.f / 2.f, 720 / 2.f};
-	
-	glPushMatrix();
-	glTranslatef(m_Position.x, m_Position.y, 0.f);
-	utils::DrawLine(Point2f{0.f, 0.f}, mousePosWS, 5.f);
-	glPopMatrix();
 }
