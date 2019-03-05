@@ -11,14 +11,14 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
-   id="svg3724"
+   id="svg29"
    width="736"
    height="448"
    viewBox="0 0 736 448"
    sodipodi:docname="scene1.svg"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
   <metadata
-     id="metadata3730">
+     id="metadata35">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -30,7 +30,7 @@
     </rdf:RDF>
   </metadata>
   <defs
-     id="defs3728" />
+     id="defs33" />
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -42,28 +42,26 @@
      inkscape:pageshadow="2"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
-     id="namedview3726"
+     id="namedview31"
      showgrid="false"
-     inkscape:zoom="1.0914039"
-     inkscape:cx="355.0876"
-     inkscape:cy="236.05116"
+     inkscape:zoom="1.5434783"
+     inkscape:cx="426.54709"
+     inkscape:cy="204.14794"
      inkscape:window-x="1912"
      inkscape:window-y="32"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg3724" />
+     inkscape:current-layer="svg29" />
   <image
      sodipodi:absref="C:\Repositories\1DAE_PROG_FINAL\Pinto_Tomas_NuclearMiami\Pinto_Tomas_NuclearMiami\Resources\Scenes\Scene1\scene1col.png"
      xlink:href="scene1col.png"
      y="0"
      x="0"
-     id="image3732"
+     id="image37"
      preserveAspectRatio="none"
      height="448"
      width="736" />
   <path
      style="fill:#000000"
-     d="m 44,44 v 84 84 H 108.5 173 V 307.5 403 H 320 467 V 355.5 308 H 579.5 692 V 224 140 H 544 396 v 80 80 h -60 -60 v -44 -44 h 32 32 V 128 44 H 292.5 245 v 3.5 3.5 h 44 44 v 77 77 h -44 -44 v 3.5 3.5 h 12 12 v 47.5 47.5 h 67 67 v -80 -80 h 141 141 v 29 29 h -32 -32 v 15 15 h 3.5 3.5 V 223.5 212 H 656.5 685 V 256.5 301 H 656 627 V 278.5 256 H 623.5 620 V 278.5 301 H 540 460 V 348.5 396 H 320 180 V 304 212 H 191.5 203 V 208.5 205 H 127 51 V 128 51 h 76 76 V 47.5 44 h -79.5 z"
-     id="path3734"
-     inkscape:connector-curvature="0"
-     sodipodi:nodetypes="ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc" />
+     d="M 44 44 L 44 128 L 44 212 L 108.5 212 L 173 212 L 173 307.5 L 173 403 L 320 403 L 467 403 L 467 355.5 L 467 308 L 480 308 L 493 308 L 493 371.5 L 493 435 L 592.5 435 L 692 435 L 692 287.5 L 692 140 L 516 140 L 340 140 L 340 92 L 340 44 L 192 44 L 44 44 z M 51 51 L 192 51 L 333 51 L 333 128 L 333 205 L 289 205 L 245 205 L 245 208.5 L 245 212 L 257 212 L 269 212 L 269 259.5 L 269 307 L 336 307 L 403 307 L 403 227 L 403 147 L 544 147 L 685 147 L 685 176 L 685 205 L 653 205 L 621 205 L 621 236 L 621 267 L 624.5 267 L 628 267 L 628 239.5 L 628 212 L 656.5 212 L 685 212 L 685 256.5 L 685 301 L 668.5 301 L 652 301 L 652 364.5 L 652 428 L 576 428 L 500 428 L 500 368 L 500 308 L 516 308 L 532 308 L 532 291.5 L 532 275 L 547.5 275 L 563 275 L 563 240 L 563 205 L 512 205 L 461 205 L 461 240 L 461 275 L 493 275 L 525 275 L 525 288 L 525 301 L 492.5 301 L 460 301 L 460 348.5 L 460 396 L 320 396 L 180 396 L 180 304 L 180 212 L 191.5 212 L 203 212 L 203 208.5 L 203 205 L 127 205 L 51 205 L 51 128 L 51 51 z "
+     id="path39" />
 </svg>

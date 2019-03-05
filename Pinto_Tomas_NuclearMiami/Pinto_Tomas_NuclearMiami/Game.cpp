@@ -25,7 +25,7 @@ Game::Game(const Window& window)
 , m_pCamera(new Camera(320.f, 180.f, &m_Window, &m_MousePosition))
 {
 	m_pScene = new Scene("Resources/Scenes/Scene1/scene1.png", "Resources/Scenes/Scene1/scene1.svg", nullptr);
-	m_pPlayer = new Player(Vector2f{0.f, 0.f},Vector2f{1.f, 1.f}, 0.f, m_pScene, m_pCamera);
+	m_pPlayer = new Player(Vector2f{200.f, 300.f},Vector2f{1.f, 1.f}, 0.f, m_pScene, m_pCamera);
 	
 	m_pScene->Add(m_pPlayer);
 	Initialize();
@@ -92,16 +92,15 @@ void Game::Draw() const
 		m_pScene->Draw();
 		
 		// Visible
-
 		std::vector<Point2f> visiblePoints;
 		
-		for(int i = 0; i < 360; i += 1)
+		for(float i = 0; i <= 2 * PI; i += PI / 180.f)
 		{
-			float x = (float)std::cos(i);
-			float y = (float)std::sin(i);
+			float x = std::cosf(i);
+			float y = std::sinf(i);
 		
 			Vector2f dir {x, y};
-			dir *= 1000;
+			dir *= 10000;
 			utils::HitInfo hit;
 		
 			if(utils::Raycast(m_pScene->GetSceneCollider(), m_pPlayer->GetPosition().ToPoint2f(), dir.ToPoint2f(), hit))
@@ -110,13 +109,19 @@ void Game::Draw() const
 			}
 			else
 			{
-				visiblePoints.push_back(dir.ToPoint2f());
+				visiblePoints.push_back(m_pPlayer->GetPosition().ToPoint2f() + dir.ToPoint2f());
 			}
 		}
 		
-		glColor4f(1.f, 1.f, 1.f, 1.f);
-		utils::DrawPoints(&visiblePoints[0],visiblePoints.size(), 5.f);
-		utils::DrawPolygon(visiblePoints, true, 1.f);
+		glColor4f(1.f, 1.f, 1.f, 0.3f);
+		/*for(size_t i = 0; i < visiblePoints.size(); ++i)
+		{
+			Point2f playerPos = m_pPlayer->GetPosition().ToPoint2f();
+			utils::DrawLine(playerPos, visiblePoints[i]);
+		}*/
+		
+		utils::DrawPolygon(visiblePoints, true, 10.f);
+		
 		// ENDDRAW
 		glPopMatrix();
 	}
