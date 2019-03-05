@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Game.h"
 
+#include <gl/GLU.h>
+
 #include <iostream>
 #include "Game.h"
 #include "Core.h"
@@ -22,7 +24,8 @@
 
 Game::Game(const Window& window)
 : m_Window(window)
-, m_pCamera(new Camera(320.f, 180.f, &m_Window, &m_MousePosition))
+//, m_pCamera(new Camera(320.f, 180.f, &m_Window, &m_MousePosition))
+, m_pCamera(new Camera(640.f, 360.f, &m_Window, &m_MousePosition))
 {
 	m_pScene = new Scene("Resources/Scenes/Scene1/scene1.png", "Resources/Scenes/Scene1/scene1.svg", nullptr);
 	m_pPlayer = new Player(Vector2f{200.f, 300.f},Vector2f{1.f, 1.f}, 0.f, m_pScene, m_pCamera);
@@ -88,7 +91,6 @@ void Game::Draw() const
 		glScalef(m_Window.width / m_pCamera->GetWidth(), m_Window.height /  m_pCamera->GetHeight(), 0.f);
 		glTranslatef(-m_pCamera->GetPosition(m_pPlayer->GetPosition()).x, -m_pCamera->GetPosition(m_pPlayer->GetPosition()).y, 0.f);
 		// DRAW
-
 		m_pScene->Draw();
 		
 		// Visible
@@ -113,19 +115,22 @@ void Game::Draw() const
 			}
 		}
 		
-		glColor4f(1.f, 1.f, 1.f, 0.3f);
+		glColor4f(0.f, 0.f, 0.f, 1.f);
 		/*for(size_t i = 0; i < visiblePoints.size(); ++i)
 		{
 			Point2f playerPos = m_pPlayer->GetPosition().ToPoint2f();
 			utils::DrawLine(playerPos, visiblePoints[i]);
 		}*/
 		
+		// TODO(tomas): Tesselation with gl/GLU.h
 		utils::DrawPolygon(visiblePoints, true, 10.f);
-		
+		//utils::FillPolygon(visiblePoints);
+
 		// ENDDRAW
 		glPopMatrix();
 	}
 	TUiManager::Get().Draw(m_Window);
+	
 }
 
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent & e)

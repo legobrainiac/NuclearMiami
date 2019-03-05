@@ -282,7 +282,7 @@ void utils::FillPolygon(const std::vector<Point2f>& vertices)
 	FillPolygon(vertices.data(), vertices.size());
 }
 void utils::FillPolygon(const Point2f *pVertices, size_t nrVertices)
-{
+{	
 	glBegin(GL_POLYGON);
 	{
 		for (size_t idx{ 0 }; idx < nrVertices; ++idx)
