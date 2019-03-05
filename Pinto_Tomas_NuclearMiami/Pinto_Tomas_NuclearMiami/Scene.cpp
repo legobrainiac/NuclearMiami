@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "Texture.h"
 #include "GameObject.h"
+#include "SVGParser.h"
 
 Scene::Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocation, GameObject* playerGameObject)
 : m_Scene()
@@ -11,9 +12,14 @@ Scene::Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocat
 , m_AddBuffer()
 {
 	m_SceneMap.mapTextureLocation = sceneMapTextureLocation;
-	m_SceneMap.colliderPointCSVLocation = sceneColliderLocation;
+	m_SceneMap.colliderPointSVGLocation = sceneColliderLocation;
 	
 	m_SceneMap.pMapTexture = new Texture(sceneMapTextureLocation);
+	
+	if(SVGParser::GetVerticesFromSvgFile(m_SceneMap.colliderPointSVGLocation, m_SceneMap.sceneCollider))
+	{
+		std::cout << "Loaded collider for scene at " << m_SceneMap.colliderPointSVGLocation << std::endl; 
+	}
 	
 	if(playerGameObject) Add(playerGameObject);
 }
@@ -21,17 +27,19 @@ Scene::Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocat
 void Scene::Draw() const
 {	
 	glPushMatrix();
-	glScalef(3.f, 3.f, 0.f);
-	glTranslatef(-30.f, -200.f, 0.f);
+	glScalef(1.f, 1.f, 0.f);
+	glTranslatef(0.f, 0.f, 0.f);
 
 	m_SceneMap.pMapTexture->Draw(Point2f {0.f, 0.f}, Rectf {0.f, 0.f, m_SceneMap.pMapTexture->GetWidth(),  m_SceneMap.pMapTexture->GetHeight()});
 	
-	glPopMatrix();
+	//utils::DrawPolygon(m_SceneMap.sceneCollider[0], true, 2.f);
 	
 	for(auto go : m_Scene)
 	{
 		go->Draw();
 	}
+	
+	glPopMatrix();
 }
 
 void Scene::Update(float dt)
@@ -70,6 +78,11 @@ void Scene::Add(GameObject* pGameObject)
 	{
 		m_AddBuffer.push_back(pGameObject);
 	}
+}
+
+const std::vector<Point2f>& Scene::GetSceneCollider()
+{
+	return m_SceneMap.sceneCollider[0];
 }
 
 Scene::~Scene()

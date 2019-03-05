@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "Core.h"
 #include "structs.h"
+#include "Matrix2x3.h"
 
 #include "SoundEffect.h"
 #include "SoundStream.h"
@@ -21,10 +22,10 @@
 
 Game::Game(const Window& window)
 : m_Window(window)
-, m_pCamera(new Camera(960.f, 540.f, &m_Window, &m_MousePosition))
+, m_pCamera(new Camera(320.f, 180.f, &m_Window, &m_MousePosition))
 {
-	m_pScene = new Scene("Resources/Scenes/Scene1/scene1.png", "", nullptr);
-	m_pPlayer = new Player(Vector2f{0.f, 0.f},Vector2f{3.f, 3.f}, 0.f, m_pScene, m_pCamera);
+	m_pScene = new Scene("Resources/Scenes/Scene1/scene1.png", "Resources/Scenes/Scene1/scene1.svg", nullptr);
+	m_pPlayer = new Player(Vector2f{0.f, 0.f},Vector2f{1.f, 1.f}, 0.f, m_pScene, m_pCamera);
 	
 	m_pScene->Add(m_pPlayer);
 	Initialize();
@@ -90,20 +91,34 @@ void Game::Draw() const
 
 		m_pScene->Draw();
 		
+		// Visible
+
+		std::vector<Point2f> visiblePoints;
+		
+		for(int i = 0; i < 360; i += 1)
+		{
+			float x = (float)std::cos(i);
+			float y = (float)std::sin(i);
+		
+			Vector2f dir {x, y};
+			dir *= 1000;
+			utils::HitInfo hit;
+		
+			if(utils::Raycast(m_pScene->GetSceneCollider(), m_pPlayer->GetPosition().ToPoint2f(), dir.ToPoint2f(), hit))
+			{
+				visiblePoints.push_back(hit.intersectPoint);
+			}
+			else
+			{
+				visiblePoints.push_back(dir.ToPoint2f());
+			}
+		}
+		
+		glColor4f(1.f, 1.f, 1.f, 1.f);
+		utils::DrawPoints(&visiblePoints[0],visiblePoints.size(), 5.f);
+		utils::DrawPolygon(visiblePoints, true, 1.f);
 		// ENDDRAW
 		glPopMatrix();
-		
-		// TEST
-		//glPushMatrix();
-		
-/*		Point2f wsCameraPosition =  m_pCamera->GetPosition(m_pPlayer->GetPosition());
-		Point2f wsMousePosition = Point2f{m_MousePosition.x + wsCameraPosition.x, m_MousePosition.y + wsCameraPosition.y};
-		
-		glTranslatef(-m_pCamera->GetPosition(m_pPlayer->GetPosition()).x, -m_pCamera->GetPosition(m_pPlayer->GetPosition()).y, 0.f);
-		m_pPlayer->DrawShootRay(wsMousePosition);
-		glPopMatrix();*/
-		
-		// ENDTEST
 	}
 	TUiManager::Get().Draw(m_Window);
 }

@@ -19,19 +19,20 @@ public:
 	void Update(float dt);
 	
 	void Add(GameObject* pGameObject);
+	const std::vector<Point2f>& GetSceneCollider();
 	
 private:
 	
 	// Container for the basic static level
-	struct
+	struct StaticSceneContainer
 	{
 		// Texture of the level
 		std::string mapTextureLocation;
 		Texture* pMapTexture;
 
 		// Point collider for the whole level
-		std::string colliderPointCSVLocation;
-		std::vector<Point2f> SceneCollider;
+		std::string colliderPointSVGLocation;
+		std::vector<std::vector<Point2f>> sceneCollider;
 	}m_SceneMap;
 		
 	std::vector<GameObject*> m_Scene;
