@@ -1,7 +1,5 @@
 #pragma once
 
-#define GAME_RELEASE
-
 #define PI 3.14159265359F
 #define DEBUG(T) std::cerr << T << std::endl
 #define ERR DEBUG
