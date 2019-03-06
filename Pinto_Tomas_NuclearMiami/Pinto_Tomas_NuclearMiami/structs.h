@@ -20,6 +20,25 @@ struct ExitFlags
 	SDL_Window* pWindow;
 };
 
+template<typename T>
+struct Buffer
+{
+	bool dirty;
+	std::vector<T> buffer;
+	
+	void Add(T val)
+	{
+		dirty = true;
+		buffer.push_back(val);
+	}
+	
+	void Reset()
+	{
+		dirty = false;
+		buffer.clear();
+	}
+};
+
 struct Point2f
 {
 	Point2f();

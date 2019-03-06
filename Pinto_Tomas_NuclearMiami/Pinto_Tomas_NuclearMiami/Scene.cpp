@@ -8,7 +8,6 @@
 Scene::Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocation, GameObject* playerGameObject)
 : m_Scene()
 , m_PlayerSpawn()
-, m_Dirty(false)
 , m_AddBuffer()
 {
 	m_SceneMap.mapTextureLocation = sceneMapTextureLocation;
@@ -45,19 +44,15 @@ void Scene::Draw() const
 void Scene::Update(float dt)
 {
 	for(auto go : m_Scene)
-	{
 		go->Update(dt);
-	}
 	
 	// After updating, 
-	if(m_Dirty)
+	if(m_AddBuffer.dirty)
 	{
-		for(auto go : m_AddBuffer)
-		{
+		for(auto go : m_AddBuffer.buffer)
 			m_Scene.push_back(go);
-		}
 		
-		m_AddBuffer.clear();
+		m_AddBuffer.Reset();
 		
 		auto sort = [](GameObject* left, GameObject* right) 
 		{
@@ -65,18 +60,14 @@ void Scene::Update(float dt)
 		};
 		
 		std::sort(m_Scene.begin(), m_Scene.end(), sort);
-		
-		m_Dirty = false;
 	}
 }
 
 void Scene::Add(GameObject* pGameObject)
 {
-	m_Dirty = true;
-	
 	if(pGameObject != nullptr)
 	{
-		m_AddBuffer.push_back(pGameObject);
+		m_AddBuffer.Add(pGameObject);
 	}
 }
 

@@ -25,6 +25,12 @@ private:
 	Scene* m_pScene;
 	Camera* m_pCamera;
 	float m_Timer;
+	
+	struct Inventory
+	{
+		GameObject* pMainWeapon;
+		GameObject* pSecondary;
+	}m_Inventory;
 };
 
 #endif // !PLAYER_H
