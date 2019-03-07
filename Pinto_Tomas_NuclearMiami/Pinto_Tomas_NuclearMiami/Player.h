@@ -26,11 +26,11 @@ private:
 	Camera* m_pCamera;
 	float m_Timer;
 	
-	struct Inventory
+	struct WeaponSlots
 	{
 		GameObject* pMainWeapon;
 		GameObject* pSecondary;
-	}m_Inventory;
+	}m_WeaponSlots;
 };
 
 #endif // !PLAYER_H

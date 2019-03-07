@@ -20,7 +20,8 @@ Scene::Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocat
 		std::cout << "Loaded collider for scene at " << m_SceneMap.colliderPointSVGLocation << std::endl; 
 	}
 	
-	if(playerGameObject) Add(playerGameObject);
+	if(playerGameObject) 
+		Add(playerGameObject);
 }
 
 void Scene::Draw() const
@@ -34,9 +35,7 @@ void Scene::Draw() const
 	//utils::DrawPolygon(m_SceneMap.sceneCollider[0], true, 2.f);
 	
 	for(auto go : m_Scene)
-	{
 		go->Draw();
-	}
 	
 	glPopMatrix();
 }
@@ -66,9 +65,7 @@ void Scene::Update(float dt)
 void Scene::Add(GameObject* pGameObject)
 {
 	if(pGameObject != nullptr)
-	{
 		m_AddBuffer.Add(pGameObject);
-	}
 }
 
 const std::vector<Point2f>& Scene::GetSceneCollider()
@@ -79,9 +76,7 @@ const std::vector<Point2f>& Scene::GetSceneCollider()
 Scene::~Scene()
 {
 	for(GameObject* go : m_Scene)
-	{
 		delete go;
-	}
 	
 	delete m_SceneMap.pMapTexture;
 }

@@ -18,6 +18,7 @@
 
 #include "GameObject.h"
 #include "Player.h"
+#include "AiAgent.h"
 #include "Scene.h"
 #include "Camera.h"
 #include "Projectile.h"
@@ -30,7 +31,15 @@ Game::Game(const Window& window)
 	m_pScene = new Scene("Resources/Scenes/Scene1/scene1.png", "Resources/Scenes/Scene1/scene1.svg", nullptr);
 	m_pPlayer = new Player(Vector2f{200.f, 300.f},Vector2f{1.f, 1.f}, 0.f, m_pScene, m_pCamera);
 	
+	auto aiAgentTest = new AiAgent(Vector2f { 200.f, 300.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer, m_pScene);
+	aiAgentTest->SetZLayer(-1.f);
+
+	auto aiAgentTest2 = new AiAgent(Vector2f { 600.f, 100.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer, m_pScene);
+	aiAgentTest2->SetZLayer(-1.f);
+	
 	m_pScene->Add(m_pPlayer);
+	m_pScene->Add(aiAgentTest);
+	m_pScene->Add(aiAgentTest2);
 	Initialize();
 }
 
@@ -123,7 +132,7 @@ void Game::Draw() const
 		}*/
 		
 		// TODO(tomas): Tesselation with gl/GLU.h
-		utils::DrawPolygon(visiblePoints, true, 10.f);
+		utils::DrawPolygon(visiblePoints, true, 3.f);
 		//utils::FillPolygon(visiblePoints);
 
 		// ENDDRAW

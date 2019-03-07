@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AiAgent.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="Game.h" />
@@ -176,6 +177,7 @@
     <ClInclude Include="Vector2f.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AiAgent.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="Game.cpp" />
