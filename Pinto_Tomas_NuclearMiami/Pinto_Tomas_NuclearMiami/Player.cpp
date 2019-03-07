@@ -50,31 +50,7 @@ void Player::Update(float dt)
 	
 	//Check keyboard state
     const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
-    
-	if(pStates[SDL_SCANCODE_W])
-    {
-    	Translate(Vector2f{0.f, 200.f} * dt);
-    }
-	
-	if(pStates[SDL_SCANCODE_S])
-    {
-    	Translate(Vector2f{0.f, -200.f} * dt);
-    }
-	
-	if(pStates[SDL_SCANCODE_D])
-    {
-    	Translate(Vector2f{200.f, 0.f} * dt);
-    }
-	
-	if(pStates[SDL_SCANCODE_A])
-    {
-    	Translate(Vector2f{-200.f, 0.f} * dt);
-    }		
-	
-	if(pStates[SDL_SCANCODE_T])
-    {
-    	std::cout << GameObject::GetInstanceCount() << std::endl;
-    }
+    Move(pStates, dt);
 	
 	// Base Update
 	GameObject::Update(dt);
@@ -88,4 +64,19 @@ void Player::Shoot(const Vector2f& direction)
 		Projectile* projectile = new Projectile(m_Position, Vector2f {0.f, 0.f}, 0.f, direction.Normalized());
 		m_pScene->Add(projectile);
 	}
+}
+
+void Player::Move(const Uint8* keyStates, float dt)
+{	
+	if(keyStates[SDL_SCANCODE_W])
+    	Translate(Vector2f{0.f, 200.f} * dt);
+	
+	if(keyStates[SDL_SCANCODE_S])
+    	Translate(Vector2f{0.f, -200.f} * dt);
+	
+	if(keyStates[SDL_SCANCODE_D])
+    	Translate(Vector2f{200.f, 0.f} * dt);
+	
+	if(keyStates[SDL_SCANCODE_A])
+    	Translate(Vector2f{-200.f, 0.f} * dt);
 }

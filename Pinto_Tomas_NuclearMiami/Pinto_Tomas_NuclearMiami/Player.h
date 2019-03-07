@@ -20,6 +20,7 @@ public:
 	
 private:	
 	void Shoot(const Vector2f& direction);
+	void Move(const Uint8* keyStates, float dt);
 	
 	Texture* m_pTexture;	
 	Scene* m_pScene;
