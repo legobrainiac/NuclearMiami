@@ -102,8 +102,8 @@ void Game::Draw() const
 		Point2f cameraPosition = m_pCamera->GetPosition(m_pPlayer->GetPosition());	
 		Point2f mouseOffset = Vector2f {m_pPlayer->GetPosition().ToPoint2f(), m_pCamera->GetMouseWS(m_pPlayer->GetPosition())}.ToPoint2f();
 		
-		cameraPosition.x += mouseOffset.x;
-		cameraPosition.y += mouseOffset.y;
+		cameraPosition.x += mouseOffset.x / 2.f;
+		cameraPosition.y += mouseOffset.y / 2.f;
 		
 		// Matrix operations
 		glPushMatrix();
