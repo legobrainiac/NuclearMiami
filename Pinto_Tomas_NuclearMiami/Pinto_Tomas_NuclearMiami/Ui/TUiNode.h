@@ -28,7 +28,7 @@ class TUiNode
 	virtual void Update(float dt, Point2f mousePos);
 	virtual void ProcessDescriptor(std::ifstream& descriptorStream, std::string descriptor);
     
-	void SetParent(TUiNode* parent);
+	void SetParent(TUiNode* pParent);
 	TUiNode* GetParent() const;
 	TUiNode* GetComponentWithId(std::deque<std::string> idDecomp);
 	std::vector<TUiNode*>& GetChildren();
@@ -42,7 +42,7 @@ class TUiNode
     void SetActive(bool val);
     
 	protected:
-	TUiNode* m_Parent;
+	TUiNode* m_pParent;
 	std::vector<TUiNode*> m_Children;
     
 	std::string m_Id;

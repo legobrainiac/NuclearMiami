@@ -12,7 +12,7 @@ public:
 	AiAgent(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* target, Scene* scene);
 	~AiAgent();
 	
-	void ChangeTarget(GameObject* target);
+	void ChangeTarget(GameObject* pTarget);
 	void Update(float dt) override;
 	void Draw() const override;
 	

@@ -31,6 +31,7 @@ Game::Game(const Window& window)
 	m_pScene = new Scene("Resources/Scenes/Scene1/scene1.png", "Resources/Scenes/Scene1/scene1.svg", nullptr);
 	m_pPlayer = new Player(Vector2f{200.f, 300.f},Vector2f{1.f, 1.f}, 0.f, m_pScene, m_pCamera);
 	
+	// TEST CODE
 	auto aiAgentTest = new AiAgent(Vector2f { 200.f, 300.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer, m_pScene);
 	aiAgentTest->SetZLayer(-1.f);
 
@@ -48,9 +49,9 @@ Game::~Game()
 	Cleanup();
 }
 
+// TODO(tomas): Test collisions, just with the player and the level, if they work like they should implement them directly in to the GameObject class
 // TODO(tomas): Think about how i wanna do the background of the menu, once we have the scene working i can make a small scene with just the ai agents going abouts
 // TODO(tomas): rule of five for all the ui, generally clean up and bring it up to standars, forgot p prefix for a lot of the points
-// TODO(tomas): rename ExitFlags to CoreFlags or something that makes more sense
 // TODO(tomas): Implement an active camera thing to allow switching between cameras
 // TODO(tomas): Before implementing actual weapons, add an enemy : public AiAgent class that shoots the same basic way to player shoots right now
 void Game::Initialize()
@@ -97,9 +98,18 @@ void Game::Draw() const
 
 	if(m_ScreenState != ScreenState::Paused &&  m_ScreenState != ScreenState::MainMenu)
 	{
+		// Calculate camera position with mouse
+		Point2f cameraPosition = m_pCamera->GetPosition(m_pPlayer->GetPosition());	
+		Point2f mouseOffset = Vector2f {m_pPlayer->GetPosition().ToPoint2f(), m_pCamera->GetMouseWS(m_pPlayer->GetPosition())}.ToPoint2f();
+		
+		cameraPosition.x += mouseOffset.x;
+		cameraPosition.y += mouseOffset.y;
+		
+		// Matrix operations
 		glPushMatrix();
 		glScalef(m_Window.width / m_pCamera->GetWidth(), m_Window.height /  m_pCamera->GetHeight(), 0.f);
-		glTranslatef(-m_pCamera->GetPosition(m_pPlayer->GetPosition()).x, -m_pCamera->GetPosition(m_pPlayer->GetPosition()).y, 0.f);
+		glTranslatef(-cameraPosition.x, -cameraPosition.y, 0.f);
+
 		// DRAW
 		m_pScene->Draw();
 		

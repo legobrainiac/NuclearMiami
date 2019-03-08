@@ -28,7 +28,7 @@ class Core
 	const float m_MaxElapsedSeconds;
     
     // Exit flag
-    ExitFlags m_ExitFlags;
+    CoreFlags m_ExitFlags;
     
 	// FUNCTIONS
 	void Initialize();

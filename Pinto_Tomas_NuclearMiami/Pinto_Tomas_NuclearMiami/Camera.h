@@ -14,7 +14,7 @@ public:
 	float GetHeight() const;
 	float GetWidth() const;
 	
-	float GetRatio(const Window& window) { return m_Width / window.width; }
+	float GetRatio(const Window& window) { return (m_Width / window.width); }
 	
 	Point2f GetMouseWS(const Vector2f& cameraTarget);
 private:

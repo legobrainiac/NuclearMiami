@@ -29,7 +29,7 @@ public:
 	void ProcessMouseDownEvent(const SDL_MouseButtonEvent& e);
 	void ProcessMouseUpEvent(const SDL_MouseButtonEvent& e);
     
-    void SetExitFlags(ExitFlags* exitFlags) { m_ExitFlags = exitFlags; }
+    void SetExitFlags(CoreFlags* exitFlags) { m_ExitFlags = exitFlags; }
     
     private:
 	// DATA MEMBERS
@@ -37,7 +37,7 @@ public:
 	Point2f m_MousePosition;
     
 	TUiNode* m_pMenu;
-	ExitFlags* m_ExitFlags;
+	CoreFlags* m_ExitFlags;
     float m_ElapsedTime;
 
 	// Sound

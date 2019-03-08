@@ -51,12 +51,12 @@ void TUiNode::ProcessDescriptor(std::ifstream& descriptorStream, std::string des
 
 void TUiNode::SetParent(TUiNode* parent)
 {
-	m_Parent = parent;
+	m_pParent = parent;
 }
 
 TUiNode* TUiNode::GetParent() const
 {
-	return m_Parent;
+	return m_pParent;
 }
 
 TUiNode* TUiNode::GetComponentWithId(std::deque<std::string> idDecomp) 

@@ -13,7 +13,7 @@ struct Window
 	bool isVSyncOn;
 };
 
-struct ExitFlags
+struct CoreFlags
 {
     bool shouldExit;
 	bool isFullScreen;
