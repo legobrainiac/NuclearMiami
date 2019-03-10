@@ -25,8 +25,8 @@
 
 Game::Game(const Window& window)
 : m_Window(window)
-//, m_pCamera(new Camera(320.f, 180.f, &m_Window, &m_MousePosition))
-, m_pCamera(new Camera(640.f, 360.f, &m_Window, &m_MousePosition))
+, m_pCamera(new Camera(320.f, 180.f, &m_Window, &m_MousePosition))
+//, m_pCamera(new Camera(640.f, 360.f, &m_Window, &m_MousePosition))
 {
 	m_pScene = new Scene("Resources/Scenes/Scene1/scene1.png", "Resources/Scenes/Scene1/scene1.svg", nullptr);
 	m_pPlayer = new Player(Vector2f{200.f, 300.f},Vector2f{1.f, 1.f}, 0.f, m_pScene, m_pCamera);
@@ -66,7 +66,7 @@ void Game::Initialize()
 	
 	if(m_pMenuMusic->IsLoaded())
 	{
-		m_pMenuMusic->SetVolume(30);
+		m_pMenuMusic->SetVolume(15);
 		m_pMenuMusic->Play(true);
 	}
 }
@@ -112,40 +112,8 @@ void Game::Draw() const
 
 		// DRAW
 		m_pScene->Draw();
+		RaycastVision();
 		
-		// Visible
-		std::vector<Point2f> visiblePoints;
-		
-		for(float i = 0; i <= 2 * PI; i += PI / 180.f)
-		{
-			float x = std::cosf(i);
-			float y = std::sinf(i);
-		
-			Vector2f dir {x, y};
-			dir *= 10000;
-			utils::HitInfo hit;
-		
-			if(utils::Raycast(m_pScene->GetSceneCollider(), m_pPlayer->GetPosition().ToPoint2f(), dir.ToPoint2f(), hit))
-			{
-				visiblePoints.push_back(hit.intersectPoint);
-			}
-			else
-			{
-				visiblePoints.push_back(m_pPlayer->GetPosition().ToPoint2f() + dir.ToPoint2f());
-			}
-		}
-		
-		glColor4f(0.f, 0.f, 0.f, 1.f);
-		/*for(size_t i = 0; i < visiblePoints.size(); ++i)
-		{
-			Point2f playerPos = m_pPlayer->GetPosition().ToPoint2f();
-			utils::DrawLine(playerPos, visiblePoints[i]);
-		}*/
-		
-		// TODO(tomas): Tesselation with gl/GLU.h
-		utils::DrawPolygon(visiblePoints, true, 3.f);
-		//utils::FillPolygon(visiblePoints);
-
 		// ENDDRAW
 		glPopMatrix();
 	}
@@ -308,4 +276,41 @@ void Game::UiCallbackSetUp()
 			}
 			);
 	}
+}
+
+void Game::RaycastVision() const
+{		
+	// Visible
+	std::vector<Point2f> visiblePoints;
+		
+	for(float i = 0; i <= 2 * PI; i += PI / 180.f)
+	{
+		float x = std::cosf(i);
+		float y = std::sinf(i);
+	
+		Vector2f dir {x, y};
+		dir *= 10000;
+		utils::HitInfo hit;
+	
+		if(utils::Raycast(m_pScene->GetSceneCollider(), m_pPlayer->GetPosition().ToPoint2f(), dir.ToPoint2f(), hit))
+		{
+			visiblePoints.push_back(hit.intersectPoint);
+		}
+		else
+		{
+			visiblePoints.push_back(m_pPlayer->GetPosition().ToPoint2f() + dir.ToPoint2f());
+		}
+	}
+	
+	glColor4f(0.f, 0.f, 0.f, 1.f);
+	/*for(size_t i = 0; i < visiblePoints.size(); ++i)
+	{
+		Point2f playerPos = m_pPlayer->GetPosition().ToPoint2f();
+		utils::DrawLine(playerPos, visiblePoints[i]);
+	}*/
+	
+	// TODO(tomas): Tesselation with gl/GLU.h
+	utils::DrawPolygon(visiblePoints, true, 3.f);
+	//utils::FillPolygon(visiblePoints);
+
 }

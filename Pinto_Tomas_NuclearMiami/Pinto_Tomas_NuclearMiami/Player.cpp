@@ -38,6 +38,9 @@ void Player::Update(float dt)
 {
 	m_Timer += dt;
 	
+	m_Accelleration = utils::Lerp(m_Accelleration, Vector2f {0.f, 0.f}, dt * 10.f);
+	Translate(m_Accelleration);
+	
 	// Get direction from player to cursor
 	Point2f mousePosWS = m_pCamera->GetMouseWS(m_Position);
 	Vector2f dir {Point2f{m_Position.x, m_Position.y}, mousePosWS };	
@@ -46,7 +49,7 @@ void Player::Update(float dt)
 	m_Rotation = -(std::atan2(dir.x, dir.y) * 180 / PI);
 	
 	// Test if it should be shooting
-	Shoot(dir);
+	Shoot(dir, dt);
 	
 	//Check keyboard state
     const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
@@ -56,13 +59,17 @@ void Player::Update(float dt)
 	GameObject::Update(dt);
 }
 
-void Player::Shoot(const Vector2f& direction)
+void Player::Shoot(const Vector2f& direction, float dt)
 {
 	if(SDL_GetMouseState(nullptr, nullptr) == SDL_BUTTON_LEFT && m_Timer > 0.1f)
     {
 		m_Timer = 0.f;
 		Projectile* projectile = new Projectile(m_Position, Vector2f {0.f, 0.f}, 0.f, direction.Normalized());
 		m_pScene->Add(projectile);
+		
+		Vector2f kickBack = Vector2f{direction.Normalized().ToPoint2f(), Point2f{ 0.f, 0.f }};
+		
+		m_Accelleration += kickBack;
 	}
 }
 

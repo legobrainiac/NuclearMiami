@@ -19,13 +19,17 @@ public:
 	void Update(float dt) override;
 	
 private:	
-	void Shoot(const Vector2f& direction);
+	void Shoot(const Vector2f& direction, float dt);
 	void Move(const Uint8* keyStates, float dt);
 	
 	Texture* m_pTexture;	
 	Scene* m_pScene;
 	Camera* m_pCamera;
 	float m_Timer;
+	
+	// TODO(tomas): this is a test, if it works correctly implement it correctly in GameObject
+	
+	Vector2f m_Accelleration;
 	
 	struct WeaponSlots
 	{

@@ -65,4 +65,6 @@ public:
 	// Game start
 	void StartGame(std::string level);
 	void UnloadGame();
+	
+	void RaycastVision() const;
 };
