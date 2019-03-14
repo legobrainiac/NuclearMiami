@@ -1,8 +1,15 @@
-﻿  Game.cpp
+﻿  AiAgent.cpp
+  Game.cpp
+  GameObject.cpp
+  PickUp.cpp
+  Player.cpp
+  Projectile.cpp
+  Scene.cpp
+  Weapon.cpp
      Creating library C:\Repositories\1DAE_PROG_FINAL\Pinto_Tomas_NuclearMiami\Release\Pinto_Tomas_NuclearMiami.lib and object C:\Repositories\1DAE_PROG_FINAL\Pinto_Tomas_NuclearMiami\Release\Pinto_Tomas_NuclearMiami.exp
   Generating code
-  1 of 1657 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+  37 of 1661 functions ( 2.2%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+    10 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Pinto_Tomas_NuclearMiami.vcxproj -> C:\Repositories\1DAE_PROG_FINAL\Pinto_Tomas_NuclearMiami\Release\Pinto_Tomas_NuclearMiami.exe

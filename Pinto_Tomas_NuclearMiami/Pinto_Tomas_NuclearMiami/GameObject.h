@@ -15,6 +15,7 @@ public:
 	virtual ~GameObject();
 	
 	// Movement
+	void ApplyForce(const Vector2f& xy);
 	void Translate(const Vector2f& xy);
 	void Scale(const Vector2f& xy);
 	void Rotate(float z);
@@ -35,6 +36,7 @@ public:
 	void SetScale(const Vector2f& scale);
 	void SetRotation(float rotation);
 	void SetZLayer(float zLayer);
+	void SetFriction(float friction);
 	
 	void AddChild(GameObject* child);
 	
@@ -45,7 +47,10 @@ public:
 protected:
 	Vector2f m_Position;
 	Vector2f m_Scale;
+	Vector2f m_Accelleration;
+	
 	float m_Rotation;
+	float m_Friction;
 	float m_ZLayer;
 	
 	GameObject* m_pParent;

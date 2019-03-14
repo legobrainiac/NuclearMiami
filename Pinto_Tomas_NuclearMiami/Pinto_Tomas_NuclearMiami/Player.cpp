@@ -38,9 +38,6 @@ void Player::Update(float dt)
 {
 	m_Timer += dt;
 	
-	m_Accelleration = utils::Lerp(m_Accelleration, Vector2f {0.f, 0.f}, dt * 10.f);
-	Translate(m_Accelleration);
-	
 	// Get direction from player to cursor
 	Point2f mousePosWS = m_pCamera->GetMouseWS(m_Position);
 	Vector2f dir {Point2f{m_Position.x, m_Position.y}, mousePosWS };	

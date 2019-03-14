@@ -27,10 +27,6 @@ private:
 	Camera* m_pCamera;
 	float m_Timer;
 	
-	// TODO(tomas): this is a test, if it works correctly implement it correctly in GameObject
-	
-	Vector2f m_Accelleration;
-	
 	struct WeaponSlots
 	{
 		GameObject* pMainWeapon;

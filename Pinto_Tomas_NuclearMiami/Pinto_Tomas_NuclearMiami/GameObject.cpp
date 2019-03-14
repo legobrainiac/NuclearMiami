@@ -7,6 +7,8 @@ GameObject::GameObject()
 : m_Position()
 , m_Scale()
 , m_Rotation()
+, m_ZLayer(1.f)
+, m_Friction(10.f)
 {
 	++m_InstanceCounter;
 }
@@ -15,6 +17,9 @@ GameObject::GameObject(const Vector2f& position, const Vector2f& scale, float ro
 : m_Position(position)
 , m_Scale(scale)
 , m_Rotation(rotation)
+, m_ZLayer(1.f)
+, m_Friction(10.f)
+
 {
 	++m_InstanceCounter;
 }
@@ -26,6 +31,11 @@ GameObject::~GameObject()
 }
 
 // Movement
+void GameObject::ApplyForce(const Vector2f& xy)
+{
+	m_Accelleration += xy;
+}
+
 void GameObject::Translate(const Vector2f& xy)
 {
 	m_Position += xy;
@@ -99,6 +109,11 @@ void GameObject::AddChild(GameObject* pChild)
 	pChild->m_pParent = this;
 }
 
+void GameObject::SetFriction(float friction)
+{
+	m_Friction = friction;
+}
+
 void GameObject::Draw() const 
 {
 	for(auto go : m_Children)
@@ -107,6 +122,9 @@ void GameObject::Draw() const
 
 void GameObject::Update(float dt) 
 {
+	m_Accelleration = utils::Lerp(m_Accelleration, Vector2f {0.f, 0.f}, dt * m_Friction);
+	Translate(m_Accelleration);
+	
 	for(auto go : m_Children)
 		go->Update(dt);
 }
