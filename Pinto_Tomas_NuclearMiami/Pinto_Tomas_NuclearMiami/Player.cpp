@@ -24,6 +24,10 @@ void Player::Draw() const
 	glPushMatrix();
 	
 	glTranslatef(m_Position.x, m_Position.y, m_ZLayer);
+
+	// Draw debug line before rotating
+	utils::DrawLine(Point2f {}, m_Accelleration.ToPoint2f(), 2.f);
+	
 	glRotatef(m_Rotation, 0.f, 0.f, 1.f);
 	glScalef(m_Scale.x, m_Scale.y, 0.f);
 	
@@ -31,7 +35,7 @@ void Player::Draw() const
 		
 	glColor4f(1.f, 0.f, 0.f, 1.f);
 	utils::DrawEllipse(Point2f {}, m_Collider.radius, m_Collider.radius);
-	
+
 	GameObject::Draw();
 	
 	glPopMatrix();
@@ -45,15 +49,6 @@ void Player::Update(float dt)
 	//Check keyboard state
     const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
     Move(pStates, dt);
-	
-	// Collision test
-	m_Collider.center = m_Position.ToPoint2f();
-	
-	if(utils::IsOverlapping(m_pScene->GetSceneCollider(), m_Collider))
-	{
-		m_Accelleration = Vector2f {};
-		m_Position = previousPos;
-	}
 	
 	// Get direction from player to cursor
 	Camera* pCamera = m_pScene->GetMainCamera();
@@ -69,6 +64,15 @@ void Player::Update(float dt)
 	
 	// Base Update
 	GameObject::Update(dt);
+	
+	// Collision test
+	m_Collider.center = m_Position.ToPoint2f();
+	
+	if(utils::IsOverlapping(m_pScene->GetSceneCollider(), m_Collider))
+	{
+		m_Accelleration = Vector2f {};
+		m_Position = previousPos;
+	}	
 }
 
 void Player::Shoot(const Vector2f& direction, float dt)
