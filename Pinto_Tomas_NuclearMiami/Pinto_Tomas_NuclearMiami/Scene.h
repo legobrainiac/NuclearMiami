@@ -8,11 +8,13 @@
 
 class Texture;
 class GameObject;
+class Camera;
+class Player;
 
 class Scene
 {
 public:
-	Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocation, GameObject* playerGameObject = nullptr);
+	Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocation);
 	~Scene();
 	
 	void Draw() const;
@@ -20,6 +22,11 @@ public:
 	
 	void Add(GameObject* pGameObject);
 	const std::vector<Point2f>& GetSceneCollider();
+	
+	Player* GetPlayer() { return m_pPlayer; }
+	
+	void SetMainCamera(Camera* pCamera);
+	Camera* GetMainCamera() const;
 	
 private:
 	
@@ -40,6 +47,10 @@ private:
 	
 	// Objects marked to be added or deleted
     Buffer<GameObject*> m_AddBuffer;
+	
+	// Game play objects
+	Player* m_pPlayer;
+	Camera* m_pCamera;
 };
 
 #endif //!SCENE_H

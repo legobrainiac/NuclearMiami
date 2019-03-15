@@ -7,12 +7,13 @@ class Texture;
 class Scene;
 class Camera;
 struct Window;
+struct Circlef;
 
 // TODO(tomas): for now it's a single sprite, eventually this will become a sprite sheet
 class Player : public GameObject
 {
 public:
-	Player(const Vector2f& position, const Vector2f& scale, float rotation, Scene* scene, Camera* camera);	
+	Player(const Vector2f& position, const Vector2f& scale, float rotation, Scene* scene);	
 	~Player();
 	
 	void Draw() const override;
@@ -32,6 +33,8 @@ private:
 		GameObject* pMainWeapon;
 		GameObject* pSecondary;
 	}m_WeaponSlots;
+	
+	Circlef m_Collider;
 };
 
 #endif // !PLAYER_H

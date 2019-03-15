@@ -45,7 +45,6 @@ public:
 	
 	// Scene
 	Scene* m_pScene;
-	Player* m_pPlayer;
 	Camera* m_pCamera;
 	
 	// FUNCTIONS

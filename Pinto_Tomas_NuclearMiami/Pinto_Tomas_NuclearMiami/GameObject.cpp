@@ -9,6 +9,7 @@ GameObject::GameObject()
 , m_Rotation()
 , m_ZLayer(1.f)
 , m_Friction(10.f)
+, m_MaxAcceleration(150.f)
 {
 	++m_InstanceCounter;
 }
@@ -19,6 +20,7 @@ GameObject::GameObject(const Vector2f& position, const Vector2f& scale, float ro
 , m_Rotation(rotation)
 , m_ZLayer(1.f)
 , m_Friction(10.f)
+, m_MaxAcceleration(150.f)
 
 {
 	++m_InstanceCounter;
@@ -123,7 +125,12 @@ void GameObject::Draw() const
 void GameObject::Update(float dt) 
 {
 	m_Accelleration = utils::Lerp(m_Accelleration, Vector2f {0.f, 0.f}, dt * m_Friction);
-	Translate(m_Accelleration);
+	
+	m_Accelleration.x = utils::Clamp(-m_MaxAcceleration, m_MaxAcceleration, m_Accelleration.x);
+	
+	m_Accelleration.y = utils::Clamp(-m_MaxAcceleration, m_MaxAcceleration, m_Accelleration.y);
+	
+	Translate(m_Accelleration * dt);
 	
 	for(auto go : m_Children)
 		go->Update(dt);

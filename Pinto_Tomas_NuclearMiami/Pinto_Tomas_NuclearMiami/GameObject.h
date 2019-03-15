@@ -52,6 +52,7 @@ protected:
 	float m_Rotation;
 	float m_Friction;
 	float m_ZLayer;
+	float m_MaxAcceleration;
 	
 	GameObject* m_pParent;
 	std::vector<GameObject*> m_Children;

@@ -4,8 +4,10 @@
 #include "Texture.h"
 #include "GameObject.h"
 #include "SVGParser.h"
+#include "Player.h"
+#include "AiAgent.h"
 
-Scene::Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocation, GameObject* playerGameObject)
+Scene::Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocation)
 : m_Scene()
 , m_PlayerSpawn()
 , m_AddBuffer()
@@ -20,8 +22,18 @@ Scene::Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocat
 		std::cout << "Loaded collider for scene at " << m_SceneMap.colliderPointSVGLocation << std::endl; 
 	}
 	
-	if(playerGameObject) 
-		Add(playerGameObject);
+	// Test objects in scene
+	m_pPlayer = new Player(Vector2f{200.f, 300.f},Vector2f{1.f, 1.f}, 0.f, this);
+	
+	auto aiAgentTest = new AiAgent(Vector2f { 200.f, 300.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer, this);
+	aiAgentTest->SetZLayer(-1.f);
+
+	auto aiAgentTest2 = new AiAgent(Vector2f { 600.f, 100.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer, this);
+	aiAgentTest2->SetZLayer(-1.f);
+	
+	Add(m_pPlayer);
+	Add(aiAgentTest);
+	Add(aiAgentTest2);
 }
 
 void Scene::Draw() const
@@ -71,6 +83,16 @@ void Scene::Add(GameObject* pGameObject)
 const std::vector<Point2f>& Scene::GetSceneCollider()
 {
 	return m_SceneMap.sceneCollider[0];
+}
+
+void Scene::SetMainCamera(Camera* pCamera)
+{
+	m_pCamera = pCamera;
+}
+
+Camera* Scene::GetMainCamera() const
+{
+	return m_pCamera;
 }
 
 Scene::~Scene()

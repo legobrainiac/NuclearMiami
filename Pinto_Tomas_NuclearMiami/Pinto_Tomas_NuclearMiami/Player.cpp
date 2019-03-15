@@ -5,12 +5,12 @@
 #include "Camera.h"
 #include "Projectile.h"
 
-Player::Player(const Vector2f& position, const Vector2f& scale, float rotation, Scene* scene, Camera* camera)
+Player::Player(const Vector2f& position, const Vector2f& scale, float rotation, Scene* scene)
 : GameObject(position, scale, rotation)
 , m_pTexture(new Texture("Resources/Images/Characters/char1.png"))
-, m_pCamera(camera)
 , m_pScene(scene)
 , m_Timer(0.f)
+, m_Collider(position.ToPoint2f(), 10.f)
 {
 }
 
@@ -29,6 +29,9 @@ void Player::Draw() const
 	
 	m_pTexture->Draw(Point2f{-(m_pTexture->GetWidth() / 2), -(m_pTexture->GetHeight() / 2)});
 		
+	glColor4f(1.f, 0.f, 0.f, 1.f);
+	utils::DrawEllipse(Point2f {}, m_Collider.radius, m_Collider.radius);
+	
 	GameObject::Draw();
 	
 	glPopMatrix();
@@ -37,9 +40,25 @@ void Player::Draw() const
 void Player::Update(float dt)
 {
 	m_Timer += dt;
+	Vector2f previousPos = m_Position;
+	
+	//Check keyboard state
+    const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
+    Move(pStates, dt);
+	
+	// Collision test
+	m_Collider.center = m_Position.ToPoint2f();
+	
+	if(utils::IsOverlapping(m_pScene->GetSceneCollider(), m_Collider))
+	{
+		m_Accelleration = Vector2f {};
+		m_Position = previousPos;
+	}
 	
 	// Get direction from player to cursor
-	Point2f mousePosWS = m_pCamera->GetMouseWS(m_Position);
+	Camera* pCamera = m_pScene->GetMainCamera();
+	
+	Point2f mousePosWS = pCamera->GetMouseWS(m_Position);
 	Vector2f dir {Point2f{m_Position.x, m_Position.y}, mousePosWS };	
 	
 	// Look at cursor
@@ -47,10 +66,6 @@ void Player::Update(float dt)
 	
 	// Test if it should be shooting
 	Shoot(dir, dt);
-	
-	//Check keyboard state
-    const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
-    Move(pStates, dt);
 	
 	// Base Update
 	GameObject::Update(dt);
@@ -66,6 +81,8 @@ void Player::Shoot(const Vector2f& direction, float dt)
 		
 		Vector2f kickBack = Vector2f{direction.Normalized().ToPoint2f(), Point2f{ 0.f, 0.f }};
 		
+		kickBack *= 50.f;
+		
 		m_Accelleration += kickBack;
 	}
 }
@@ -73,14 +90,14 @@ void Player::Shoot(const Vector2f& direction, float dt)
 void Player::Move(const Uint8* keyStates, float dt)
 {	
 	if(keyStates[SDL_SCANCODE_W])
-    	Translate(Vector2f{0.f, 200.f} * dt);
+    	ApplyForce(Vector2f{0.f, 50.f});
 	
 	if(keyStates[SDL_SCANCODE_S])
-    	Translate(Vector2f{0.f, -200.f} * dt);
+    	ApplyForce(Vector2f{0.f, -50.f});
 	
 	if(keyStates[SDL_SCANCODE_D])
-    	Translate(Vector2f{200.f, 0.f} * dt);
+    	ApplyForce(Vector2f{50.f, 0.f});
 	
 	if(keyStates[SDL_SCANCODE_A])
-    	Translate(Vector2f{-200.f, 0.f} * dt);
+    	ApplyForce(Vector2f{-50.f, 0.f});
 }

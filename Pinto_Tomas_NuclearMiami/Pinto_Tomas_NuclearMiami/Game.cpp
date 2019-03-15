@@ -28,19 +28,9 @@ Game::Game(const Window& window)
 , m_pCamera(new Camera(320.f, 180.f, &m_Window, &m_MousePosition))
 //, m_pCamera(new Camera(640.f, 360.f, &m_Window, &m_MousePosition))
 {
-	m_pScene = new Scene("Resources/Scenes/Scene1/scene1.png", "Resources/Scenes/Scene1/scene1.svg", nullptr);
-	m_pPlayer = new Player(Vector2f{200.f, 300.f},Vector2f{1.f, 1.f}, 0.f, m_pScene, m_pCamera);
-	
-	// TEST CODE
-	auto aiAgentTest = new AiAgent(Vector2f { 200.f, 300.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer, m_pScene);
-	aiAgentTest->SetZLayer(-1.f);
+	m_pScene = new Scene("Resources/Scenes/Scene1/scene1.png", "Resources/Scenes/Scene1/scene1.svg");
+	m_pScene->SetMainCamera(m_pCamera);
 
-	auto aiAgentTest2 = new AiAgent(Vector2f { 600.f, 100.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer, m_pScene);
-	aiAgentTest2->SetZLayer(-1.f);
-	
-	m_pScene->Add(m_pPlayer);
-	m_pScene->Add(aiAgentTest);
-	m_pScene->Add(aiAgentTest2);
 	Initialize();
 }
 
@@ -99,15 +89,18 @@ void Game::Draw() const
 	if(m_ScreenState != ScreenState::Paused &&  m_ScreenState != ScreenState::MainMenu)
 	{
 		// Calculate camera position with mouse
-		Point2f cameraPosition = m_pCamera->GetPosition(m_pPlayer->GetPosition());	
-		Point2f mouseOffset = Vector2f {m_pPlayer->GetPosition().ToPoint2f(), m_pCamera->GetMouseWS(m_pPlayer->GetPosition())}.ToPoint2f();
+		Player* pPlayer = m_pScene->GetPlayer();
+		Camera* pCamera = m_pScene->GetMainCamera();
+		
+		Point2f cameraPosition = pCamera->GetPosition(pPlayer->GetPosition());	
+		Point2f mouseOffset = Vector2f {pPlayer->GetPosition().ToPoint2f(), pCamera->GetMouseWS(pPlayer->GetPosition())}.ToPoint2f();
 		
 		cameraPosition.x += mouseOffset.x / 2.f;
 		cameraPosition.y += mouseOffset.y / 2.f;
 		
 		// Matrix operations
 		glPushMatrix();
-		glScalef(m_Window.width / m_pCamera->GetWidth(), m_Window.height /  m_pCamera->GetHeight(), 0.f);
+		glScalef(m_Window.width / pCamera->GetWidth(), m_Window.height /  m_pCamera->GetHeight(), 0.f);
 		glTranslatef(-cameraPosition.x, -cameraPosition.y, 0.f);
 
 		// DRAW
@@ -118,7 +111,6 @@ void Game::Draw() const
 		glPopMatrix();
 	}
 	TUiManager::Get().Draw(m_Window);
-	
 }
 
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent & e)
@@ -280,6 +272,8 @@ void Game::UiCallbackSetUp()
 
 void Game::RaycastVision() const
 {		
+	Player* pPlayer = m_pScene->GetPlayer();
+	
 	// Visible
 	std::vector<Point2f> visiblePoints;
 		
@@ -292,13 +286,13 @@ void Game::RaycastVision() const
 		dir *= 10000;
 		utils::HitInfo hit;
 	
-		if(utils::Raycast(m_pScene->GetSceneCollider(), m_pPlayer->GetPosition().ToPoint2f(), dir.ToPoint2f(), hit))
+		if(utils::Raycast(m_pScene->GetSceneCollider(), pPlayer->GetPosition().ToPoint2f(), dir.ToPoint2f(), hit))
 		{
 			visiblePoints.push_back(hit.intersectPoint);
 		}
 		else
 		{
-			visiblePoints.push_back(m_pPlayer->GetPosition().ToPoint2f() + dir.ToPoint2f());
+			visiblePoints.push_back(pPlayer->GetPosition().ToPoint2f() + dir.ToPoint2f());
 		}
 	}
 	
