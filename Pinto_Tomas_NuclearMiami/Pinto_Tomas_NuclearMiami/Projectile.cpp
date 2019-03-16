@@ -1,17 +1,22 @@
 #include "pch.h"
 #include "Projectile.h"
+#include "Scene.h"
 
-
-Projectile::Projectile(const Vector2f& position, const Vector2f& scale, float rotation, const Vector2f& direction)
+Projectile::Projectile(const Vector2f& position, const Vector2f& scale, float rotation, const Vector2f& direction, Scene* pScene)
 : GameObject(position, scale, rotation)
 , m_Direction(direction)
-, m_Speed(1000.f)
+, m_Speed(20.f)
+, m_pScene(pScene)
 {
+	m_MaxAcceleration = 2000.f;
+	m_Friction = 1.f;
 }
 
 void Projectile::Update(float dt) 
 {
-	Translate(m_Direction * m_Speed * dt);
+	Collision();
+	ApplyForce(m_Direction * m_Speed);
+	GameObject::Update(dt);
 }
 
 void Projectile::Draw() const 
@@ -19,6 +24,11 @@ void Projectile::Draw() const
 	glPushMatrix();
 	
 	glTranslatef(m_Position.x, m_Position.y, m_ZLayer);
+
+	Point2f direction = (m_Direction * 10.f).ToPoint2f();	
+	glColor4f(1.f, 1.f, 0.f, 1.f);
+	utils::DrawLine(Point2f {}, direction, 2.f);
+	
 	glRotatef(m_Rotation, 0.f, 0.f, 1.f);
 	glScalef(m_Scale.x, m_Scale.y, 0.f);
 	
@@ -28,4 +38,18 @@ void Projectile::Draw() const
 	GameObject::Draw();
 	
 	glPopMatrix();
+}
+
+void Projectile::Collision()
+{
+	Point2f position = m_Position.ToPoint2f();
+	Point2f direction = (m_Direction * 10.f).ToPoint2f();
+	Point2f posDir = direction + position;
+	
+	utils::HitInfo hit;
+	if(utils::Raycast(m_pScene->GetSceneCollider(), posDir, position, hit))
+	{
+		m_Direction = m_Direction.Reflect(hit.normal);
+		m_Accelleration = Vector2f {};
+	}
 }

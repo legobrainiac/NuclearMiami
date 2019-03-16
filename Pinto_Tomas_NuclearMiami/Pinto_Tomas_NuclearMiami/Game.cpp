@@ -44,6 +44,7 @@ Game::~Game()
 // TODO(tomas): rule of five for all the ui, generally clean up and bring it up to standars, forgot p prefix for a lot of the points
 // TODO(tomas): Implement an active camera thing to allow switching between cameras
 // TODO(tomas): Before implementing actual weapons, add an enemy : public AiAgent class that shoots the same basic way to player shoots right now
+// TODO(tomas): finish collisions on player and then move it as a default behaviour on to GameObject base class
 void Game::Initialize()
 {
     // Load UI from the menu tankscript file

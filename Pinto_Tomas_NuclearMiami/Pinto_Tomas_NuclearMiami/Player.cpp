@@ -80,7 +80,7 @@ void Player::Shoot(const Vector2f& direction, float dt)
 	if(SDL_GetMouseState(nullptr, nullptr) == SDL_BUTTON_LEFT && m_Timer > 0.1f)
     {
 		m_Timer = 0.f;
-		Projectile* projectile = new Projectile(m_Position, Vector2f {0.f, 0.f}, 0.f, direction.Normalized());
+		Projectile* projectile = new Projectile(m_Position, Vector2f {0.f, 0.f}, 0.f, direction.Normalized(), m_pScene);
 		m_pScene->Add(projectile);
 		
 		Vector2f kickBack = Vector2f{direction.Normalized().ToPoint2f(), Point2f{ 0.f, 0.f }};
@@ -104,4 +104,12 @@ void Player::Move(const Uint8* keyStates, float dt)
 	
 	if(keyStates[SDL_SCANCODE_A])
     	ApplyForce(Vector2f{-50.f, 0.f});
+	
+	if(keyStates[SDL_SCANCODE_T])
+	{
+		Camera* pCamera = m_pScene->GetMainCamera();
+		
+		Point2f mousePosWS = pCamera->GetMouseWS(m_Position);
+		m_Position = Vector2f(mousePosWS);
+	}
 }
