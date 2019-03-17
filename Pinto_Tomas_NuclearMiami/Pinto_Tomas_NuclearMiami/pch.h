@@ -29,4 +29,8 @@
 #define GAME_RELEASE
 #endif
 
+#if 1
+#define DEBUG_DRAW
+#endif
+
 #endif //PCH_H

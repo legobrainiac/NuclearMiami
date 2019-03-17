@@ -22,6 +22,8 @@ public:
 	
 	// Getters
 	static int GetInstanceCount() { return m_InstanceCounter; }
+	bool IsDirty() const { return m_ShouldDelete; }
+	void MakeDirty() { m_ShouldDelete = true; }
 	
 	const Vector2f& GetPosition() const;
 	const Vector2f& GetScale() const;
@@ -56,6 +58,8 @@ protected:
 	
 	GameObject* m_pParent;
 	std::vector<GameObject*> m_Children;
+	
+	bool m_ShouldDelete;
 	
 	static int m_InstanceCounter;
 };

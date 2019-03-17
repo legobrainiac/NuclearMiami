@@ -21,6 +21,7 @@ public:
 	void Update(float dt);
 	
 	void Add(GameObject* pGameObject);
+	void Delete(GameObject* pGameObject);
 	const std::vector<Point2f>& GetSceneCollider();
 	
 	Player* GetPlayer() { return m_pPlayer; }
@@ -47,11 +48,14 @@ private:
 	
 	// Objects marked to be added or deleted
     Buffer<GameObject*> m_AddBuffer;
+	Buffer<GameObject*> m_DeleteBuffer;
 	
 	// Game play objects
 	Player* m_pPlayer;
 	Camera* m_pCamera;
+	
+	void ProcessAdditions();
+	void ProcessDeletions();
 };
 
 #endif //!SCENE_H
-

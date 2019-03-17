@@ -58,26 +58,23 @@ void Scene::Update(float dt)
 		go->Update(dt);
 	
 	// After updating, 
-	if(m_AddBuffer.dirty)
-	{
-		for(auto go : m_AddBuffer.buffer)
-			m_Scene.push_back(go);
-		
-		m_AddBuffer.Reset();
-		
-		auto sort = [](GameObject* left, GameObject* right) 
-		{
-			return left->GetZLayer() < right->GetZLayer();
-		};
-		
-		std::sort(m_Scene.begin(), m_Scene.end(), sort);
-	}
+	ProcessAdditions();
+	ProcessDeletions();
 }
 
 void Scene::Add(GameObject* pGameObject)
 {
 	if(pGameObject != nullptr)
 		m_AddBuffer.Add(pGameObject);
+}
+
+void Scene::Delete(GameObject* pGameObject)
+{
+	if(pGameObject != nullptr)
+	{
+		pGameObject->MakeDirty();
+		m_DeleteBuffer.Add(pGameObject);
+	}
 }
 
 const std::vector<Point2f>& Scene::GetSceneCollider()
@@ -101,4 +98,43 @@ Scene::~Scene()
 		delete go;
 	
 	delete m_SceneMap.pMapTexture;
+}
+
+void Scene::ProcessAdditions()
+{
+	if(m_AddBuffer.dirty)
+	{
+		for(auto go : m_AddBuffer.buffer)
+			m_Scene.push_back(go);
+		
+		m_AddBuffer.Reset();
+		
+		auto sort = [](GameObject* left, GameObject* right) 
+		{
+			return left->GetZLayer() < right->GetZLayer();
+		};
+		
+		std::sort(m_Scene.begin(), m_Scene.end(), sort);
+	}
+}
+
+void Scene::ProcessDeletions()
+{
+	if(m_DeleteBuffer.dirty)
+	{
+		size_t objectCount = m_DeleteBuffer.buffer.size();
+		m_DeleteBuffer.Reset();
+		
+		auto sort = [](GameObject* left, GameObject* right) 
+		{
+			return left->IsDirty() < right->IsDirty();
+		};
+		
+		std::sort(m_Scene.begin(), m_Scene.end(), sort);
+		for(size_t i = 0; i < objectCount; ++i)
+		{
+			delete m_Scene.back();
+			m_Scene.pop_back();
+		}
+	}
 }

@@ -22,22 +22,22 @@ Player::~Player()
 void Player::Draw() const 
 {
 	glPushMatrix();
-	
 	glTranslatef(m_Position.x, m_Position.y, m_ZLayer);
 
 	// Draw debug line before rotating
+#ifdef DEBUG_DRAW
 	utils::DrawLine(Point2f {}, m_Accelleration.ToPoint2f(), 2.f);
+	
+	glColor4f(1.f, 0.f, 0.f, 1.f);
+	utils::DrawEllipse(Point2f {}, m_Collider.radius, m_Collider.radius);
+#endif
 	
 	glRotatef(m_Rotation, 0.f, 0.f, 1.f);
 	glScalef(m_Scale.x, m_Scale.y, 0.f);
 	
 	m_pTexture->Draw(Point2f{-(m_pTexture->GetWidth() / 2), -(m_pTexture->GetHeight() / 2)});
-		
-	glColor4f(1.f, 0.f, 0.f, 1.f);
-	utils::DrawEllipse(Point2f {}, m_Collider.radius, m_Collider.radius);
-
-	GameObject::Draw();
 	
+	GameObject::Draw();
 	glPopMatrix();
 }
 
@@ -104,12 +104,4 @@ void Player::Move(const Uint8* keyStates, float dt)
 	
 	if(keyStates[SDL_SCANCODE_A])
     	ApplyForce(Vector2f{-50.f, 0.f});
-	
-	if(keyStates[SDL_SCANCODE_T])
-	{
-		Camera* pCamera = m_pScene->GetMainCamera();
-		
-		Point2f mousePosWS = pCamera->GetMouseWS(m_Position);
-		m_Position = Vector2f(mousePosWS);
-	}
 }

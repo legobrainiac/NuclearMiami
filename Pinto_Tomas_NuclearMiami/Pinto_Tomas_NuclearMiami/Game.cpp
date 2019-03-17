@@ -45,6 +45,7 @@ Game::~Game()
 // TODO(tomas): Implement an active camera thing to allow switching between cameras
 // TODO(tomas): Before implementing actual weapons, add an enemy : public AiAgent class that shoots the same basic way to player shoots right now
 // TODO(tomas): finish collisions on player and then move it as a default behaviour on to GameObject base class
+// TODO(tomas): Mark GameObject's for deletion with a bool flag and then std::sort the scene and pop_back
 void Game::Initialize()
 {
     // Load UI from the menu tankscript file
@@ -123,7 +124,8 @@ void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 {
 	switch (e.keysym.sym)
 	{
-		case SDLK_w:
+		case SDLK_t:
+		std::cout << GameObject::GetInstanceCount() << std::endl;
 		break;
 	}
 }

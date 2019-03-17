@@ -28,6 +28,7 @@ GameObject::GameObject(const Vector2f& position, const Vector2f& scale, float ro
 
 GameObject::~GameObject()
 {
+	--m_InstanceCounter;
 	for(auto go : m_Children)
 		delete go;
 }

@@ -14,6 +14,11 @@ Projectile::Projectile(const Vector2f& position, const Vector2f& scale, float ro
 
 void Projectile::Update(float dt) 
 {
+	if(m_ShouldDelete) return;
+	
+	if(m_BounceCount >= 5)
+		m_pScene->Delete(this);
+	
 	Collision();
 	ApplyForce(m_Direction * m_Speed);
 	GameObject::Update(dt);
@@ -25,10 +30,12 @@ void Projectile::Draw() const
 	
 	glTranslatef(m_Position.x, m_Position.y, m_ZLayer);
 
+#ifdef DEBUG_DRAW
 	Point2f direction = (m_Direction * 10.f).ToPoint2f();	
 	glColor4f(1.f, 1.f, 0.f, 1.f);
 	utils::DrawLine(Point2f {}, direction, 2.f);
-	
+#endif
+
 	glRotatef(m_Rotation, 0.f, 0.f, 1.f);
 	glScalef(m_Scale.x, m_Scale.y, 0.f);
 	
@@ -51,5 +58,7 @@ void Projectile::Collision()
 	{
 		m_Direction = m_Direction.Reflect(hit.normal);
 		m_Accelleration = Vector2f {};
+		
+		m_BounceCount++;
 	}
 }

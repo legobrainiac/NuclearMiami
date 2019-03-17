@@ -9,7 +9,7 @@ class Camera;
 struct Window;
 struct Circlef;
 
-// TODO(tomas): for now it's a single sprite, eventually this will become a sprite sheet
+// TODO(tomas): for now it's a single sprite, eventually this will become a sprite sheet 
 class Player : public GameObject
 {
 public:
