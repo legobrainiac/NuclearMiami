@@ -54,7 +54,7 @@ public:
 	
 	void UiCallbackSetUp();
 	
-	enum ScreenState
+	enum class ScreenState
 	{
 		MainMenu, // State for the main menu when not playing
 		Playing,// State for when playing

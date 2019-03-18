@@ -16,9 +16,9 @@ Rectf utils::GetScalar(const TUiNode& node, const Window& window)
 {
 	Rectf scalar{ node.GetPosition().x, node.GetPosition().y, node.GetSize().x, node.GetSize().y };
     
-	if (auto parent = node.GetParent())
+	if (TUiNode* parent = node.GetParent())
 	{
-		auto parentScalar = GetScalar(*parent, window); // TODO(tomas): i think i can get rid of this, maybe later
+		Rectf parentScalar = GetScalar(*parent, window); // TODO(tomas): i think i can get rid of this, maybe later
 		scalar *= parentScalar;
         
 		scalar.left = parentScalar.left + node.GetPosition().x * parent->GetSSRect().width;

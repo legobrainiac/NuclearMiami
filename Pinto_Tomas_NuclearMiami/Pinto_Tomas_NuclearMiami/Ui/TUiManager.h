@@ -17,6 +17,8 @@
 #include "TUiContainer.h"
 #include "../structs.h"
 
+typedef std::pair<std::string, std::function<TUiNode*(std::ifstream&, std::string)>> TokenPair;
+
 class TUiManager
 {
     public:

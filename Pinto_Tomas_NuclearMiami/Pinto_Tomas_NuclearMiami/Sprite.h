@@ -3,6 +3,7 @@
 
 class Texture;
 
+// TODO(tomas): rule of five, this old code
 class Sprite
 {
 public:

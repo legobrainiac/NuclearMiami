@@ -1,8 +1,9 @@
-﻿  TUiButton.cpp
+﻿  Scene.cpp
+  utils.cpp
      Creating library C:\Repositories\1DAE_PROG_FINAL\Pinto_Tomas_NuclearMiami\Release\Pinto_Tomas_NuclearMiami.lib and object C:\Repositories\1DAE_PROG_FINAL\Pinto_Tomas_NuclearMiami\Release\Pinto_Tomas_NuclearMiami.exp
   Generating code
-  7 of 1701 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
+  0 of 1704 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    2 functions had inline decision re-evaluated but remain unchanged
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Pinto_Tomas_NuclearMiami.vcxproj -> C:\Repositories\1DAE_PROG_FINAL\Pinto_Tomas_NuclearMiami\Release\Pinto_Tomas_NuclearMiami.exe

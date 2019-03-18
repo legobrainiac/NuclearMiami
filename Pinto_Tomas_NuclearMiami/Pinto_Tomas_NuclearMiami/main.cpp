@@ -1,10 +1,7 @@
 #include "pch.h"
 #include "Core.h"
 #include <ctime>
-
-#ifndef GAME_RELEASE
 #include <vld.h>
-#endif
 
 int main(int argc, char *argv[])
 {

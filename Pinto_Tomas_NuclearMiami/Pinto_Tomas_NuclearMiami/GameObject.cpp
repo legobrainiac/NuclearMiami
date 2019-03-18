@@ -29,7 +29,7 @@ GameObject::GameObject(const Vector2f& position, const Vector2f& scale, float ro
 GameObject::~GameObject()
 {
 	--m_InstanceCounter;
-	for(auto go : m_Children)
+	for(GameObject* go : m_Children)
 		delete go;
 }
 
@@ -119,7 +119,7 @@ void GameObject::SetFriction(float friction)
 
 void GameObject::Draw() const 
 {
-	for(auto go : m_Children)
+	for(GameObject* go : m_Children)
 		go->Draw();
 }
 
@@ -133,6 +133,6 @@ void GameObject::Update(float dt)
 	
 	Translate(m_Accelleration * dt);
 	
-	for(auto go : m_Children)
+	for(GameObject* go : m_Children)
 		go->Update(dt);
 }

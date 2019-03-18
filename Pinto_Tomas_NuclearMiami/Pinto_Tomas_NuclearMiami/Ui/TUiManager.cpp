@@ -24,7 +24,7 @@ TUiManager& TUiManager::Get()
 void TUiManager::Reset()
 {
 	DEBUG("Clearing Ui");
-	for (auto node : m_pUiManager->GetRootNodes())
+	for (TUiNode* node : m_pUiManager->GetRootNodes())
 		delete node;
     
 	m_pUiManager->GetRootNodes().clear();
@@ -91,7 +91,7 @@ void TUiManager::LoadUiDescriptor(std::string resourceLocation)
 	{
 		std::getline(stream, line);
         
-		for (const auto& token : m_TokenMap)
+		for (const TokenPair& token : m_TokenMap)
 		{
 			size_t i = line.find(token.first);
             
@@ -133,13 +133,13 @@ void TUiManager::LoadUiDescriptor(std::string resourceLocation)
 
 void TUiManager::Update(float dt, Point2f mousePos)
 {
-	for (auto& node : m_RootNodes)
+	for (TUiNode* node : m_RootNodes)
 		node->Update(dt, mousePos);
 }
 
 void TUiManager::Draw(const Window& window)
 {
-	for (auto& node : m_RootNodes)
+	for (TUiNode* node : m_RootNodes)
 		node->Draw(window);
 }
 
@@ -151,7 +151,7 @@ TUiNode* TUiManager::GetComponent(std::string id) const
 	for (std::string temp; std::getline(idDecompStream, temp, '.');)
 		idDecomp.push_back(temp);
     
-	for (auto& node : m_RootNodes)
+	for (TUiNode* node : m_RootNodes)
 	{
 		if (node->GetId() == idDecomp[0])
 		{

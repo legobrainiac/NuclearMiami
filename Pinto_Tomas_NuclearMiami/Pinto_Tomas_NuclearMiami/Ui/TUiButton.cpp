@@ -46,7 +46,7 @@ void TUiButton::Update(float dt, Point2f mousePos)
 		
 		if(m_pHoverSound->IsLoaded())m_pHoverSound->Play(0);
 		
-		for(auto& callback : m_HoverCallbacks)
+		for(SimpleCallback& callback : m_HoverCallbacks)
 			callback();
 	}
 	
@@ -60,7 +60,7 @@ void TUiButton::Update(float dt, Point2f mousePos)
         {
             m_IsPressed = true;
             
-            for(auto& callback : m_ClickCallbacks)
+            for(SimpleCallback& callback : m_ClickCallbacks)
                 callback();
 			
 			if(m_pClickSound->IsLoaded())m_pClickSound->Play(0);
@@ -69,7 +69,7 @@ void TUiButton::Update(float dt, Point2f mousePos)
         {
             m_DeltaPressed += dt;
             
-            for(auto& callback : m_ClickDeltaCallbacks)
+            for(TimeCallback& callback : m_ClickDeltaCallbacks)
                 callback(m_DeltaPressed);
         }
     }
@@ -88,19 +88,19 @@ void TUiButton::ProcessDescriptor(std::ifstream & descriptorStream, std::string 
 	m_HoverSoundLocation = utils::GetParameterValue("hoverSound", descriptor);
 }
 
-void TUiButton::RegisterClickCallBack(std::function<void()> callback)
+void TUiButton::RegisterClickCallBack(SimpleCallback callback)
 {
 	m_ClickCallbacks.push_back(callback);
     std::cout << "Click callback registered for " << m_Id << std::endl;
 }
 
-void TUiButton::RegisterHoverCallBack(std::function<void()> callback)
+void TUiButton::RegisterHoverCallBack(SimpleCallback callback)
 {
 	m_HoverCallbacks.push_back(callback);
     std::cout << "Hover callback registered for " << m_Id << std::endl;
 }
 
-void TUiButton::RegisterClickDeltaCallBack(std::function<void(float deltaPressed)> callback)
+void TUiButton::RegisterClickDeltaCallBack(TimeCallback callback)
 {
     m_ClickDeltaCallbacks.push_back(callback);
     std::cout << "Delta Click callback registered for " << m_Id << std::endl;

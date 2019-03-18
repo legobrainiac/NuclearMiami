@@ -25,10 +25,10 @@ Scene::Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocat
 	// Test objects in scene
 	m_pPlayer = new Player(Vector2f{200.f, 300.f},Vector2f{1.f, 1.f}, 0.f, this);
 	
-	auto aiAgentTest = new AiAgent(Vector2f { 200.f, 300.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer, this);
+	AiAgent* aiAgentTest = new AiAgent(Vector2f { 200.f, 300.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer, this);
 	aiAgentTest->SetZLayer(-1.f);
 
-	auto aiAgentTest2 = new AiAgent(Vector2f { 600.f, 100.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer, this);
+	AiAgent* aiAgentTest2 = new AiAgent(Vector2f { 600.f, 100.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer, this);
 	aiAgentTest2->SetZLayer(-1.f);
 	
 	Add(m_pPlayer);
@@ -46,7 +46,7 @@ void Scene::Draw() const
 	
 	//utils::DrawPolygon(m_SceneMap.sceneCollider[0], true, 2.f);
 	
-	for(auto go : m_Scene)
+	for(GameObject* go : m_Scene)
 		go->Draw();
 	
 	glPopMatrix();
@@ -54,7 +54,7 @@ void Scene::Draw() const
 
 void Scene::Update(float dt)
 {
-	for(auto go : m_Scene)
+	for(GameObject* go : m_Scene)
 		go->Update(dt);
 	
 	// After updating, 
@@ -104,7 +104,7 @@ void Scene::ProcessAdditions()
 {
 	if(m_AddBuffer.dirty)
 	{
-		for(auto go : m_AddBuffer.buffer)
+		for(GameObject* go : m_AddBuffer.buffer)
 			m_Scene.push_back(go);
 		
 		m_AddBuffer.Reset();

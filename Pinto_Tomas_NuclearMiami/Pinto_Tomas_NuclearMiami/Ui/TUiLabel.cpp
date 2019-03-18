@@ -6,10 +6,9 @@
 #include "TUiLabel.h"
 
 TUiLabel::TUiLabel(std::ifstream& descriptorStream, std::string descriptor)
-TUiNode::ProcessDescriptor(descriptorStream, descriptor);
+	: TUiNode(descriptorStream, descriptor)
 {
 	ProcessDescriptor(descriptorStream, descriptor);
-    
 	m_pTexture = new Texture(m_Text, "Resources/Fonts/munro.ttf", (int)m_PtSize, Color4f {1.f, 1.f,1.f, 1.f});
 }
 

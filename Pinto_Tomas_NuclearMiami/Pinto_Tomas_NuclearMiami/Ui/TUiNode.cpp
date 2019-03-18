@@ -16,7 +16,7 @@ TUiNode::TUiNode()
 
 TUiNode::~TUiNode()
 {
-	for (auto children : m_Children)
+	for (TUiNode* children : m_Children)
 		delete children;
     
 	m_Children.clear();
@@ -26,7 +26,7 @@ void TUiNode::Draw(const Window& window)
 {
     if(!m_Active) return;
     
-	for (auto& node : m_Children)
+	for (TUiNode* node : m_Children)
 		node->Draw(window);
 }
 
@@ -34,7 +34,7 @@ void TUiNode::Update(float dt, Point2f mousePos)
 {
     if(!m_Active) return;
     
-	for (auto& node : m_Children)
+	for (TUiNode* node : m_Children)
 		node->Update(dt, mousePos);
 }
 
@@ -64,7 +64,7 @@ TUiNode* TUiNode::GetComponentWithId(std::deque<std::string> idDecomp)
 	if (idDecomp.empty())
 		return this;	
     
-	for (auto& node : m_Children)
+	for (TUiNode* node : m_Children)
 	{
 		if (node->GetId() == idDecomp[0])
 		{

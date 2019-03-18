@@ -10,6 +10,9 @@
 class SoundEffect;
 class Texture;
 
+typedef std::function<void()> SimpleCallback;
+typedef std::function<void(float deltaPressed)> TimeCallback;
+
 class TUiButton :
 public TUiNode
 {
@@ -21,9 +24,9 @@ public TUiNode
 	virtual void Update(float dt, Point2f mousePos) override;
 	virtual void ProcessDescriptor(std::ifstream& descriptorStream, std::string descriptor) override;
     
-	void RegisterClickCallBack(std::function<void()> callback);
-    void RegisterHoverCallBack(std::function<void()> callback);
-    void RegisterClickDeltaCallBack(std::function<void(float deltaPressed)> callback);
+	void RegisterClickCallBack(SimpleCallback callback);
+    void RegisterHoverCallBack(SimpleCallback callback);
+    void RegisterClickDeltaCallBack(TimeCallback callback);
 	
     private:
 	std::string m_Text;
@@ -43,9 +46,9 @@ public TUiNode
     float m_DeltaPressed;
 	Rectf m_Rect;
     
-	std::vector<std::function<void()>> m_ClickCallbacks;
-	std::vector<std::function<void()>> m_HoverCallbacks;
-    std::vector<std::function<void(float deltaPressed)>> m_ClickDeltaCallbacks;
+	std::vector<SimpleCallback> m_ClickCallbacks;
+	std::vector<SimpleCallback> m_HoverCallbacks;
+    std::vector<TimeCallback> m_ClickDeltaCallbacks;
 };
 
 #endif // !TUIBUTTON_H

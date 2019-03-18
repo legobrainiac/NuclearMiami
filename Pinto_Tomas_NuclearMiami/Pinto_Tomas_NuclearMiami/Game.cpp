@@ -194,7 +194,7 @@ void Game::UiCallbackSetUp()
 	{
 		pStartButton->RegisterClickCallBack(
 			[&](){
-			auto menu = TUiManager::Get().GetComponent<TUiContainer>("menu");
+			TUiContainer* menu = TUiManager::Get().GetComponent<TUiContainer>("menu");
 			if(menu) menu->SetActive(false);
 			StartGame("");
 			}
@@ -208,10 +208,10 @@ void Game::UiCallbackSetUp()
 	{
 		pSettingsButton->RegisterClickCallBack(
 			[&](){
-			auto settings = TUiManager::Get().GetComponent<TUiContainer>("settings");
+			TUiContainer* settings = TUiManager::Get().GetComponent<TUiContainer>("settings");
 			if(settings) settings->SetActive(true);
 			
-			auto menu = TUiManager::Get().GetComponent<TUiContainer>("menu");
+			TUiContainer* menu = TUiManager::Get().GetComponent<TUiContainer>("menu");
 			if(menu) menu->SetActive(false);
 			});
 		
@@ -232,10 +232,10 @@ void Game::UiCallbackSetUp()
 	{
 		pInfoButton->RegisterClickCallBack(
 			[&](){
-			auto menu = TUiManager::Get().GetComponent<TUiContainer>("menu");
+			TUiContainer* menu = TUiManager::Get().GetComponent<TUiContainer>("menu");
 			if(menu) menu->SetActive(true);
 			
-			auto settings = TUiManager::Get().GetComponent<TUiContainer>("settings");
+			TUiContainer* settings = TUiManager::Get().GetComponent<TUiContainer>("settings");
 			if(settings) settings->SetActive(false);
 			
 			UnloadGame();
@@ -244,7 +244,7 @@ void Game::UiCallbackSetUp()
 		
 		pInfoButton->RegisterClickDeltaCallBack(
 			[](float deltaPressed){
-			auto menu = TUiManager::Get().GetComponent<TUiContainer>("menu.label1");
+			TUiContainer* menu = TUiManager::Get().GetComponent<TUiContainer>("menu.label1");
 			if(menu) menu->SetSize(Vector2f {deltaPressed, 0.5f});
 			} 
 			);
