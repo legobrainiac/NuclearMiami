@@ -3,6 +3,7 @@
 
 #include "utils.h"
 #include "Scene.h"
+#include "Projectile.h"
 
 AiAgent::AiAgent(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pTarget, Scene* scene)
 : GameObject(position, scale, rotation)
@@ -25,6 +26,7 @@ void AiAgent::ChangeTarget(GameObject* pTarget)
 
 void AiAgent::Update(float dt)
 {
+	m_Timer += dt;
 	Ai(dt);
 }
 
@@ -54,6 +56,8 @@ void AiAgent::Ai(float dt)
 	{
 		if(ray.Length() > m_MinDistance)
 			Translate(ray.Normalized() * m_MovementSpeed * dt);
+		
+		Shoot(ray.Normalized());
 	}
 	else // If target not in sight, attempt bounce path-find
 	{
@@ -79,4 +83,19 @@ void AiAgent::Ai(float dt)
 			}
 		}	
 	}
+}
+
+void AiAgent::Shoot(Vector2f direction)
+{	
+	if(m_Timer < 1.f) return;
+	
+	m_Timer = 0.f;
+	Projectile* projectile = new Projectile(m_Position, Vector2f {0.f, 0.f}, 0.f, direction.Normalized(), m_pScene);
+	m_pScene->Add(projectile);
+	
+	Vector2f kickBack = Vector2f{direction.Normalized().ToPoint2f(), Point2f{ 0.f, 0.f }};
+	
+	kickBack *= 50.f;
+	
+	m_Accelleration += kickBack;
 }

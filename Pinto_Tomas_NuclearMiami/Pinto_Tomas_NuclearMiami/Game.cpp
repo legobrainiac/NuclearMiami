@@ -43,9 +43,8 @@ Game::~Game()
 // TODO(tomas): Think about how i wanna do the background of the menu, once we have the scene working i can make a small scene with just the ai agents going abouts
 // TODO(tomas): rule of five for all the ui, generally clean up and bring it up to standars, forgot p prefix for a lot of the points
 // TODO(tomas): Implement an active camera thing to allow switching between cameras
-// TODO(tomas): Before implementing actual weapons, add an enemy : public AiAgent class that shoots the same basic way to player shoots right now
 // TODO(tomas): finish collisions on player and then move it as a default behaviour on to GameObject base class
-// TODO(tomas): Mark GameObject's for deletion with a bool flag and then std::sort the scene and pop_back
+// TODO(tomas): implement yeet pack
 void Game::Initialize()
 {
     // Load UI from the menu tankscript file
@@ -126,6 +125,10 @@ void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 	{
 		case SDLK_t:
 		std::cout << GameObject::GetInstanceCount() << std::endl;
+		break;
+		
+		case SDLK_i:
+		ToggleInfo();
 		break;
 	}
 }
@@ -227,7 +230,8 @@ void Game::UiCallbackSetUp()
 	
 	// Register click and delta click callbacks for the buttons
 	TUiButton* pInfoButton = TUiManager::Get().GetComponent<TUiButton>("infoButton");
-	
+
+
 	if(pInfoButton)
 	{
 		pInfoButton->RegisterClickCallBack(
@@ -246,6 +250,9 @@ void Game::UiCallbackSetUp()
 			[](float deltaPressed){
 			TUiContainer* menu = TUiManager::Get().GetComponent<TUiContainer>("menu.label1");
 			if(menu) menu->SetSize(Vector2f {deltaPressed, 0.5f});
+			
+			TUiContainer* info = TUiManager::Get().GetComponent<TUiContainer>("info");
+			if(info) info->SetActive(false); 
 			} 
 			);
 	}
@@ -310,4 +317,20 @@ void Game::RaycastVision() const
 	utils::DrawPolygon(visiblePoints, true, 3.f);
 	//utils::FillPolygon(visiblePoints);
 
+}
+
+void Game::ToggleInfo()
+{
+	std::cout << "Controls: WASD to move, mouse to aim and shoot. Items are picked up atomatically if there is an empty weapon slot." << std::endl;
+	
+	if(m_ScreenState != ScreenState::MainMenu) return;
+	
+	TUiContainer* info = TUiManager::Get().GetComponent<TUiContainer>("info");
+	TUiContainer* menu = TUiManager::Get().GetComponent<TUiContainer>("menu");
+	
+	if(info && menu)
+	{
+		menu->SetActive(info->GetActive());
+		info->SetActive(!info->GetActive());
+	}
 }

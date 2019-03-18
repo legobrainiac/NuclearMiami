@@ -66,4 +66,7 @@ public:
 	void UnloadGame();
 	
 	void RaycastVision() const;
+	
+	// Helpers
+	void ToggleInfo();
 };

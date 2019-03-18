@@ -23,8 +23,10 @@ private:
 	float m_MinDistance;
 	float m_MaxDistance;
 	float m_MovementSpeed;
+	float m_Timer;
 	
 	void Ai(float dt);
+	void Shoot(Vector2f direction);
 };
 
 #endif // !AIAGENT_H

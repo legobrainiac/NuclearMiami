@@ -101,6 +101,11 @@ std::string TUiNode::GetId() const
 	return m_Id;
 }
 
+bool TUiNode::GetActive() const
+{
+	return m_Active;
+}
+
 void TUiNode::SetSize(Vector2f newSize)
 {
 	m_Size = newSize;

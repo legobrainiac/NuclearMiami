@@ -25,7 +25,7 @@ Scene::Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocat
 	// Test objects in scene
 	m_pPlayer = new Player(Vector2f{200.f, 300.f},Vector2f{1.f, 1.f}, 0.f, this);
 	
-	AiAgent* aiAgentTest = new AiAgent(Vector2f { 200.f, 300.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer, this);
+	AiAgent* aiAgentTest = new AiAgent(Vector2f { 300.f, 300.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer, this);
 	aiAgentTest->SetZLayer(-1.f);
 
 	AiAgent* aiAgentTest2 = new AiAgent(Vector2f { 600.f, 100.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer, this);

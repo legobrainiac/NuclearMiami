@@ -37,6 +37,7 @@ class TUiNode
 	const Vector2f& GetPosition() const;
 	const Rectf& GetSSRect() const;
 	std::string GetId() const;
+	bool GetActive() const;
     
 	void SetSize(Vector2f newSize);
     void SetActive(bool val);
