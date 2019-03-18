@@ -4,8 +4,8 @@
 #include "TUiContainer.h"
 
 TUiContainer::TUiContainer(std::ifstream& descriptorStream, std::string descriptor)
+: TUiNode(descriptorStream, descriptor)
 {
-	TUiNode::ProcessDescriptor(descriptorStream, descriptor);
 	ProcessDescriptor(descriptorStream, descriptor);
 }
 

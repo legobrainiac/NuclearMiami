@@ -5,8 +5,8 @@
 #include "TUiButton.h"
 
 TUiButton::TUiButton(std::ifstream& descriptorStream, std::string descriptor)
+: TUiNode(descriptorStream, descriptor)
 {
-	TUiNode::ProcessDescriptor(descriptorStream, descriptor);
 	ProcessDescriptor(descriptorStream, descriptor);
     
 	m_pTextTexture = new Texture(m_Text, "Resources/Fonts/munro.ttf", 40, Color4f{ 1.f, 1.f,1.f, 1.f });
