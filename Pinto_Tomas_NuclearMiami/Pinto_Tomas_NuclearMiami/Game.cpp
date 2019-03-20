@@ -22,6 +22,7 @@
 #include "Scene.h"
 #include "Camera.h"
 #include "Projectile.h"
+#include "Interfaces.h"
 
 Game::Game(const Window& window)
 : m_Window(window)

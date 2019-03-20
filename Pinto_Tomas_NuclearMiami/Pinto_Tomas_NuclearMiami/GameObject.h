@@ -11,7 +11,9 @@ class GameObject
 public:
 	GameObject();
 	GameObject(const Vector2f& position, const Vector2f& scale, float rotation);
-	
+	GameObject(const GameObject& other) = delete;
+	GameObject& operator=(const GameObject& other) = delete;
+
 	virtual ~GameObject();
 	
 	// Movement

@@ -156,6 +156,7 @@
     <ClInclude Include="Core.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Interfaces.h" />
     <ClInclude Include="Matrix2x3.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PickUp.h" />
