@@ -29,7 +29,7 @@
 #define GAME_RELEASE
 #endif
 
-#if 1
+#if 0
 #define DEBUG_DRAW
 #endif
 

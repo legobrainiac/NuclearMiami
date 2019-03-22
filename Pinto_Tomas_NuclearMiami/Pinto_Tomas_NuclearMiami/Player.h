@@ -6,6 +6,7 @@
 class Texture;
 class Scene;
 class Camera;
+class PickUp;
 struct Window;
 struct Circlef;
 
@@ -19,6 +20,9 @@ public:
 	void Draw() const override;
 	void Update(float dt) override;
 	
+	bool HasEmptySlot() const;
+	void ProcessPickUp(PickUp* pickUp);
+	
 private:	
 	void Shoot(const Vector2f& direction, float dt);
 	void Move(const Uint8* keyStates, float dt);
@@ -30,7 +34,7 @@ private:
 	
 	struct WeaponSlots
 	{
-		GameObject* pMainWeapon;
+		GameObject* pPrimary;
 		GameObject* pSecondary;
 	}m_WeaponSlots;
 	

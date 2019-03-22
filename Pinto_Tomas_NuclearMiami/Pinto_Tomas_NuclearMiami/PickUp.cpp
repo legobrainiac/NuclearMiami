@@ -1,10 +1,11 @@
 #include "pch.h"
 #include "PickUp.h"
 #include "utils.h"
+#include "Player.h"
 
-// TODO(tomas): take player pointer, tell player to pick me up
-PickUp::PickUp(const Vector2f& position, const Vector2f& scale, float rotation)
+PickUp::PickUp(const Vector2f& position, const Vector2f& scale, float rotation, Player* player)
 : GameObject(position, scale, rotation)
+, m_pPlayer(player)
 {
 }
 
@@ -14,7 +15,22 @@ PickUp::~PickUp()
 
 void PickUp::Update(float dt)
 {
-
+	if(m_pPlayer && m_pPlayer->HasEmptySlot())
+	{
+		Point2f pos = m_Position.ToPoint2f();
+		Point2f playerPos = m_pPlayer->GetPosition().ToPoint2f();
+		Vector2f direction { pos, playerPos };
+		
+		if(direction.Length() < 100)
+		{
+			if(direction.Length() < 10)
+				m_pPlayer->ProcessPickUp(this);
+		
+			ApplyForce(direction.Normalized() * 10.f);
+		}
+	}
+	
+	GameObject::Update(dt);
 }
 
 void PickUp::Draw() const 

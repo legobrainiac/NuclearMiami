@@ -32,7 +32,7 @@ Scene::Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocat
 	AiAgent* aiAgentTest2 = new AiAgent(Vector2f { 600.f, 100.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer, this);
 	aiAgentTest2->SetZLayer(-1.f);
 	
-	PickUp* pickUp1 = new PickUp(Vector2f {200.f, 150.f}, Vector2f {1.f, 1.f}, 45.f);
+	PickUp* pickUp1 = new PickUp(Vector2f {200.f, 150.f}, Vector2f {1.f, 1.f}, 45.f, m_pPlayer);
 	
 	Add(m_pPlayer);
 	Add(aiAgentTest);

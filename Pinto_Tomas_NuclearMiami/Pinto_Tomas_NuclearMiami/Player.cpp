@@ -4,6 +4,7 @@
 #include "Scene.h"
 #include "Camera.h"
 #include "Projectile.h"
+#include "PickUp.h"
 
 Player::Player(const Vector2f& position, const Vector2f& scale, float rotation, Scene* scene)
 : GameObject(position, scale, rotation)
@@ -17,6 +18,12 @@ Player::Player(const Vector2f& position, const Vector2f& scale, float rotation, 
 Player::~Player()
 {
 	delete m_pTexture;
+	
+	if(m_WeaponSlots.pPrimary)
+		delete m_WeaponSlots.pPrimary;
+	
+	if(m_WeaponSlots.pSecondary)
+		delete m_WeaponSlots.pSecondary;
 }
 
 void Player::Draw() const 
@@ -75,9 +82,24 @@ void Player::Update(float dt)
 	}	
 }
 
+bool Player::HasEmptySlot() const
+{
+	return !m_WeaponSlots.pPrimary || !m_WeaponSlots.pSecondary;
+}
+
+void Player::ProcessPickUp(PickUp* pickUp)
+{
+	// We can assume a slot is empty if this function is called but we test anyways
+	if(HasEmptySlot())
+	{
+		m_pScene->Remove(pickUp);
+		m_WeaponSlots.pPrimary = pickUp;
+	}
+}
+
 void Player::Shoot(const Vector2f& direction, float dt)
 {
-	if(SDL_GetMouseState(nullptr, nullptr) == SDL_BUTTON_LEFT && m_Timer > 0.1f)
+	if(SDL_GetMouseState(nullptr, nullptr) == SDL_BUTTON_LEFT && m_WeaponSlots.pPrimary && m_Timer > 0.1f)
     {
 		m_Timer = 0.f;
 		Projectile* projectile = new Projectile(m_Position, Vector2f {0.f, 0.f}, 0.f, direction.Normalized(), m_pScene, this);

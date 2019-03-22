@@ -1,8 +1,34 @@
-﻿  Scene.cpp
+﻿  pch.cpp
+  AiAgent.cpp
+  Camera.cpp
+  Core.cpp
+  Game.cpp
+  GameObject.cpp
+  Matrix2x3.cpp
+  PickUp.cpp
+  Player.cpp
+  Projectile.cpp
+  SVGParser.cpp
+  Scene.cpp
+  SoundEffect.cpp
+  SoundStream.cpp
+  Sprite.cpp
+  Texture.cpp
+  TUiButton.cpp
+  TUiContainer.cpp
+  TUiLabel.cpp
+  TUiManager.cpp
+  TUiNode.cpp
+  Compiling...
+  Vector2f.cpp
+  Weapon.cpp
+  main.cpp
+  structs.cpp
+  utils.cpp
      Creating library C:\Repositories\1DAE_PROG_FINAL\Pinto_Tomas_NuclearMiami\Release\Pinto_Tomas_NuclearMiami.lib and object C:\Repositories\1DAE_PROG_FINAL\Pinto_Tomas_NuclearMiami\Release\Pinto_Tomas_NuclearMiami.exp
   Generating code
-  1 of 1712 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+  4 of 1712 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+    16 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Pinto_Tomas_NuclearMiami.vcxproj -> C:\Repositories\1DAE_PROG_FINAL\Pinto_Tomas_NuclearMiami\Release\Pinto_Tomas_NuclearMiami.exe
