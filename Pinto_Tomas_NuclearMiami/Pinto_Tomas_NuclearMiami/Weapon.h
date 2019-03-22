@@ -7,7 +7,7 @@ class Weapon :
 	public PickUp
 {
 public:
-	Weapon();
+	Weapon(const Vector2f& position, const Vector2f& scale, float rotation);
 	~Weapon();
 };
 

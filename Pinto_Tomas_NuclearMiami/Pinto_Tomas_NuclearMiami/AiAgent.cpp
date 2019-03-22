@@ -11,8 +11,10 @@ AiAgent::AiAgent(const Vector2f& position, const Vector2f& scale, float rotation
 , m_pScene(scene)
 , m_MinDistance(30.f)
 , m_MaxDistance(1000.f)
-, m_MovementSpeed(100.f)
+, m_MovementSpeed(50.f)
 {
+	m_Friction = 1.f;
+	m_MaxAcceleration = 100.f;
 }
 
 AiAgent::~AiAgent()
@@ -28,6 +30,8 @@ void AiAgent::Update(float dt)
 {
 	m_Timer += dt;
 	Ai(dt);
+	
+	GameObject::Update(dt);
 }
 
 void AiAgent::Draw() const
@@ -55,7 +59,7 @@ void AiAgent::Ai(float dt)
 	if(!Raycast(m_pScene->GetSceneCollider(), m_Position.ToPoint2f(), m_pTarget->GetPosition().ToPoint2f(), hit))
 	{
 		if(ray.Length() > m_MinDistance)
-			Translate(ray.Normalized() * m_MovementSpeed * dt);
+			ApplyForce(ray.Normalized() * m_MovementSpeed);
 		
 		Shoot(ray.Normalized());
 	}
@@ -79,7 +83,7 @@ void AiAgent::Ai(float dt)
 				Point2f targetTemp {tX, tY};
 				Vector2f direction {m_Position.ToPoint2f(), Point2f{ tX, tY }};
 				
-				Translate(direction.Normalized() * m_MovementSpeed * dt);
+				ApplyForce(direction.Normalized() * m_MovementSpeed);
 			}
 		}	
 	}
@@ -90,7 +94,7 @@ void AiAgent::Shoot(Vector2f direction)
 	if(m_Timer < 1.f) return;
 	
 	m_Timer = 0.f;
-	Projectile* projectile = new Projectile(m_Position, Vector2f {0.f, 0.f}, 0.f, direction.Normalized(), m_pScene);
+	Projectile* projectile = new Projectile(m_Position, Vector2f {0.f, 0.f}, 0.f, direction.Normalized(), m_pScene, this);
 	m_pScene->Add(projectile);
 	
 	Vector2f kickBack = Vector2f{direction.Normalized().ToPoint2f(), Point2f{ 0.f, 0.f }};

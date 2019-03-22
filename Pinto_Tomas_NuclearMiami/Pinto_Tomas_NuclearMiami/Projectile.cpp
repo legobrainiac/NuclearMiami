@@ -2,11 +2,14 @@
 #include "Projectile.h"
 #include "Scene.h"
 
-Projectile::Projectile(const Vector2f& position, const Vector2f& scale, float rotation, const Vector2f& direction, Scene* pScene)
+Projectile::Projectile(const Vector2f& position, const Vector2f& scale, float rotation, const Vector2f& direction, Scene* pScene, GameObject* shooter)
 : GameObject(position, scale, rotation)
 , m_Direction(direction)
-, m_Speed(20.f)
 , m_pScene(pScene)
+, m_Speed(20.f)
+, m_BounceCount(0)
+, m_MaxBounceCount(5)
+, m_Shooter(shooter)
 {
 	m_MaxAcceleration = 2000.f;
 	m_Friction = 1.f;
@@ -16,7 +19,7 @@ void Projectile::Update(float dt)
 {
 	if(m_ShouldDelete) return;
 	
-	if(m_BounceCount >= 5)
+	if(m_BounceCount >= m_MaxBounceCount)
 		m_pScene->Delete(this);
 	
 	Collision();

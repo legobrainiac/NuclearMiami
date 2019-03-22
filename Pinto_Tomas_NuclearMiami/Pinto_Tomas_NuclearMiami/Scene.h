@@ -22,6 +22,7 @@ public:
 	
 	void Add(GameObject* pGameObject);
 	void Delete(GameObject* pGameObject);
+	void Remove(GameObject* pGameObject);
 	const std::vector<Point2f>& GetSceneCollider();
 	
 	Player* GetPlayer() { return m_pPlayer; }

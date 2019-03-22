@@ -6,6 +6,7 @@
 #include "SVGParser.h"
 #include "Player.h"
 #include "AiAgent.h"
+#include "PickUp.h"
 
 Scene::Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocation)
 : m_Scene()
@@ -31,9 +32,12 @@ Scene::Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocat
 	AiAgent* aiAgentTest2 = new AiAgent(Vector2f { 600.f, 100.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer, this);
 	aiAgentTest2->SetZLayer(-1.f);
 	
+	PickUp* pickUp1 = new PickUp(Vector2f {200.f, 150.f}, Vector2f {1.f, 1.f}, 45.f);
+	
 	Add(m_pPlayer);
 	Add(aiAgentTest);
 	Add(aiAgentTest2);
+	Add(pickUp1);
 }
 
 void Scene::Draw() const
@@ -68,12 +72,29 @@ void Scene::Add(GameObject* pGameObject)
 		m_AddBuffer.Add(pGameObject);
 }
 
+// Marks objects for removal and deletion
 void Scene::Delete(GameObject* pGameObject)
 {
 	if(pGameObject != nullptr)
 	{
 		pGameObject->MakeDirty();
 		m_DeleteBuffer.Add(pGameObject);
+	}
+}
+
+// Removes object from scene
+// NOTE(tomas): If this object is not taken in by another object it will cause a memory leak
+void Scene::Remove(GameObject* pGameObject)
+{
+	for(size_t i = 0; i < m_Scene.size(); ++i)
+	{
+		if(pGameObject == m_Scene[i])
+		{
+			GameObject* last = m_Scene.back();
+			m_Scene[m_Scene.size() - 1] = m_Scene[i];
+			m_Scene[i] = last;
+			m_Scene.pop_back();
+		}
 	}
 }
 

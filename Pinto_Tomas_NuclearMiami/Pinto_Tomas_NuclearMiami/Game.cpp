@@ -23,6 +23,7 @@
 #include "Camera.h"
 #include "Projectile.h"
 #include "Interfaces.h"
+#include "PickUp.h"
 
 Game::Game(const Window& window)
 : m_Window(window)
