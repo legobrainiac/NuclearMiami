@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "Projectile.h"
 #include "PickUp.h"
+#include "Weapon.h"
 
 Player::Player(const Vector2f& position, const Vector2f& scale, float rotation, Scene* scene)
 : GameObject(position, scale, rotation)
@@ -19,18 +20,31 @@ Player::~Player()
 {
 	delete m_pTexture;
 	
-	if(m_WeaponSlots.pPrimary)
-		delete m_WeaponSlots.pPrimary;
-	
-	if(m_WeaponSlots.pSecondary)
-		delete m_WeaponSlots.pSecondary;
+	for(Weapon* w : m_Weapons)
+		if(w) delete w;
 }
 
-void Player::Draw() const 
+void Player::DrawBottom() const
 {
 	glPushMatrix();
 	glTranslatef(m_Position.x, m_Position.y, m_ZLayer);
+	
+	float angle = -(m_Accelleration.AngleWith(Vector2f{0.f, 1.f}) * 180 / PI);
+	
+	glRotatef(angle, 0.f, 0.f, 1.f);
+	glScalef(m_Scale.x, m_Scale.y, 0.f);
+	
+	//utils::DrawRect(-20.f, -10.f, 40.f, 20.f, 2.f);
+	
+	m_pTexture->Draw(Point2f{-(m_pTexture->GetWidth() / 2), -(m_pTexture->GetHeight() / 2)});
+	glPopMatrix();
+}
 
+void Player::DrawTop() const
+{
+	glPushMatrix();
+	glTranslatef(m_Position.x, m_Position.y, m_ZLayer);
+	
 	// Draw debug line before rotating
 #ifdef DEBUG_DRAW
 	utils::DrawLine(Point2f {}, m_Accelleration.ToPoint2f(), 2.f);
@@ -46,6 +60,12 @@ void Player::Draw() const
 	
 	GameObject::Draw();
 	glPopMatrix();
+}
+
+void Player::Draw() const 
+{
+	DrawBottom();
+	DrawTop();
 }
 
 void Player::Update(float dt)
@@ -79,27 +99,28 @@ void Player::Update(float dt)
 	{
 		m_Accelleration = Vector2f {};
 		m_Position = previousPos;
-	}	
+	}
 }
 
 bool Player::HasEmptySlot() const
 {
-	return !m_WeaponSlots.pPrimary || !m_WeaponSlots.pSecondary;
+	return (m_Weapons.size() < 3);
 }
 
-void Player::ProcessPickUp(PickUp* pickUp)
+void Player::ProcessPickUp(GameObject* pickUp)
 {
-	// We can assume a slot is empty if this function is called but we test anyways
-	if(HasEmptySlot())
+	Weapon* pu = dynamic_cast<Weapon*>(pickUp);
+
+	if(pu != nullptr && m_Weapons.size() < 3)
 	{
 		m_pScene->Remove(pickUp);
-		m_WeaponSlots.pPrimary = pickUp;
+		m_Weapons.push_back(static_cast<Weapon*>(pickUp));
 	}
 }
 
 void Player::Shoot(const Vector2f& direction, float dt)
 {
-	if(SDL_GetMouseState(nullptr, nullptr) == SDL_BUTTON_LEFT && m_WeaponSlots.pPrimary && m_Timer > 0.1f)
+	if(SDL_GetMouseState(nullptr, nullptr) == SDL_BUTTON_LEFT && m_Weapons.size() > 0 && m_Timer > 0.1f)
     {
 		m_Timer = 0.f;
 		Projectile* projectile = new Projectile(m_Position, Vector2f {0.f, 0.f}, 0.f, direction.Normalized(), m_pScene, this);
@@ -127,3 +148,4 @@ void Player::Move(const Uint8* keyStates, float dt)
 	if(keyStates[SDL_SCANCODE_A])
     	ApplyForce(Vector2f{-50.f, 0.f});
 }
+

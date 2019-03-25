@@ -7,6 +7,7 @@ class Texture;
 class Scene;
 class Camera;
 class PickUp;
+class Weapon;
 struct Window;
 struct Circlef;
 
@@ -21,22 +22,21 @@ public:
 	void Update(float dt) override;
 	
 	bool HasEmptySlot() const;
-	void ProcessPickUp(PickUp* pickUp);
+	void ProcessPickUp(GameObject* pickUp);
 	
 private:	
 	void Shoot(const Vector2f& direction, float dt);
 	void Move(const Uint8* keyStates, float dt);
+	
+	void DrawBottom() const;
+	void DrawTop() const;
 	
 	Texture* m_pTexture;	
 	Scene* m_pScene;
 	Camera* m_pCamera;
 	float m_Timer;
 	
-	struct WeaponSlots
-	{
-		GameObject* pPrimary;
-		GameObject* pSecondary;
-	}m_WeaponSlots;
+	std::vector<Weapon*> m_Weapons;
 	
 	Circlef m_Collider;
 };

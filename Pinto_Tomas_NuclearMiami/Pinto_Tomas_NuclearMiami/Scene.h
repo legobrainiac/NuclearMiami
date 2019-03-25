@@ -50,6 +50,7 @@ private:
 	// Objects marked to be added or deleted
     Buffer<GameObject*> m_AddBuffer;
 	Buffer<GameObject*> m_DeleteBuffer;
+	Buffer<GameObject*> m_RemoveBuffer;
 	
 	// Game play objects
 	Player* m_pPlayer;
@@ -57,6 +58,7 @@ private:
 	
 	void ProcessAdditions();
 	void ProcessDeletions();
+	void ProcessRemovals();
 };
 
 #endif //!SCENE_H

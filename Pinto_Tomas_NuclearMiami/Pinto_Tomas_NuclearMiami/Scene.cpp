@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "AiAgent.h"
 #include "PickUp.h"
+#include "Weapon.h"
 
 Scene::Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocation)
 : m_Scene()
@@ -34,10 +35,16 @@ Scene::Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocat
 	
 	PickUp* pickUp1 = new PickUp(Vector2f {200.f, 150.f}, Vector2f {1.f, 1.f}, 45.f, m_pPlayer);
 	
+	Weapon* pickUp2 = new Weapon(Vector2f {230.f, 120.f}, Vector2f {1.f, 1.f}, 45.f, m_pPlayer);
+	
+	Weapon* pickUp3 = new Weapon(Vector2f {630.f, 130.f}, Vector2f {1.f, 1.f}, 45.f, m_pPlayer);
+	
 	Add(m_pPlayer);
 	Add(aiAgentTest);
 	Add(aiAgentTest2);
 	Add(pickUp1);
+	Add(pickUp2);
+	Add(pickUp3);
 }
 
 void Scene::Draw() const
@@ -64,6 +71,7 @@ void Scene::Update(float dt)
 	// After updating, 
 	ProcessAdditions();
 	ProcessDeletions();
+	ProcessRemovals();
 }
 
 void Scene::Add(GameObject* pGameObject)
@@ -86,16 +94,7 @@ void Scene::Delete(GameObject* pGameObject)
 // NOTE(tomas): If this object is not taken in by another object it will cause a memory leak
 void Scene::Remove(GameObject* pGameObject)
 {
-	for(size_t i = 0; i < m_Scene.size(); ++i)
-	{
-		if(pGameObject == m_Scene[i])
-		{
-			GameObject* last = m_Scene.back();
-			m_Scene[m_Scene.size() - 1] = m_Scene[i];
-			m_Scene[i] = last;
-			m_Scene.pop_back();
-		}
-	}
+	m_RemoveBuffer.Add(pGameObject);
 }
 
 const std::vector<Point2f>& Scene::GetSceneCollider()
@@ -157,5 +156,27 @@ void Scene::ProcessDeletions()
 			delete m_Scene.back();
 			m_Scene.pop_back();
 		}
+	}
+}
+
+void Scene::ProcessRemovals()
+{
+	if(m_RemoveBuffer.dirty)
+	{
+		for(GameObject* go : m_RemoveBuffer.buffer)
+		{
+			for(size_t i = 0; i < m_Scene.size(); ++i)
+			{
+				if(go == m_Scene[i])
+				{
+					GameObject* last = m_Scene.back();
+					m_Scene[m_Scene.size() - 1] = m_Scene[i];
+					m_Scene[i] = last;
+					m_Scene.pop_back();
+				}
+			}
+		}
+		
+		m_RemoveBuffer.Reset();
 	}
 }

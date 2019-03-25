@@ -23,10 +23,10 @@ void PickUp::Update(float dt)
 		
 		if(direction.Length() < 100)
 		{
+			ApplyForce(direction.Normalized() * 10.f);
+			
 			if(direction.Length() < 10)
 				m_pPlayer->ProcessPickUp(this);
-		
-			ApplyForce(direction.Normalized() * 10.f);
 		}
 	}
 	

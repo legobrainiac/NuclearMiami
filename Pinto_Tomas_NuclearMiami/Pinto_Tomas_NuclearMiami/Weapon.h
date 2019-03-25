@@ -11,6 +11,8 @@ class Weapon :
 public:
 	Weapon(const Vector2f& position, const Vector2f& scale, float rotation, Player* player);
 	~Weapon();
+	
+	void Draw() const;
 };
 
 #endif // !WEAPON_H

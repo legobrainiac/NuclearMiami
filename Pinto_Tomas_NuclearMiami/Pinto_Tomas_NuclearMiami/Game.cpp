@@ -27,8 +27,8 @@
 
 Game::Game(const Window& window)
 : m_Window(window)
-//, m_pCamera(new Camera(320.f, 180.f, &m_Window, &m_MousePosition))
-, m_pCamera(new Camera(640.f, 360.f, &m_Window, &m_MousePosition))
+, m_pCamera(new Camera(320.f, 180.f, &m_Window, &m_MousePosition))
+//, m_pCamera(new Camera(640.f, 360.f, &m_Window, &m_MousePosition))
 {
 	m_pScene = new Scene("Resources/Scenes/Scene1/scene1.png", "Resources/Scenes/Scene1/scene1.svg");
 	m_pScene->SetMainCamera(m_pCamera);
