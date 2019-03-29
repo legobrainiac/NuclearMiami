@@ -21,7 +21,7 @@ typedef std::pair<std::string, std::function<TUiNode*(std::ifstream&, std::strin
 
 class TUiManager
 {
-    public:
+public:
 	TUiManager();
 	~TUiManager();
 	
@@ -42,7 +42,7 @@ class TUiManager
     
 	std::vector<TUiNode*>& GetRootNodes();
     
-    private:
+private:
 	static TUiManager*		m_pUiManager;
 	std::vector<TUiNode*>	m_RootNodes;
     

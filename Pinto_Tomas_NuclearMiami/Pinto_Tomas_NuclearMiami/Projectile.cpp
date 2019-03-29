@@ -64,4 +64,18 @@ void Projectile::Collision()
 		
 		m_BounceCount++;
 	}
+	
+	auto scene = m_pScene->GetGameObjects();
+	for(GameObject* go : scene)
+	{
+		if(utils::Raycast(go->GetCollider(), posDir, position, hit))
+		{
+			if(go != this && go != m_Shooter)
+			{
+				go->SendMessage("damage", 5);
+				m_pScene->Delete(this);
+				break;
+			}
+		}
+	}
 }

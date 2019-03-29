@@ -1,6 +1,7 @@
 #pragma once
 
 #define PI 3.14159265359F
+#define LOG(T) std::cout << T << std::endl;
 #define DEBUG(T) std::cerr << T << std::endl
 #define ERR DEBUG
 

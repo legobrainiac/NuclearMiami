@@ -24,6 +24,8 @@ public:
 	bool HasEmptySlot() const;
 	void ProcessPickUp(GameObject* pickUp);
 	
+	void SendMessage(std::string message, int value) override;
+	
 private:	
 	void Shoot(const Vector2f& direction, float dt);
 	void Move(const Uint8* keyStates, float dt);
@@ -31,6 +33,7 @@ private:
 	void DrawBottom() const;
 	void DrawTop() const;
 	
+	int m_Health;
 	Texture* m_pTexture;	
 	Scene* m_pScene;
 	Camera* m_pCamera;

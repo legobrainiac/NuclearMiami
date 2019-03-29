@@ -13,6 +13,7 @@ Player::Player(const Vector2f& position, const Vector2f& scale, float rotation, 
 , m_pScene(scene)
 , m_Timer(0.f)
 , m_Collider(position.ToPoint2f(), 10.f)
+, m_Health(100)
 {
 }
 
@@ -115,6 +116,20 @@ void Player::ProcessPickUp(GameObject* pickUp)
 	{
 		m_pScene->Remove(pickUp);
 		m_Weapons.push_back(static_cast<Weapon*>(pickUp));
+	}
+}
+
+void Player::SendMessage(std::string message, int value)
+{
+	if(message == "damage")
+	{
+		m_Health -= value;
+		LOG(message << ": " << value);
+		LOG("health: " << m_Health);
+
+		if(m_Health <= 0) 
+			m_pScene->Delete(this);
+
 	}
 }
 

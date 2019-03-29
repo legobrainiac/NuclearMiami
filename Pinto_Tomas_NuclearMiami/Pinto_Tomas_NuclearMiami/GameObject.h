@@ -34,6 +34,7 @@ public:
 	
 	const std::vector<GameObject*>& GetChildren() const;
 	const GameObject* GetParent() const;
+	std::vector<Point2f> GetCollider();
 	
 	// Setters
 	void SetPosition(const Vector2f& position);
@@ -44,7 +45,8 @@ public:
 	
 	void AddChild(GameObject* child);
 	
-	// Pure virtuals
+	// TODO(tomas): template this
+	virtual void SendMessage(std::string message, int value);
 	virtual void Draw() const;
 	virtual void Update(float dt);
 	
@@ -60,6 +62,7 @@ protected:
 	
 	GameObject* m_pParent;
 	std::vector<GameObject*> m_Children;
+	std::vector<Point2f> m_VertexCollider;
 	
 	bool m_ShouldDelete;
 	

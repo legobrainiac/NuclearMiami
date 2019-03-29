@@ -94,7 +94,8 @@ void Scene::Delete(GameObject* pGameObject)
 // NOTE(tomas): If this object is not taken in by another object it will cause a memory leak
 void Scene::Remove(GameObject* pGameObject)
 {
-	m_RemoveBuffer.Add(pGameObject);
+	if(pGameObject != nullptr)
+		m_RemoveBuffer.Add(pGameObject);
 }
 
 const std::vector<Point2f>& Scene::GetSceneCollider()

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "GameObject.h"
+#include "Matrix2x3.h"
 
 int GameObject::m_InstanceCounter = 0;
 
@@ -23,6 +24,10 @@ GameObject::GameObject(const Vector2f& position, const Vector2f& scale, float ro
 , m_MaxAcceleration(150.f)
 {
 	++m_InstanceCounter;
+	m_VertexCollider.push_back(Point2f {-5.f, -5.f});
+	m_VertexCollider.push_back(Point2f {-5.f, 5.f});
+	m_VertexCollider.push_back(Point2f {5.f, 5.f});
+	m_VertexCollider.push_back(Point2f {5.f, -5.f});
 }
 
 GameObject::~GameObject()
@@ -84,6 +89,13 @@ const GameObject* GameObject::GetParent() const
 	return m_pParent;
 }
 
+// Returns world space collider for this object
+std::vector<Point2f> GameObject::GetCollider()
+{
+	Matrix2x3 tMat = Matrix2x3::CreateTranslationMatrix(m_Position.x, m_Position.y);
+	return tMat.Transform(m_VertexCollider);
+}
+
 // Setters
 void GameObject::SetPosition(const Vector2f& position)
 {
@@ -134,4 +146,9 @@ void GameObject::Update(float dt)
 	
 	for(GameObject* go : m_Children)
 		go->Update(dt);
+}
+
+void GameObject::SendMessage(std::string message, int value)
+{
+	LOG("Message: " << message);
 }

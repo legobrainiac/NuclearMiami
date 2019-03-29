@@ -12,6 +12,7 @@ AiAgent::AiAgent(const Vector2f& position, const Vector2f& scale, float rotation
 , m_MinDistance(30.f)
 , m_MaxDistance(1000.f)
 , m_MovementSpeed(50.f)
+, m_Health(20)
 {
 	m_Friction = 10.f;
 	m_MaxAcceleration = 100.f;
@@ -47,6 +48,20 @@ void AiAgent::Draw() const
 	GameObject::Draw();
 	
 	glPopMatrix();
+}
+
+
+void AiAgent::SendMessage(std::string message, int value)
+{
+	if(message == "damage")
+	{
+		m_Health -= value;
+		LOG(message << ": " << value);
+		LOG("health: " << m_Health);
+		
+		if(m_Health <= 0) 
+			m_pScene->Delete(this);
+	}
 }
 
 void AiAgent::Ai(float dt)
