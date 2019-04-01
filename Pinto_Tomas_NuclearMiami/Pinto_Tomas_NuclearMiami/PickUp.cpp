@@ -7,6 +7,8 @@ PickUp::PickUp(const Vector2f& position, const Vector2f& scale, float rotation, 
 : GameObject(position, scale, rotation)
 , m_pPlayer(player)
 {
+	m_MaxAcceleration = 100.f;
+	m_Friction = 25.f;
 }
 
 PickUp::~PickUp()
