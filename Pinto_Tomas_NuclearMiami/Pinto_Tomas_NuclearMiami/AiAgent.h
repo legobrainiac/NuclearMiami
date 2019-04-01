@@ -16,7 +16,7 @@ public:
 	void Update(float dt) override;
 	void Draw() const override;
 	
-	void SendMessage(std::string message, int value) override;
+	void SendMessage(MessageType message, int value) override;
 	
 private:
 	GameObject* m_pTarget;

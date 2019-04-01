@@ -6,6 +6,12 @@
 #include "Vector2f.h"
 #include <vector>
 
+enum class MessageType
+{
+	dammage,
+	regen
+};
+
 class GameObject
 {
 public:
@@ -18,6 +24,7 @@ public:
 	
 	// Movement
 	void ApplyForce(const Vector2f& xy);
+	// TODO(tomas): public, etc
 	void Translate(const Vector2f& xy);
 	void Scale(const Vector2f& xy);
 	void Rotate(float z);
@@ -43,10 +50,10 @@ public:
 	void SetZLayer(float zLayer);
 	void SetFriction(float friction);
 	
-	void AddChild(GameObject* child);
+	void AddChild(GameObject* pChild);
 	
 	// TODO(tomas): template this
-	virtual void SendMessage(std::string message, int value);
+	virtual void SendMessage(MessageType message, int value);
 	virtual void Draw() const;
 	virtual void Update(float dt);
 	

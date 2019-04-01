@@ -148,7 +148,6 @@ void GameObject::Update(float dt)
 		go->Update(dt);
 }
 
-void GameObject::SendMessage(std::string message, int value)
+void GameObject::SendMessage(MessageType message, int value)
 {
-	LOG("Message: " << message);
 }

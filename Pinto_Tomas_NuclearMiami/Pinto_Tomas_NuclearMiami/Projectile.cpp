@@ -72,7 +72,7 @@ void Projectile::Collision()
 		{
 			if(go != this && go != m_Shooter)
 			{
-				go->SendMessage("damage", 5);
+				go->SendMessage(MessageType::dammage, 5);
 				m_pScene->Delete(this);
 				break;
 			}

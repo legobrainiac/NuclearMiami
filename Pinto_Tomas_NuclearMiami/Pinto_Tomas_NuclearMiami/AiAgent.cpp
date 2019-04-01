@@ -50,14 +50,11 @@ void AiAgent::Draw() const
 	glPopMatrix();
 }
 
-
-void AiAgent::SendMessage(std::string message, int value)
+void AiAgent::SendMessage(MessageType message, int value)
 {
-	if(message == "damage")
+	if(message == MessageType::dammage)
 	{
 		m_Health -= value;
-		LOG(message << ": " << value);
-		LOG("health: " << m_Health);
 		
 		if(m_Health <= 0) 
 			m_pScene->Delete(this);

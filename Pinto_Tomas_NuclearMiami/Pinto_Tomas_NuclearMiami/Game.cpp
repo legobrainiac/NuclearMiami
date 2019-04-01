@@ -46,6 +46,7 @@ Game::~Game()
 // TODO(tomas): rule of five for all the ui, generally clean up and bring it up to standars, forgot p prefix for a lot of the points
 // TODO(tomas): Implement an active camera thing to allow switching between cameras
 // TODO(tomas): finish collisions on player and then move it as a default behaviour on to GameObject base class
+// TODO(tomas): scene reset
 void Game::Initialize()
 {
     // Load UI from the menu tankscript file

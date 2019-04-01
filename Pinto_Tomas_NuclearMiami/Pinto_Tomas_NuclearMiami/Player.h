@@ -4,6 +4,7 @@
 #include "GameObject.h"
 
 class Texture;
+class Sprite;
 class Scene;
 class Camera;
 class PickUp;
@@ -24,7 +25,7 @@ public:
 	bool HasEmptySlot() const;
 	void ProcessPickUp(GameObject* pickUp);
 	
-	void SendMessage(std::string message, int value) override;
+	void SendMessage(MessageType message, int value) override;
 	
 private:	
 	void Shoot(const Vector2f& direction, float dt);
@@ -34,7 +35,8 @@ private:
 	void DrawTop() const;
 	
 	int m_Health;
-	Texture* m_pTexture;	
+	Texture* m_pTorsoTexture; // TODO(tomas): sprite sheet
+	Sprite* m_pLegsSprite;
 	Scene* m_pScene;
 	Camera* m_pCamera;
 	float m_Timer;
