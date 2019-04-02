@@ -4,6 +4,8 @@
 #include "GameObject.h"
 
 class Scene;
+class Texture;
+class Sprite;
 
 class AiAgent :
 	public GameObject
@@ -19,6 +21,9 @@ public:
 	void SendMessage(MessageType message, int value) override;
 	
 private:
+	void DrawBottom() const;
+	void DrawTop() const;
+	
 	GameObject* m_pTarget;
 	Scene* m_pScene;
 	
@@ -26,6 +31,9 @@ private:
 	float m_MaxDistance;
 	float m_MovementSpeed;
 	float m_Timer;
+	
+	Texture* m_pTorsoTexture;
+	Sprite* m_pLegsSprite;
 	
 	int m_Health;
 	

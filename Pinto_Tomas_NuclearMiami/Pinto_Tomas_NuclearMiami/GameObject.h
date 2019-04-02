@@ -24,10 +24,6 @@ public:
 	
 	// Movement
 	void ApplyForce(const Vector2f& xy);
-	// TODO(tomas): public, etc
-	void Translate(const Vector2f& xy);
-	void Scale(const Vector2f& xy);
-	void Rotate(float z);
 	
 	// Getters
 	static int GetInstanceCount() { return m_InstanceCounter; }
@@ -58,6 +54,10 @@ public:
 	virtual void Update(float dt);
 	
 protected:
+	void Translate(const Vector2f& xy);
+	void Scale(const Vector2f& xy);
+	void Rotate(float z);
+	
 	Vector2f m_Position;
 	Vector2f m_Scale;
 	Vector2f m_Accelleration;
