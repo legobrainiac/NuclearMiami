@@ -2,10 +2,12 @@
 #include "PickUp.h"
 #include "utils.h"
 #include "Player.h"
+#include "GameObject.h"
 
-PickUp::PickUp(const Vector2f& position, const Vector2f& scale, float rotation, Player* player)
+PickUp::PickUp(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pOwner)
 : GameObject(position, scale, rotation)
-, m_pPlayer(player)
+, m_pOwner(pOwner)
+, m_InWorld(true)
 {
 	m_MaxAcceleration = 100.f;
 	m_Friction = 25.f;
@@ -17,18 +19,23 @@ PickUp::~PickUp()
 
 void PickUp::Update(float dt)
 {
-	if(m_pPlayer && m_pPlayer->HasEmptySlot())
+	if(m_InWorld)
 	{
 		Point2f pos = m_Position.ToPoint2f();
-		Point2f playerPos = m_pPlayer->GetPosition().ToPoint2f();
-		Vector2f direction { pos, playerPos };
+		Point2f ownerPos = m_pOwner->GetPosition().ToPoint2f();
+		Vector2f direction { pos, ownerPos };
 		
-		if(direction.Length() < 100)
+		Player* pPlayer = dynamic_cast<Player*>(m_pOwner);
+		
+		if(pPlayer)
 		{
-			ApplyForce(direction.Normalized() * 10.f);
-			
-			if(direction.Length() < 10)
-				m_pPlayer->ProcessPickUp(this);
+			if(direction.Length() < 20.f && pPlayer->HasEmptySlot())
+			{
+				// TODO(tomas): any gameobject should have a process pickup function if it has an inventory. Look at this later
+				
+				pPlayer->ProcessPickUp(this);
+				m_InWorld = false;
+			}
 		}
 	}
 	

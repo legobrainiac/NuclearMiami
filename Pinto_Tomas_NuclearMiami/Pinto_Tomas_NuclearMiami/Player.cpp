@@ -17,6 +17,7 @@ Player::Player(const Vector2f& position, const Vector2f& scale, float rotation, 
 , m_Timer(0.f)
 , m_Collider(position.ToPoint2f(), 10.f)
 , m_Health(100)
+, m_WeaponPivot {10.f, 0.f}
 {
 }
 
@@ -51,20 +52,28 @@ void Player::DrawTop() const
 	glPushMatrix();
 	glTranslatef(m_Position.x, m_Position.y, m_ZLayer);
 	
-	// Draw debug line before rotating
-#ifdef DEBUG_DRAW
-	utils::DrawLine(Point2f {}, m_Accelleration.ToPoint2f(), 2.f);
-	
-	glColor4f(1.f, 0.f, 0.f, 1.f);
-	utils::DrawEllipse(Point2f {}, m_Collider.radius, m_Collider.radius);
-#endif
-	
 	glRotatef(m_Rotation, 0.f, 0.f, 1.f);
 	glScalef(m_Scale.x, m_Scale.y, 0.f);
 	
 	m_pTorsoTexture->Draw(Point2f{-(m_pTorsoTexture->GetWidth() / 2), -(m_pTorsoTexture->GetHeight() / 2)});
 	
+	DrawWeapon();
+	
 	GameObject::Draw();
+	glPopMatrix();
+}
+
+void Player::DrawWeapon() const
+{
+	glColor4f(1.f, 1.f, 0.f, 1.f);
+
+	glPushMatrix();
+
+	// m_Weapons[m_SelectedSlot]->Draw();
+	
+	if(m_Weapons.size() > 0)
+		m_Weapons[0]->Draw();
+	
 	glPopMatrix();
 }
 
@@ -78,6 +87,10 @@ void Player::Update(float dt)
 {
 	m_Timer += dt;
 	Vector2f previousPos = m_Position;
+	
+	// Update weapons
+	for(Weapon* wp : m_Weapons)
+		wp->Update(dt);
 	
 	// Update sprite animator
 	m_pLegsSprite->Update(dt);
@@ -141,17 +154,9 @@ void Player::SendMessage(MessageType message, int value)
 
 void Player::Shoot(const Vector2f& direction, float dt)
 {
-	if(SDL_GetMouseState(nullptr, nullptr) == SDL_BUTTON_LEFT && m_Weapons.size() > 0 && m_Timer > 0.1f)
+	if(SDL_GetMouseState(nullptr, nullptr) == SDL_BUTTON_LEFT && m_Weapons.size())
     {
-		m_Timer = 0.f;
-		Projectile* projectile = new Projectile(m_Position, Vector2f {0.f, 0.f}, 0.f, direction.Normalized(), m_pScene, this);
-		m_pScene->Add(projectile);
-		
-		Vector2f kickBack = Vector2f{direction.Normalized().ToPoint2f(), Point2f{ 0.f, 0.f }};
-		
-		kickBack *= 50.f;
-		
-		m_Accelleration += kickBack;
+		m_Weapons[0]->Shoot(m_Position, direction, m_pScene);
 	}
 	
 	if(SDL_GetMouseState(nullptr, nullptr) == SDL_BUTTON_X1 && m_Timer > 0.1f) // This is weird, SDL returns the wrong id for my mouse button

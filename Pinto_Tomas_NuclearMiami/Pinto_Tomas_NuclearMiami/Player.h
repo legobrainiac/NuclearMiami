@@ -33,13 +33,17 @@ private:
 	
 	void DrawBottom() const;
 	void DrawTop() const;
+	void DrawWeapon() const;
 	
 	int m_Health;
+	float m_Timer;
+
+	Vector2f m_WeaponPivot;
+	
 	Texture* m_pTorsoTexture; // TODO(tomas): sprite sheet
 	Sprite* m_pLegsSprite;
 	Scene* m_pScene;
 	Camera* m_pCamera;
-	float m_Timer;
 	
 	std::vector<Weapon*> m_Weapons;
 	

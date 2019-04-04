@@ -41,14 +41,29 @@ Game::~Game()
 	Cleanup();
 }
 
-// TODO(tomas): Test collisions, just with the player and the level, if they work like they should implement them directly in to the GameObject class
 // TODO(tomas): Think about how i wanna do the background of the menu, once we have the scene working i can make a small scene with just the ai agents going abouts
 // TODO(tomas): rule of five for all the ui, generally clean up and bring it up to standars, forgot p prefix for a lot of the points
 // TODO(tomas): Implement an active camera thing to allow switching between cameras
 // TODO(tomas): finish collisions on player and then move it as a default behaviour on to GameObject base class
 // TODO(tomas): scene reset
+// TODO(tomas): scene parser, right now we just load the texture and svg. Populating with items is done by hand. We want a parser where we can populate the scene in game, export it and then be able to load it back.
+// TODO(tomas): different enemies
+// TODO(tomas): make some weapon textures and actually start differentiating between weapons and rendering nice textures etc.
+// TODO(tomas): a weapon should shoot it's own bullets.
+// TODO(tomas): a weapon should know who holds it
+// TODO(tomas): a weapon applies the kickback on it's owner and also plays the shooting sound
+// TODO(tomas): audio manager singleton? is this necessary
+// TODO(tomas): texture manager singletone? we most def's need this
+// TODO(tomas): fix time scale
+// TODO(tomas): weapon rating system
+// TODO(tomas): if ai doesnt have a weapon it prioritizes looking for one unless player is close to him. if enemie is not in sight ai will not prioritize looking for a weapon.
+// TODO(tomas): implement TUiTexture so i can use it as a crosshair
+// TODO(tomas): use the ui manager with TUiTexture to load all textures in to the texture manager. This way we can have a preload texture system
+// TODO(tomas): do some performance testing and figure out why the game is stuttering more now then before
 void Game::Initialize()
 {
+	//SDL_ShowCursor(SDL_DISABLE);
+	
     // Load UI from the menu tankscript file
 	TUiManager::Get().LoadUiDescriptor("Resources/Scripts/menu.ts");
 	UiCallbackSetUp();

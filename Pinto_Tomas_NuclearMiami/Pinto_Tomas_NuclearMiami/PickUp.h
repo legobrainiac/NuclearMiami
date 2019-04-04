@@ -3,20 +3,21 @@
 
 #include "GameObject.h"
 
-class Player;
-
 class PickUp :
 	public GameObject
 {
 public:
-	PickUp(const Vector2f& position, const Vector2f& scale, float rotation, Player* player);
+	PickUp(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pOwner);
 	~PickUp();
 	
 	void Update(float dt);
 	void Draw() const;
 	
-private:
-	Player* m_pPlayer;
+	void SetInWorld(bool val) { m_InWorld = val; }
+	
+protected:
+	GameObject* m_pOwner;
+	bool m_InWorld;
 };
 
 #endif // !PICKUP_H

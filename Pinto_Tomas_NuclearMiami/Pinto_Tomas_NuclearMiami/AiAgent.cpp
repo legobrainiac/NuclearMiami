@@ -24,6 +24,8 @@ AiAgent::AiAgent(const Vector2f& position, const Vector2f& scale, float rotation
 
 AiAgent::~AiAgent()
 {
+	delete m_pTorsoTexture;
+	delete m_pLegsSprite;
 }
 
 void AiAgent::ChangeTarget(GameObject* pTarget)
