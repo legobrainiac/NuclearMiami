@@ -6,12 +6,12 @@ Projectile::Projectile(const Vector2f& position, const Vector2f& scale, float ro
 : GameObject(position, scale, rotation)
 , m_Direction(direction)
 , m_pScene(pScene)
-, m_Speed(20.f)
+, m_Speed(500.f)
 , m_BounceCount(0)
 , m_MaxBounceCount(5)
 , m_Shooter(shooter)
 {
-	m_MaxAcceleration = 2000.f;
+	m_MaxAcceleration = 1000.f;
 	m_Friction = 1.f;
 }
 
@@ -23,7 +23,7 @@ void Projectile::Update(float dt)
 		m_pScene->Delete(this);
 	
 	Collision();
-	ApplyForce(m_Direction * m_Speed);
+	m_Accelleration = m_Direction * m_Speed;
 	GameObject::Update(dt);
 }
 
@@ -32,12 +32,6 @@ void Projectile::Draw() const
 	glPushMatrix();
 	
 	glTranslatef(m_Position.x, m_Position.y, m_ZLayer);
-
-#ifdef DEBUG_DRAW
-	Point2f direction = (m_Direction * 10.f).ToPoint2f();	
-	glColor4f(1.f, 1.f, 0.f, 1.f);
-	utils::DrawLine(Point2f {}, direction, 2.f);
-#endif
 
 	glRotatef(m_Rotation, 0.f, 0.f, 1.f);
 	glScalef(m_Scale.x, m_Scale.y, 0.f);
