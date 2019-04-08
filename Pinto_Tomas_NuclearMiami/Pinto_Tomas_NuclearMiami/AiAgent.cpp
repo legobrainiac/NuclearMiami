@@ -7,10 +7,9 @@
 #include "Texture.h"
 #include "Sprite.h"
 
-AiAgent::AiAgent(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pTarget, Scene* scene)
-: GameObject(position, scale, rotation)
+AiAgent::AiAgent(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pTarget, Scene* pScene)
+: GameObject(position, scale, rotation, pScene)
 , m_pTarget(pTarget)
-, m_pScene(scene)
 , m_MinDistance(30.f)
 , m_MaxDistance(1000.f)
 , m_MovementSpeed(50.f)

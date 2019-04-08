@@ -3,9 +3,10 @@
 #include "utils.h"
 #include "Player.h"
 #include "GameObject.h"
+#include "Scene.h"
 
-PickUp::PickUp(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pOwner)
-: GameObject(position, scale, rotation)
+PickUp::PickUp(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pOwner, Scene* pScene)
+: GameObject(position, scale, rotation, pScene)
 , m_pOwner(pOwner)
 , m_InWorld(true)
 {

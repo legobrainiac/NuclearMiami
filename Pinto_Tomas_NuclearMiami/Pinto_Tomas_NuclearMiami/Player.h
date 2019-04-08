@@ -16,7 +16,7 @@ struct Circlef;
 class Player : public GameObject
 {
 public:
-	Player(const Vector2f& position, const Vector2f& scale, float rotation, Scene* scene);	
+	Player(const Vector2f& position, const Vector2f& scale, float rotation, Scene* pScene);	
 	~Player();
 	
 	void Draw() const override;
@@ -40,14 +40,11 @@ private:
 
 	Vector2f m_WeaponPivot;
 	
-	Texture* m_pTorsoTexture; // TODO(tomas): sprite sheet
+	Texture* m_pTorsoTexture;
 	Sprite* m_pLegsSprite;
-	Scene* m_pScene;
 	Camera* m_pCamera;
 	
 	std::vector<Weapon*> m_Weapons;
-	
-	Circlef m_Collider;
 };
 
 #endif // !PLAYER_H

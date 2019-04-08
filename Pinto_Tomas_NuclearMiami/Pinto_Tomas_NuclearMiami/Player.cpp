@@ -9,13 +9,11 @@
 #include "Sprite.h"
 #include "AiAgent.h"
 
-Player::Player(const Vector2f& position, const Vector2f& scale, float rotation, Scene* scene)
-: GameObject(position, scale, rotation)
+Player::Player(const Vector2f& position, const Vector2f& scale, float rotation, Scene* pScene)
+: GameObject(position, scale, rotation, pScene)
 , m_pTorsoTexture(new Texture("Resources/Images/Characters/charTorso.png"))
 , m_pLegsSprite(new Sprite("Resources/Images/Characters/charLegsAnimated.png", 10, 1, 0.03f))
-, m_pScene(scene)
 , m_Timer(0.f)
-, m_Collider(position.ToPoint2f(), 10.f)
 , m_Health(100)
 , m_WeaponPivot {10.f, 0.f}
 {
@@ -32,6 +30,7 @@ Player::~Player()
 
 void Player::DrawBottom() const
 {
+	// TODO(tomas): get actual movement speed so this doesnt look goofy af
 	if(m_Accelleration.Length() < 50.f) return;
 	
 	glPushMatrix();
@@ -42,7 +41,6 @@ void Player::DrawBottom() const
 	glRotatef(angle, 0.f, 0.f, 1.f);
 	glScalef(m_Scale.x, m_Scale.y, 0.f);
 	
-	//utils::DrawRect(-20.f, -10.f, 40.f, 20.f, 2.f);
 	m_pLegsSprite->Draw(Point2f{-(m_pLegsSprite->GetFrameWidth() / 2), -(m_pLegsSprite->GetFrameHeight() / 2)}, 1.f);
 	glPopMatrix();
 }
@@ -86,7 +84,6 @@ void Player::Draw() const
 void Player::Update(float dt)
 {
 	m_Timer += dt;
-	Vector2f previousPos = m_Position;
 	
 	// Update weapons
 	for(Weapon* wp : m_Weapons)
@@ -113,15 +110,6 @@ void Player::Update(float dt)
 	
 	// Base Update
 	GameObject::Update(dt);
-	
-	// Collision test
-	m_Collider.center = m_Position.ToPoint2f();
-	
-	if(utils::IsOverlapping(m_pScene->GetSceneCollider(), m_Collider))
-	{
-		m_Accelleration = Vector2f {};
-		m_Position = previousPos;
-	}
 }
 
 bool Player::HasEmptySlot() const

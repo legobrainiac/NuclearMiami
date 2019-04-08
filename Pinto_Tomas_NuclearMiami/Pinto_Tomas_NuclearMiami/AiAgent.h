@@ -11,7 +11,7 @@ class AiAgent :
 	public GameObject
 {
 public:
-	AiAgent(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* target, Scene* scene);
+	AiAgent(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* target, Scene* pScene);
 	~AiAgent();
 	
 	void ChangeTarget(GameObject* pTarget);
@@ -25,7 +25,6 @@ private:
 	void DrawTop() const;
 	
 	GameObject* m_pTarget;
-	Scene* m_pScene;
 	
 	float m_MinDistance;
 	float m_MaxDistance;

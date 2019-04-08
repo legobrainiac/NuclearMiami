@@ -3,9 +3,8 @@
 #include "Scene.h"
 
 Projectile::Projectile(const Vector2f& position, const Vector2f& scale, float rotation, const Vector2f& direction, Scene* pScene, GameObject* shooter)
-: GameObject(position, scale, rotation)
+: GameObject(position, scale, rotation, pScene)
 , m_Direction(direction)
-, m_pScene(pScene)
 , m_Speed(500.f)
 , m_BounceCount(0)
 , m_MaxBounceCount(5)
@@ -22,7 +21,6 @@ void Projectile::Update(float dt)
 	if(m_BounceCount >= m_MaxBounceCount)
 		m_pScene->Delete(this);
 	
-	Collision();
 	m_Accelleration = m_Direction * m_Speed;
 	GameObject::Update(dt);
 }
@@ -44,7 +42,7 @@ void Projectile::Draw() const
 	glPopMatrix();
 }
 
-void Projectile::Collision()
+void Projectile::Collision() 
 {
 	Point2f position = m_Position.ToPoint2f();
 	Point2f direction = (m_Direction * 10.f).ToPoint2f();

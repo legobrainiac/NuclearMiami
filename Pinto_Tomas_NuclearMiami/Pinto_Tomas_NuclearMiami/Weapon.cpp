@@ -5,8 +5,8 @@
 #include "Projectile.h"
 #include "Scene.h"
 
-Weapon::Weapon(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pOwner, const std::string& texturePath, float kickBack)
-: PickUp(position, scale, rotation, pOwner)
+Weapon::Weapon(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pOwner, Scene* pScene, const std::string& texturePath, float kickBack)
+: PickUp(position, scale, rotation, pOwner, pScene)
 , m_pTexture(new Texture(texturePath))
 , m_KickBack(kickBack)
 , m_RateOfFire(10)

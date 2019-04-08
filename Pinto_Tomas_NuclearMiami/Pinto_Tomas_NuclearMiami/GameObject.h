@@ -12,11 +12,14 @@ enum class MessageType
 	regen
 };
 
+class Scene;
+struct Circlef;
+
 class GameObject
 {
 public:
 	GameObject();
-	GameObject(const Vector2f& position, const Vector2f& scale, float rotation);
+	GameObject(const Vector2f& position, const Vector2f& scale, float rotation, Scene* pScene);
 	GameObject(const GameObject& other) = delete;
 	GameObject& operator=(const GameObject& other) = delete;
 
@@ -58,9 +61,12 @@ protected:
 	void Scale(const Vector2f& xy);
 	void Rotate(float z);
 	
+	virtual void Collision();
+	
 	Vector2f m_Position;
 	Vector2f m_Scale;
 	Vector2f m_Accelleration;
+	Vector2f m_PreviousPos;
 	
 	float m_Rotation;
 	float m_Friction;
@@ -68,8 +74,10 @@ protected:
 	float m_MaxAcceleration;
 	
 	GameObject* m_pParent;
+	Scene* m_pScene;
 	std::vector<GameObject*> m_Children;
 	std::vector<Point2f> m_VertexCollider;
+	Circlef m_CircleCollider;
 	
 	bool m_ShouldDelete;
 	

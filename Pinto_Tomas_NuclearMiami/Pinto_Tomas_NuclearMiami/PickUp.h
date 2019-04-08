@@ -3,11 +3,13 @@
 
 #include "GameObject.h"
 
+class Scene;
+
 class PickUp :
 	public GameObject
 {
 public:
-	PickUp(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pOwner);
+	PickUp(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pOwner, Scene* pScene);
 	~PickUp();
 	
 	void Update(float dt);

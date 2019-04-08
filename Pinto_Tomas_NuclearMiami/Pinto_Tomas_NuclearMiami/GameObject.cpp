@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "GameObject.h"
 #include "Matrix2x3.h"
+#include "structs.h"
+#include "Scene.h"
 
 int GameObject::m_InstanceCounter = 0;
 
@@ -15,13 +17,16 @@ GameObject::GameObject()
 	++m_InstanceCounter;
 }
 
-GameObject::GameObject(const Vector2f& position, const Vector2f& scale, float rotation)
+GameObject::GameObject(const Vector2f& position, const Vector2f& scale, float rotation, Scene* pScene)
 : m_Position(position)
 , m_Scale(scale)
 , m_Rotation(rotation)
 , m_ZLayer(1.f)
 , m_Friction(10.f)
 , m_MaxAcceleration(150.f)
+, m_CircleCollider(Point2f {}, 10.f)
+, m_pScene(pScene)
+
 {
 	++m_InstanceCounter;
 	m_VertexCollider.push_back(Point2f {-5.f, -5.f});
@@ -56,6 +61,26 @@ void GameObject::Scale(const Vector2f& xy)
 void GameObject::Rotate(float z)
 {
 	m_Rotation += z;
+}
+
+void GameObject::Collision()
+{
+	// Collision test
+	m_CircleCollider.center = m_Position.ToPoint2f();
+	
+	std::vector<Vector2f> hitVertexVector = utils::CustomOverlap(m_pScene->GetSceneCollider(), m_CircleCollider);
+	
+	for(Vector2f hit : hitVertexVector)
+	{
+		Vector2f normal = Vector2f { std::abs(hit.y), std::abs(hit.x) }.Normalized();
+		Vector2f backtrack{ m_Position.ToPoint2f(), m_PreviousPos.ToPoint2f() };		
+		
+		Vector2f final {};
+		final.x = (backtrack.x * normal.x);
+		final.y = (backtrack.y * normal.y);
+		
+		Translate(final);
+	}
 }
 
 // Getters
@@ -136,6 +161,7 @@ void GameObject::Draw() const
 
 void GameObject::Update(float dt) 
 {
+	m_PreviousPos = m_Position;
 	m_Accelleration = utils::Lerp(m_Accelleration, Vector2f {0.f, 0.f}, dt * m_Friction);
 	
 	m_Accelleration.x = utils::Clamp(-m_MaxAcceleration, m_MaxAcceleration, m_Accelleration.x);
@@ -146,6 +172,8 @@ void GameObject::Update(float dt)
 	
 	for(GameObject* go : m_Children)
 		go->Update(dt);
+	
+	Collision();
 }
 
 void GameObject::SendMessage(MessageType message, int value)

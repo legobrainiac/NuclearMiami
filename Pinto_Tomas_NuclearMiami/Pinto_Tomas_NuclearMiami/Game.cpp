@@ -43,7 +43,6 @@ Game::~Game()
 
 // TODO(tomas): Think about how i wanna do the background of the menu, once we have the scene working i can make a small scene with just the ai agents going abouts
 // TODO(tomas): rule of five for all the ui, generally clean up and bring it up to standars, forgot p prefix for a lot of the points
-// TODO(tomas): finish collisions on player and then move it as a default behaviour on to GameObject base class
 // TODO(tomas): scene reset
 // TODO(tomas): scene parser, right now we just load the texture and svg. Populating with items is done by hand. We want a parser where we can populate the scene in game, export it and then be able to load it back.
 // TODO(tomas): different enemies
@@ -60,6 +59,7 @@ Game::~Game()
 // TODO(tomas): ui slider, ui tick box
 // TODO(tomas): more custom AI :D
 // TODO(tomas): make a document describing the inheritance of the game
+// TODO(tomas): fix default collision behaviour to not get stuck on corners
 void Game::Initialize()
 {
 	//SDL_ShowCursor(SDL_DISABLE);
@@ -123,7 +123,6 @@ void Game::Draw() const
 
 		// DRAW
 		m_pScene->Draw();
-		//RaycastVision();
 		
 		// ENDDRAW
 		glPopMatrix();
@@ -303,37 +302,19 @@ void Game::RaycastVision() const
 	
 	// Visible
 	std::vector<Point2f> visiblePoints;
-		
-	for(float i = 0; i <= 2 * PI; i += PI / 180.f)
+	
+	for(auto pos : m_pScene->GetSceneCollider())
 	{
-		float x = std::cosf(i);
-		float y = std::sinf(i);
-	
-		Vector2f dir {x, y};
-		dir *= 10000;
 		utils::HitInfo hit;
-	
-		if(utils::Raycast(m_pScene->GetSceneCollider(), pPlayer->GetPosition().ToPoint2f(), dir.ToPoint2f(), hit))
+		if(utils::Raycast(m_pScene->GetSceneCollider(), pPlayer->GetPosition().ToPoint2f(), pos, hit))
 		{
 			visiblePoints.push_back(hit.intersectPoint);
 		}
-		else
-		{
-			visiblePoints.push_back(pPlayer->GetPosition().ToPoint2f() + dir.ToPoint2f());
-		}
 	}
 	
-	glColor4f(0.f, 0.f, 0.f, 1.f);
-	/*for(size_t i = 0; i < visiblePoints.size(); ++i)
-	{
-		Point2f playerPos = m_pPlayer->GetPosition().ToPoint2f();
-		utils::DrawLine(playerPos, visiblePoints[i]);
-	}*/
-	
 	// TODO(tomas): Tesselation with gl/GLU.h
+	glColor4f(0.f, 0.f, 0.f, 1.f);
 	utils::DrawPolygon(visiblePoints, true, 3.f);
-	//utils::FillPolygon(visiblePoints);
-
 }
 
 void Game::ToggleInfo()

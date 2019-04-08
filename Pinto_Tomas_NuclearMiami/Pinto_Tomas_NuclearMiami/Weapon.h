@@ -12,7 +12,7 @@ class Weapon :
 	public PickUp
 {
 public:
-	Weapon(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pOwner, const std::string& texturePath, float kickBack);
+	Weapon(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pOwner, Scene* pScene, const std::string& texturePath, float kickBack);
 	~Weapon();
 	
 	void Draw() const;

@@ -412,10 +412,28 @@ bool utils::IsOverlapping(const Point2f* vertices, size_t nrVertices, const Circ
 	return false;
 }
 
-bool utils::IsPointInPolygon(const Point2f& p, const std::vector<Point2f>& vertices)
+std::vector<Vector2f> utils::CustomOverlap(const std::vector<Point2f>& vertices, const Circlef& c)
 {
-	return IsPointInPolygon(p, vertices.data(), vertices.size());
+	std::vector<Vector2f> hits;
+	
+	for (size_t i{ 0 }; i < vertices.size(); ++i)
+	{
+		if (IsPointInCircle(vertices[i], c))
+		{
+			hits.push_back(Vector2f {vertices[i], vertices[(i + 1) % vertices.size()]});
+		}
+	}
+	
+	for (size_t i{ 0 }; i < vertices.size(); ++i)
+	{
+		if (DistPointLineSegment(c.center, vertices[i], vertices[(i + 1) % vertices.size()]) <= c.radius)
+		{
+			hits.push_back(Vector2f {vertices[i], vertices[(i + 1) % vertices.size()]});
+		}
+	}
+	return hits;
 }
+
 
 bool utils::IsPointInPolygon(const Point2f& p, const Point2f* vertices, size_t nrVertices)
 {
@@ -464,6 +482,11 @@ bool utils::IsPointInPolygon(const Point2f& p, const Point2f* vertices, size_t n
 		return false;
 	else
 		return true;
+}
+
+bool utils::IsPointInPolygon(const Point2f& p, const std::vector<Point2f>& vertices)
+{
+	return IsPointInPolygon(p, vertices.data(), vertices.size());
 }
 
 bool utils::IntersectLineSegments(const Point2f& p1, const Point2f& p2, const Point2f& q1, const Point2f& q2, float& outLambda1, float& outLambda2, float epsilon)
