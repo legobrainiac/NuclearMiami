@@ -7,6 +7,9 @@
 #include "TUiContainer.h"
 #include "TUiLabel.h"
 #include "TUiButton.h"
+#include "TUiUtils.h"
+
+#include "..\TextureManager.h"
 
 #include <sstream>
 #include <deque>
@@ -69,6 +72,16 @@ TUiManager::TUiManager()
 	m_TokenMap["TEndContainer"] = [](std::ifstream& descriptorStream, std::string resource)
 	{
 		return nullptr;
+	};
+	
+	// This token exists to process texture pre-loading
+	m_TokenMap["TPreloadTexture"] = [](std::ifstream& descriptorStream, std::string resource)
+	{
+		std::string path = utils::GetParameterValue("path", resource);
+		std::string name = utils::GetParameterValue("name", resource);
+		
+		TextureManager::Get()->LoadTexture(path, name);
+		return new TUiEmpty();
 	};
 }
 

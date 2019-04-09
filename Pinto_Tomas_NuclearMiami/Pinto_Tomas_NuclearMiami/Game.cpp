@@ -50,7 +50,6 @@ Game::~Game()
 // TODO(tomas): weapon rating system
 // TODO(tomas): if ai doesnt have a weapon it prioritizes looking for one unless player is close to him. if enemie is not in sight ai will not prioritize looking for a weapon.
 // TODO(tomas): implement TUiTexture so i can use it as a crosshair
-// TODO(tomas): use the ui manager with TUiTexture to load all textures in to the texture manager. This way we can have a preload texture system
 // TODO(tomas): do some performance testing and figure out why the game is stuttering more now then before
 // TODO(tomas): modern opengl, i want to use shaders plsssss, menu fadeaway in to game
 // TODO(tomas): remake camera class, implemente screen shape, lerp follow, 
@@ -64,12 +63,10 @@ void Game::Initialize()
 	
     // Load UI from the menu tankscript file
 	TUiManager::Get().LoadUiDescriptor("Resources/Scripts/menu.ts");
-	TUiManager::Get().LoadUiDescriptor("Resources/Scripts/texturePreload.ts");
 	UiCallbackSetUp();
-	
-	// Temporary hardcoded texture preoad, this will move in to a .ts descriptor
-	TextureManager::Get()->LoadTexture("Resources/Images/Characters/charTorso.png", "charTorso");
-	TextureManager::Get()->LoadTexture("Resources/Images/Characters/charLegsAnimated.png", "charLegsAnimated");
+
+	// Process preloaded textures
+	TUiManager::Get().LoadUiDescriptor("Resources/Scripts/texturePreload.ts");
 	
 	m_pScene = new Scene("Resources/Scenes/Scene1/scene1.png", "Resources/Scenes/Scene1/scene1.svg");
 	m_pScene->SetMainCamera(m_pCamera);

@@ -35,9 +35,9 @@ Scene::Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocat
 	
 	PickUp* pickUp1 = new PickUp(Vector2f {200.f, 150.f}, Vector2f {1.f, 1.f}, 25.f, m_pPlayer, this);
 	
-	Weapon* pickUp2 = new Weapon(Vector2f {230.f, 120.f}, Vector2f {1.f, 1.f}, 61.f, m_pPlayer, this, "Resources/Images/Weapons/Rifle.png", 50.f);
+	Weapon* pickUp2 = new Weapon(Vector2f {230.f, 120.f}, Vector2f {1.f, 1.f}, 61.f, m_pPlayer, this, "rifle", 50.f);
 	
-	Weapon* pickUp3 = new Weapon(Vector2f {630.f, 130.f}, Vector2f {1.f, 1.f}, 74.f, m_pPlayer, this, "Resources/Images/Weapons/Rifle.png", 50.f);
+	Weapon* pickUp3 = new Weapon(Vector2f {630.f, 130.f}, Vector2f {1.f, 1.f}, 74.f, m_pPlayer, this, "rifle", 50.f);
 	
 	pickUp1->SetZLayer(-2);
 	pickUp2->SetZLayer(-2);

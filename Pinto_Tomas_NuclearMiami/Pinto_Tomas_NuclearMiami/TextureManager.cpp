@@ -34,7 +34,8 @@ Texture* TextureManager::LoadTexture(const std::string& path, const std::string&
 			return m_TextureMap[name];
 		}
 	}
-	
+
+	LOG("Preloading " << name);
 	m_TextureMap[name] = new Texture(path);
 	return m_TextureMap[name];
 }

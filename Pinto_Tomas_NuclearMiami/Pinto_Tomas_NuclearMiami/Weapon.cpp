@@ -5,9 +5,9 @@
 #include "Projectile.h"
 #include "Scene.h"
 
-Weapon::Weapon(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pOwner, Scene* pScene, const std::string& texturePath, float kickBack)
+Weapon::Weapon(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pOwner, Scene* pScene, const std::string& texture, float kickBack)
 : PickUp(position, scale, rotation, pOwner, pScene)
-, m_pTexture(new Texture(texturePath))
+, m_pTexture(TextureManager::Get()->GetTexture(texture))
 , m_KickBack(kickBack)
 , m_RateOfFire(10)
 {
@@ -56,5 +56,4 @@ void Weapon::Shoot(const Vector2f& position, const Vector2f& direction, Scene* p
 
 Weapon::~Weapon()
 {
-	delete m_pTexture;
 }
