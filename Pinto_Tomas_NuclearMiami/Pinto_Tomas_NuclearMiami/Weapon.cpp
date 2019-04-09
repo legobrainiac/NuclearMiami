@@ -11,6 +11,7 @@ Weapon::Weapon(const Vector2f& position, const Vector2f& scale, float rotation, 
 , m_KickBack(kickBack)
 , m_RateOfFire(10)
 {
+	m_Friction = 20.f;
 }
 
 void Weapon::Draw() const

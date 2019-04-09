@@ -118,7 +118,9 @@ const GameObject* GameObject::GetParent() const
 std::vector<Point2f> GameObject::GetCollider()
 {
 	Matrix2x3 tMat = Matrix2x3::CreateTranslationMatrix(m_Position.x, m_Position.y);
-	return tMat.Transform(m_VertexCollider);
+	Matrix2x3 rMat = Matrix2x3::CreateRotationMatrix(m_Rotation);
+	
+	return tMat.Transform(rMat.Transform(m_VertexCollider));
 }
 
 // Setters

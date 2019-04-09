@@ -1,14 +1,15 @@
 #include "pch.h"
 #include "Sprite.h"
 #include "Texture.h"
+#include "TextureManager.h"
 
 #include <iostream>
 
-Sprite::Sprite(const std::string & filename, int nrCols, int nrRows, float frameSec)
-	: m_pTexture{ new Texture(filename) }
-	, m_Cols(nrCols)
-	, m_Rows(nrRows)
-	, m_FrameSec(frameSec)
+Sprite::Sprite(const std::string& texName, int nrCols, int nrRows, float frameSec)
+: m_pTexture{ TextureManager::Get()->GetTexture(texName) }
+, m_Cols(nrCols)
+, m_Rows(nrRows)
+, m_FrameSec(frameSec)
 {
 
 }

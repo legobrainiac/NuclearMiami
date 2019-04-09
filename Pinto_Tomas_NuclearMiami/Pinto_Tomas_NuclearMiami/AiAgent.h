@@ -23,6 +23,7 @@ public:
 private:
 	void DrawBottom() const;
 	void DrawTop() const;
+	void DrawHealth() const;
 	
 	GameObject* m_pTarget;
 	

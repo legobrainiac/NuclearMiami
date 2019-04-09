@@ -8,11 +8,12 @@
 #include "Weapon.h"
 #include "Sprite.h"
 #include "AiAgent.h"
+#include "TextureManager.h"
 
 Player::Player(const Vector2f& position, const Vector2f& scale, float rotation, Scene* pScene)
 : GameObject(position, scale, rotation, pScene)
-, m_pTorsoTexture(new Texture("Resources/Images/Characters/charTorso.png"))
-, m_pLegsSprite(new Sprite("Resources/Images/Characters/charLegsAnimated.png", 10, 1, 0.03f))
+, m_pTorsoTexture(TextureManager::Get()->GetTexture("charTorso"))
+, m_pLegsSprite(new Sprite("charLegsAnimated", 10, 1, 0.03f))
 , m_Timer(0.f)
 , m_Health(100)
 , m_WeaponPivot {10.f, 0.f}
@@ -21,9 +22,6 @@ Player::Player(const Vector2f& position, const Vector2f& scale, float rotation, 
 
 Player::~Player()
 {
-	delete m_pTorsoTexture;
-	delete m_pLegsSprite;
-	
 	for(Weapon* w : m_Weapons)
 		if(w) delete w;
 }
@@ -75,10 +73,26 @@ void Player::DrawWeapon() const
 	glPopMatrix();
 }
 
+void Player::DrawHealth() const
+{
+	glPushMatrix();
+	glTranslatef(m_Position.x, m_Position.y, 0.f);
+	
+	glColor4f(1.f, 0.f, 0.f, 1.f);
+	utils::FillRect(-12.5f, 10.f, 25.f, 2.f);
+	
+	glColor4f(0.f, 1.f, 0.f, 1.f);
+	utils::FillRect(-12.5f, 10.f, m_Health / 4.f, 2.f);
+	
+	glPopMatrix();
+}
+
 void Player::Draw() const 
 {
 	DrawBottom();
 	DrawTop();
+	DrawHealth();
+	GameObject::Draw();
 }
 
 void Player::Update(float dt)

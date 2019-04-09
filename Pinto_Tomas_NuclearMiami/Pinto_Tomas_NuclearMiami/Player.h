@@ -34,6 +34,7 @@ private:
 	void DrawBottom() const;
 	void DrawTop() const;
 	void DrawWeapon() const;
+	void DrawHealth() const;
 	
 	int m_Health;
 	float m_Timer;

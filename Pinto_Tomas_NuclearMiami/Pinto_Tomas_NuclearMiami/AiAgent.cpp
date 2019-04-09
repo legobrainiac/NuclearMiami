@@ -6,6 +6,7 @@
 #include "Projectile.h"
 #include "Texture.h"
 #include "Sprite.h"
+#include "TextureManager.h"
 
 AiAgent::AiAgent(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pTarget, Scene* pScene)
 : GameObject(position, scale, rotation, pScene)
@@ -13,9 +14,9 @@ AiAgent::AiAgent(const Vector2f& position, const Vector2f& scale, float rotation
 , m_MinDistance(30.f)
 , m_MaxDistance(1000.f)
 , m_MovementSpeed(50.f)
-, m_pTorsoTexture(new Texture("Resources/Images/Characters/charTorso.png"))
-, m_pLegsSprite(new Sprite("Resources/Images/Characters/charLegsAnimated.png", 10, 1, 0.05f))
-, m_Health(20)
+, m_pTorsoTexture(TextureManager::Get()->GetTexture("charTorso"))
+, m_pLegsSprite(new Sprite("charLegsAnimated", 10, 1, 0.05f))
+, m_Health(100)
 {
 	m_Friction = 10.f;
 	m_MaxAcceleration = 100.f;
@@ -23,8 +24,6 @@ AiAgent::AiAgent(const Vector2f& position, const Vector2f& scale, float rotation
 
 AiAgent::~AiAgent()
 {
-	delete m_pTorsoTexture;
-	delete m_pLegsSprite;
 }
 
 void AiAgent::ChangeTarget(GameObject* pTarget)
@@ -72,14 +71,28 @@ void AiAgent::DrawTop() const
 	
 	m_pTorsoTexture->Draw(Point2f{-(m_pTorsoTexture->GetWidth() / 2), -(m_pTorsoTexture->GetHeight() / 2)});
 	
-	GameObject::Draw();
 	glPopMatrix();
 }
-						   
+			
+void AiAgent::DrawHealth() const
+{
+	glPushMatrix();
+	glTranslatef(m_Position.x, m_Position.y, 0.f);
+	
+	glColor4f(1.f, 0.f, 0.f, 1.f);
+	utils::FillRect(-12.5f, 10.f, 25.f, 2.f);
+	
+	glColor4f(0.f, 1.f, 0.f, 1.f);
+	utils::FillRect(-12.5f, 10.f, m_Health / 4.f, 2.f);
+	
+	glPopMatrix();
+}
+
 void AiAgent::Draw() const
 {
 	DrawBottom();
 	DrawTop();
+	DrawHealth();
 	GameObject::Draw();
 }
 

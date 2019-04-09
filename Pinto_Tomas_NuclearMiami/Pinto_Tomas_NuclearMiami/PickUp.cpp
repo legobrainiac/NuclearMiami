@@ -11,7 +11,7 @@ PickUp::PickUp(const Vector2f& position, const Vector2f& scale, float rotation, 
 , m_InWorld(true)
 {
 	m_MaxAcceleration = 100.f;
-	m_Friction = 25.f;
+	m_Friction = 1.f;
 }
 
 PickUp::~PickUp()
@@ -46,7 +46,7 @@ void PickUp::Update(float dt)
 void PickUp::Draw() const 
 {
 	glColor4f(0.f, 0.f, 1.f, 1.f);
-	
+
 	glPushMatrix();
 	glTranslatef(m_Position.x, m_Position.y, m_ZLayer);
 	glRotatef(m_Rotation, 0.f, 0.f, 1.f);

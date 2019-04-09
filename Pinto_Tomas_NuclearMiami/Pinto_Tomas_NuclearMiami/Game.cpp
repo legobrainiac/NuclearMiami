@@ -24,15 +24,13 @@
 #include "Projectile.h"
 #include "Interfaces.h"
 #include "PickUp.h"
+#include "TextureManager.h"
 
 Game::Game(const Window& window)
 : m_Window(window)
 , m_pCamera(new Camera(320.f, 180.f, &m_Window, &m_MousePosition))
 //, m_pCamera(new Camera(640.f, 360.f, &m_Window, &m_MousePosition))
 {
-	m_pScene = new Scene("Resources/Scenes/Scene1/scene1.png", "Resources/Scenes/Scene1/scene1.svg");
-	m_pScene->SetMainCamera(m_pCamera);
-
 	Initialize();
 }
 
@@ -66,7 +64,16 @@ void Game::Initialize()
 	
     // Load UI from the menu tankscript file
 	TUiManager::Get().LoadUiDescriptor("Resources/Scripts/menu.ts");
+	TUiManager::Get().LoadUiDescriptor("Resources/Scripts/texturePreload.ts");
 	UiCallbackSetUp();
+	
+	// Temporary hardcoded texture preoad, this will move in to a .ts descriptor
+	TextureManager::Get()->LoadTexture("Resources/Images/Characters/charTorso.png", "charTorso");
+	TextureManager::Get()->LoadTexture("Resources/Images/Characters/charLegsAnimated.png", "charLegsAnimated");
+	
+	m_pScene = new Scene("Resources/Scenes/Scene1/scene1.png", "Resources/Scenes/Scene1/scene1.svg");
+	m_pScene->SetMainCamera(m_pCamera);
+	
 	m_ScreenState = ScreenState::MainMenu;
 	
 	// Play start menu music
@@ -82,6 +89,7 @@ void Game::Initialize()
 void Game::Cleanup()
 {
 	delete &TUiManager::Get();
+	delete TextureManager::Get();
 	delete m_pMenuMusic;
 	delete m_pScene;
 	delete m_pCamera;
@@ -156,29 +164,10 @@ void Game::ProcessMouseMotionEvent(const SDL_MouseMotionEvent& e)
 
 void Game::ProcessMouseDownEvent(const SDL_MouseButtonEvent& e)
 {
-	switch (e.button)
-	{
-		case SDL_BUTTON_LEFT:
-		
-		break;
-	}
 }
 
 void Game::ProcessMouseUpEvent(const SDL_MouseButtonEvent& e)
 {
-	//std::cout << "MOUSEBUTTONUP event: ";
-	//switch ( e.button )
-	//{
-	//case SDL_BUTTON_LEFT:
-	//	std::cout << " left button " << std::endl;
-	//	break;
-	//case SDL_BUTTON_RIGHT:
-	//	std::cout << " right button " << std::endl;
-	//	break;
-	//case SDL_BUTTON_MIDDLE:
-	//	std::cout << " middle button " << std::endl;
-	//	break;
-	//}
 }
 
 void Game::ClearBackground() const
