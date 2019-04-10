@@ -49,12 +49,15 @@ void Projectile::Collision()
 	Point2f posDir = direction + position;
 	
 	utils::HitInfo hit;
-	if(utils::Raycast(m_pScene->GetSceneCollider(), posDir, position, hit))
+	for(std::vector<Point2f> collider : m_pScene->GetSceneCollider())
 	{
-		m_Direction = m_Direction.Reflect(hit.normal);
-		m_Accelleration = Vector2f {};
-		
-		m_BounceCount++;
+		if(utils::Raycast(collider, posDir, position, hit))
+		{
+			m_Direction = m_Direction.Reflect(hit.normal);
+			m_Accelleration = Vector2f {};
+			
+			m_BounceCount++;
+		}
 	}
 	
 	auto scene = m_pScene->GetGameObjects();

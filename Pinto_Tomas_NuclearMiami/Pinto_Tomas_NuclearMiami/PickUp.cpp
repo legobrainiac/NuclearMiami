@@ -20,12 +20,14 @@ PickUp::~PickUp()
 
 void PickUp::Update(float dt)
 {
-	if(m_InWorld)
+	m_PickupTimer += dt;
+	if(m_InWorld && m_PickupTimer > 2.f)
 	{
 		Point2f pos = m_Position.ToPoint2f();
 		Point2f ownerPos = m_pOwner->GetPosition().ToPoint2f();
 		Vector2f direction { pos, ownerPos };
-		
+
+		// TODO(tomas): this should look for any object that can pick an item up, not just a player
 		Player* pPlayer = dynamic_cast<Player*>(m_pOwner);
 		
 		if(pPlayer)
@@ -33,7 +35,6 @@ void PickUp::Update(float dt)
 			if(direction.Length() < 20.f && pPlayer->HasEmptySlot())
 			{
 				// TODO(tomas): any gameobject should have a process pickup function if it has an inventory. Look at this later
-				
 				pPlayer->ProcessPickUp(this);
 				m_InWorld = false;
 			}

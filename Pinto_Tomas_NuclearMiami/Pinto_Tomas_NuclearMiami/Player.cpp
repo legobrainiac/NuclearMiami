@@ -22,6 +22,8 @@ Player::Player(const Vector2f& position, const Vector2f& scale, float rotation, 
 
 Player::~Player()
 {
+	delete m_pLegsSprite;
+	
 	for(Weapon* w : m_Weapons)
 		if(w) delete w;
 }
@@ -148,9 +150,14 @@ void Player::SendMessage(MessageType message, int value)
 	{
 		m_Health -= value;
 		
+		LOG("Health: " << m_Health);
 		if(m_Health <= 0) 
 			m_pScene->Delete(this);
-
+	}
+	else if (message == MessageType::regen)
+	{
+		m_Health += value;
+		LOG("Regen: " << m_Health);
 	}
 }
 
@@ -183,5 +190,17 @@ void Player::Move(const Uint8* keyStates, float dt)
 	
 	if(keyStates[SDL_SCANCODE_A])
     	ApplyForce(Vector2f{-50.f, 0.f});
+	
+	if(keyStates[SDL_SCANCODE_Q])
+	{
+		if(m_Weapons.size() > 0)
+		{
+			m_Weapons[m_Weapons.size() - 1]->SetInWorld(true);
+			m_Weapons[m_Weapons.size() - 1]->SetPosition(m_Position);
+			m_Weapons[m_Weapons.size() - 1]->SetRotation(m_Rotation);
+			m_pScene->Add(m_Weapons[m_Weapons.size() - 1]);
+			m_Weapons.pop_back();
+		}
+	}
 }
 

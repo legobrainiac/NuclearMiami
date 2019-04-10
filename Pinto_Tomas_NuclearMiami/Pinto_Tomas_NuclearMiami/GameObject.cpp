@@ -29,10 +29,10 @@ GameObject::GameObject(const Vector2f& position, const Vector2f& scale, float ro
 
 {
 	++m_InstanceCounter;
-	m_VertexCollider.push_back(Point2f {-5.f, -5.f});
-	m_VertexCollider.push_back(Point2f {-5.f, 5.f});
-	m_VertexCollider.push_back(Point2f {5.f, 5.f});
-	m_VertexCollider.push_back(Point2f {5.f, -5.f});
+	m_VertexCollider.push_back(Point2f {-10.f, -5.f});
+	m_VertexCollider.push_back(Point2f {-10.f, 5.f});
+	m_VertexCollider.push_back(Point2f {10.f, 5.f});
+	m_VertexCollider.push_back(Point2f {10.f, -5.f});
 }
 
 GameObject::~GameObject()
@@ -68,7 +68,16 @@ void GameObject::Collision()
 	// Collision test
 	m_CircleCollider.center = m_Position.ToPoint2f();
 	
-	std::vector<Vector2f> hitVertexVector = utils::CustomOverlap(m_pScene->GetSceneCollider(), m_CircleCollider);
+	std::vector<Vector2f> hitVertexVector;
+	
+	for(std::vector<Point2f> collider : m_pScene->GetSceneCollider())
+	{
+		std::vector<Vector2f> hitVertexTempVector = utils::CustomOverlap(collider, m_CircleCollider);
+		
+		// NOTE(tomas): this is not good xD, good for now but not in the long run
+		hitVertexVector.reserve( hitVertexVector.size() + hitVertexTempVector.size() );
+		hitVertexVector.insert( hitVertexVector.end(), hitVertexTempVector.begin(), hitVertexTempVector.end() );
+	}
 	
 	for(Vector2f hit : hitVertexVector)
 	{

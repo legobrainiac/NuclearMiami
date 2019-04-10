@@ -37,6 +37,8 @@ private:
 	
 	int m_Health;
 	
+	bool InSight(utils::HitInfo& hitOut, Point2f tail, Point2f head);
+	
 	void Ai(float dt);
 	void Shoot(Vector2f direction);
 };

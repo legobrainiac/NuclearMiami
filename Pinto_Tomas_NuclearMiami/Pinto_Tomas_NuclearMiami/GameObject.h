@@ -31,7 +31,7 @@ public:
 	// Getters
 	static int GetInstanceCount() { return m_InstanceCounter; }
 	bool IsDirty() const { return m_ShouldDelete; }
-	void MakeDirty() { m_ShouldDelete = true; }
+	virtual void MakeDirty() { m_ShouldDelete = true; }
 	
 	const Vector2f& GetPosition() const;
 	const Vector2f& GetScale() const;

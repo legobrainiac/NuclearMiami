@@ -102,9 +102,9 @@ void Scene::Remove(GameObject* pGameObject)
 		m_RemoveBuffer.Add(pGameObject);
 }
 
-const std::vector<Point2f>& Scene::GetSceneCollider()
+const std::vector<std::vector<Point2f>>& Scene::GetSceneCollider()
 {
-	return m_SceneMap.sceneCollider[0];
+	return m_SceneMap.sceneCollider;
 }
 
 void Scene::SetMainCamera(Camera* pCamera)
@@ -147,6 +147,7 @@ void Scene::ProcessDeletions()
 {
 	if(m_DeleteBuffer.dirty)
 	{
+		/*
 		size_t objectCount = m_DeleteBuffer.buffer.size();
 		m_DeleteBuffer.Reset();
 		
@@ -160,7 +161,24 @@ void Scene::ProcessDeletions()
 		{
 			delete m_Scene.back();
 			m_Scene.pop_back();
+		}*/
+		
+		for(GameObject* go : m_DeleteBuffer.buffer)
+		{
+			for(size_t i = 0; i < m_Scene.size(); ++i)
+			{
+				if(go == m_Scene[i])
+				{
+					delete m_Scene[i];
+					GameObject* last = m_Scene.back();
+					m_Scene[m_Scene.size() - 1] = m_Scene[i];
+					m_Scene[i] = last;
+					m_Scene.pop_back();
+				}
+			}
 		}
+		
+		m_DeleteBuffer.Reset();
 	}
 }
 

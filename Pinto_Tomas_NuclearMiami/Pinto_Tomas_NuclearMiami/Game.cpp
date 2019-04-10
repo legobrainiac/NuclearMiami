@@ -4,6 +4,7 @@
 #include <gl/GLU.h>
 
 #include <iostream>
+#include <algorithm>
 #include "Game.h"
 #include "Core.h"
 #include "structs.h"
@@ -28,8 +29,9 @@
 
 Game::Game(const Window& window)
 : m_Window(window)
-, m_pCamera(new Camera(320.f, 180.f, &m_Window, &m_MousePosition))
+//, m_pCamera(new Camera(320.f, 180.f, &m_Window, &m_MousePosition))
 //, m_pCamera(new Camera(640.f, 360.f, &m_Window, &m_MousePosition))
+, m_pCamera(new Camera(480.f, 270.f, &m_Window, &m_MousePosition))
 {
 	Initialize();
 }
@@ -57,8 +59,13 @@ Game::~Game()
 // TODO(tomas): more custom AI :D
 // TODO(tomas): make a document describing the inheritance of the game
 // TODO(tomas): fix default collision behaviour to not get stuck on corners
+// TODONOTE(tomas): deletions some times fail and delte the wront item, most of the times this isnt critical but very rarely it does delete the player when it shouldnt, case test this to see if problem still presents it self and fix it if necessary
+// TODO(tomas): pickups should be reworked to work with every one, ie: every object that has an inventory should have IInventory(void ProcessPickUp(GameObject* pPickup))
 void Game::Initialize()
 {
+	// Startup timer
+	std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
+    
 	//SDL_ShowCursor(SDL_DISABLE);
 	
     // Load UI from the menu tankscript file
@@ -68,7 +75,7 @@ void Game::Initialize()
 	// Process preloaded textures
 	TUiManager::Get().LoadUiDescriptor("Resources/Scripts/texturePreload.ts");
 	
-	m_pScene = new Scene("Resources/Scenes/Scene1/scene1.png", "Resources/Scenes/Scene1/scene1.svg");
+	m_pScene = new Scene("Resources/Scenes/Scene3/scene3.png", "Resources/Scenes/Scene3/scene3.svg");
 	m_pScene->SetMainCamera(m_pCamera);
 	
 	m_ScreenState = ScreenState::MainMenu;
@@ -81,6 +88,16 @@ void Game::Initialize()
 		m_pMenuMusic->SetVolume(15);
 		m_pMenuMusic->Play(true);
 	}
+	
+	// Get Elapsed time
+	std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
+	
+	// Calculate elapsed time
+	float elapsedSeconds = std::chrono::duration<float>(t2 - t1).count();
+	
+	// Prevent jumps in time caused by break points
+	LOG("Startup took: " << elapsedSeconds << " seconds...");
+	
 }
 
 void Game::Cleanup()
@@ -151,6 +168,10 @@ void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 		case SDLK_i:
 		ToggleInfo();
 		break;
+		
+		case SDLK_h:
+		m_pScene->GetPlayer()->SendMessage(MessageType::regen, 50);
+		break;
 	}
 }
 
@@ -169,7 +190,10 @@ void Game::ProcessMouseUpEvent(const SDL_MouseButtonEvent& e)
 
 void Game::ClearBackground() const
 {
-	glClearColor(0.4f, 0.4f, 0.8f, 1.0f);
+	if(m_ScreenState != ScreenState::Paused &&  m_ScreenState != ScreenState::MainMenu)
+		glClearColor(0.f, 0.f, 0.f, 1.f);
+	else
+		glClearColor(0.4f, 0.4f, 0.8f, 1.0f);
 	
 	//Z-Ordering
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -288,13 +312,16 @@ void Game::RaycastVision() const
 	
 	// Visible
 	std::vector<Point2f> visiblePoints;
-	
-	for(auto pos : m_pScene->GetSceneCollider())
+
+	for(std::vector<Point2f> collider : m_pScene->GetSceneCollider())
 	{
-		utils::HitInfo hit;
-		if(utils::Raycast(m_pScene->GetSceneCollider(), pPlayer->GetPosition().ToPoint2f(), pos, hit))
+		for(auto pos : collider)
 		{
-			visiblePoints.push_back(hit.intersectPoint);
+			utils::HitInfo hit;
+			if(utils::Raycast(collider, pPlayer->GetPosition().ToPoint2f(), pos, hit))
+			{
+				visiblePoints.push_back(hit.intersectPoint);
+			}
 		}
 	}
 	

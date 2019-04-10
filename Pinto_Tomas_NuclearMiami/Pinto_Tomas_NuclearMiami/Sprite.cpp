@@ -16,8 +16,6 @@ Sprite::Sprite(const std::string& texName, int nrCols, int nrRows, float frameSe
 
 Sprite::~Sprite()
 {
-	delete m_pTexture;
-	m_pTexture = nullptr;
 }
 
 void Sprite::Draw(const Point2f& pos, float scale, bool invertDirection) const

@@ -15,10 +15,11 @@ public:
 	void Update(float dt);
 	void Draw() const;
 	
-	void SetInWorld(bool val) { m_InWorld = val; }
+	void SetInWorld(bool val) { m_InWorld = val; m_PickupTimer = 0.f; }
 	
 protected:
 	GameObject* m_pOwner;
+	float m_PickupTimer;
 	bool m_InWorld;
 };
 
