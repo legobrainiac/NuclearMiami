@@ -171,7 +171,10 @@ void Player::Shoot(const Vector2f& direction, float dt)
 	if(SDL_GetMouseState(nullptr, nullptr) == SDL_BUTTON_X1 && m_Timer > 0.1f) // This is weird, SDL returns the wrong id for my mouse button
 	{
 		m_Timer = 0.f;
-		AiAgent* aiAgent = new AiAgent(m_Position, Vector2f { 1.f, 1.f }, 0.f, this, m_pScene);
+		int rotation = utils::RandInterval(0, 365);
+		Vector2f direction = Vector2f { cos(rotation * PI / 180.f), sin(rotation * PI / 180.f) };
+		
+		AiAgent* aiAgent = new AiAgent(m_Position + direction * 50.f, Vector2f { 1.f, 1.f }, 0.f, this, m_pScene);
 		aiAgent->SetZLayer(-1.f);
 		m_pScene->Add(aiAgent);
 	}

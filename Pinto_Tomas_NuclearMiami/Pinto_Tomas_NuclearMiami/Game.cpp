@@ -47,18 +47,13 @@ Game::~Game()
 // TODO(tomas): scene parser, right now we just load the texture and svg. Populating with items is done by hand. We want a parser where we can populate the scene in game, export it and then be able to load it back.
 // TODO(tomas): different enemies
 // TODO(tomas): audio manager singleton? is this necessary
-// TODO(tomas): texture manager singletone? we most def's need this
-// TODO(tomas): fix time scale
 // TODO(tomas): weapon rating system
 // TODO(tomas): if ai doesnt have a weapon it prioritizes looking for one unless player is close to him. if enemie is not in sight ai will not prioritize looking for a weapon.
-// TODO(tomas): implement TUiTexture so i can use it as a crosshair
-// TODO(tomas): do some performance testing and figure out why the game is stuttering more now then before
 // TODO(tomas): modern opengl, i want to use shaders plsssss, menu fadeaway in to game
 // TODO(tomas): remake camera class, implemente screen shape, lerp follow, 
 // TODO(tomas): ui slider, ui tick box
 // TODO(tomas): more custom AI :D
 // TODO(tomas): make a document describing the inheritance of the game
-// TODO(tomas): fix default collision behaviour to not get stuck on corners
 // TODONOTE(tomas): deletions some times fail and delte the wront item, most of the times this isnt critical but very rarely it does delete the player when it shouldnt, case test this to see if problem still presents it self and fix it if necessary
 // TODO(tomas): pickups should be reworked to work with every one, ie: every object that has an inventory should have IInventory(void ProcessPickUp(GameObject* pPickup))
 void Game::Initialize()

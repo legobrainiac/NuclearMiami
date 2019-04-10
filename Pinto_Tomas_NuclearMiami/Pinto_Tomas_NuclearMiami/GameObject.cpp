@@ -75,21 +75,38 @@ void GameObject::Collision()
 		std::vector<Vector2f> hitVertexTempVector = utils::CustomOverlap(collider, m_CircleCollider);
 		
 		// NOTE(tomas): this is not good xD, good for now but not in the long run
-		hitVertexVector.reserve( hitVertexVector.size() + hitVertexTempVector.size() );
 		hitVertexVector.insert( hitVertexVector.end(), hitVertexTempVector.begin(), hitVertexTempVector.end() );
 	}
-	
-	for(Vector2f hit : hitVertexVector)
+
+	Vector2f final {};
+
+	if(hitVertexVector.size() > 1)
 	{
-		Vector2f normal = Vector2f { std::abs(hit.y), std::abs(hit.x) }.Normalized();
+		Vector2f medianNormal {};
 		Vector2f backtrack{ m_Position.ToPoint2f(), m_PreviousPos.ToPoint2f() };		
 		
-		Vector2f final {};
-		final.x = (backtrack.x * normal.x);
-		final.y = (backtrack.y * normal.y);
-		
-		Translate(final);
+		hitVertexVector.pop_back();
+		for(Vector2f hit : hitVertexVector)
+			medianNormal += hit.Orthogonal().Normalized();
+
+
+		medianNormal = medianNormal.Normalized();
+
+		final = (medianNormal * backtrack.Length());
 	}
+	else
+	{
+		for(Vector2f hit : hitVertexVector)
+		{
+			Vector2f normal = Vector2f { std::abs(hit.y), std::abs(hit.x) }.Normalized();
+			Vector2f backtrack{ m_Position.ToPoint2f(), m_PreviousPos.ToPoint2f() };		
+			
+			final.x = (backtrack.x * normal.x);
+			final.y = (backtrack.y * normal.y);
+		}
+	}
+	
+	Translate(final);
 }
 
 // Getters

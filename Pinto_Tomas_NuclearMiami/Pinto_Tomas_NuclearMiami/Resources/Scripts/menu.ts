@@ -22,4 +22,5 @@ TLabel(id="", sizeX"0.4", sizeY="0.15", posX="0.0", posY="0.65", ptSize="100", t
 TLabel(id="", sizeX"0.7", sizeY="0.15", posX="0.0", posY="0.5", ptSize="100", text="Mouse movement to aim")
 TLabel(id="", sizeX"0.8", sizeY="0.15", posX="0.0", posY="0.35", ptSize="100", text="Mouse 1 to shoot primary")
 TLabel(id="", sizeX"0.8", sizeY="0.15", posX="0.0", posY="0.2", ptSize="100", text="Mouse 2 to shoot secondary")
+TLabel(id="", sizeX"0.5", sizeY="0.15", posX="0.0", posY="0.05", ptSize="100", text="Q to drop weapons")
 TEndContainer()

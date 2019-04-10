@@ -33,11 +33,20 @@ Scene::Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocat
 	AiAgent* aiAgentTest2 = new AiAgent(Vector2f { 600.f, 100.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer, this);
 	aiAgentTest2->SetZLayer(-1.f);
 	
+	AiAgent* aiAgentTest3 = new AiAgent(Vector2f { 620.f, 90.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer, this);
+	aiAgentTest2->SetZLayer(-1.f);
+	
+	AiAgent* aiAgentTest4 = new AiAgent(Vector2f { 580.f, 110.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer, this);
+	aiAgentTest2->SetZLayer(-1.f);
+	
+	AiAgent* aiAgentTest5 = new AiAgent(Vector2f { 630.f, 130.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer, this);
+	aiAgentTest2->SetZLayer(-1.f);
+	
 	PickUp* pickUp1 = new PickUp(Vector2f {200.f, 150.f}, Vector2f {1.f, 1.f}, 25.f, m_pPlayer, this);
 	
-	Weapon* pickUp2 = new Weapon(Vector2f {230.f, 120.f}, Vector2f {1.f, 1.f}, 61.f, m_pPlayer, this, "rifle", 50.f);
+	Weapon* pickUp2 = new Weapon(Vector2f {230.f, 120.f}, Vector2f {1.f, 1.f}, 61.f, m_pPlayer, this, "pistol", 25.f, 4);
 	
-	Weapon* pickUp3 = new Weapon(Vector2f {630.f, 130.f}, Vector2f {1.f, 1.f}, 74.f, m_pPlayer, this, "rifle", 50.f);
+	Weapon* pickUp3 = new Weapon(Vector2f {630.f, 130.f}, Vector2f {1.f, 1.f}, 74.f, m_pPlayer, this, "rifle", 200.f, 15);
 	
 	pickUp1->SetZLayer(-2);
 	pickUp2->SetZLayer(-2);
@@ -46,6 +55,9 @@ Scene::Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocat
 	Add(m_pPlayer);
 	Add(aiAgentTest);
 	Add(aiAgentTest2);
+	Add(aiAgentTest3);
+	Add(aiAgentTest4);
+	Add(aiAgentTest5);
 	Add(pickUp1);
 	Add(pickUp2);
 	Add(pickUp3);

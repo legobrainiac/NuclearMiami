@@ -5,11 +5,11 @@
 #include "Projectile.h"
 #include "Scene.h"
 
-Weapon::Weapon(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pOwner, Scene* pScene, const std::string& texture, float kickBack)
+Weapon::Weapon(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pOwner, Scene* pScene, const std::string& texture, float kickBack, int fireRate)
 : PickUp(position, scale, rotation, pOwner, pScene)
 , m_pTexture(TextureManager::Get()->GetTexture(texture))
 , m_KickBack(kickBack)
-, m_RateOfFire(10)
+, m_RateOfFire(fireRate)
 {
 	m_Friction = 20.f;
 }
