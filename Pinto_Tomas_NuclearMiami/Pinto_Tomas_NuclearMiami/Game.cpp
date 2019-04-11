@@ -25,7 +25,7 @@
 #include "Projectile.h"
 #include "Interfaces.h"
 #include "PickUp.h"
-#include "TextureManager.h"
+#include "ResourceManager.h"
 
 Game::Game(const Window& window)
 : m_Window(window)
@@ -46,7 +46,6 @@ Game::~Game()
 // TODO(tomas): scene reset
 // TODO(tomas): scene parser, right now we just load the texture and svg. Populating with items is done by hand. We want a parser where we can populate the scene in game, export it and then be able to load it back. This parser will work with TScript :)
 // TODO(tomas): different enemies
-// TODO(tomas): audio manager singleton? is this necessary
 // TODO(tomas): weapon rating system
 // TODO(tomas): if ai doesnt have a weapon it prioritizes looking for one unless player is close to him. if enemie is not in sight ai will not prioritize looking for a weapon.
 // TODO(tomas): modern opengl, i want to use shaders plsssss, menu fadeaway in to game
@@ -54,8 +53,9 @@ Game::~Game()
 // TODO(tomas): ui slider, ui tick box
 // TODO(tomas): more custom AI :D
 // TODO(tomas): make a document describing the inheritance of the game
-// TODONOTE(tomas): deletions some times fail and delte the wront item, most of the times this isnt critical but very rarely it does delete the player when it shouldnt, case test this to see if problem still presents it self and fix it if necessary
 // TODO(tomas): pickups should be reworked to work with every one, ie: every object that has an inventory should have IInventory(void ProcessPickUp(GameObject* pPickup))
+// TODO(tomas): audio preloader
+// TODO(tomas): when dropping and picking up in the same frame Z-Order is wrong for dropped weapon
 void Game::Initialize()
 {
 	// Startup timer
@@ -68,7 +68,7 @@ void Game::Initialize()
 	UiCallbackSetUp();
 
 	// Process preloaded textures
-	TUiManager::Get().LoadUiDescriptor("Resources/Scripts/texturePreload.ts");
+	TUiManager::Get().LoadUiDescriptor("Resources/Scripts/preload.ts");
 	
 	m_pScene = new Scene("Resources/Scenes/Scene3/scene3.png", "Resources/Scenes/Scene3/scene3.svg");
 	m_pScene->SetMainCamera(m_pCamera);
@@ -98,7 +98,7 @@ void Game::Initialize()
 void Game::Cleanup()
 {
 	delete &TUiManager::Get();
-	delete TextureManager::Get();
+	delete ResourceManager::Get();
 	delete m_pMenuMusic;
 	delete m_pScene;
 	delete m_pCamera;
@@ -166,6 +166,14 @@ void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 		
 		case SDLK_h:
 		m_pScene->GetPlayer()->SendMessage(MessageType::regen, 50);
+		break;
+		
+		case SDLK_q:
+		m_pScene->GetPlayer()->Drop();
+		break;
+		
+		case SDLK_b:
+		m_pScene->AddBlood(m_pScene->GetPlayer()->GetPosition(), 10);
 		break;
 	}
 }

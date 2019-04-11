@@ -65,13 +65,14 @@ Scene::Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocat
 
 void Scene::Draw() const
 {	
+	
 	glPushMatrix();
 	glScalef(1.f, 1.f, 0.f);
 	glTranslatef(0.f, 0.f, 0.f);
 
 	m_SceneMap.pMapTexture->Draw(Point2f {0.f, 0.f}, Rectf {0.f, 0.f, m_SceneMap.pMapTexture->GetWidth(),  m_SceneMap.pMapTexture->GetHeight()});
 	
-	//utils::DrawPolygon(m_SceneMap.sceneCollider[0], true, 2.f);
+	DrawBlood();
 	
 	for(GameObject* go : m_Scene)
 		go->Draw();
@@ -85,9 +86,9 @@ void Scene::Update(float dt)
 		go->Update(dt);
 	
 	// After updating, 
+	ProcessRemovals();
 	ProcessAdditions();
 	ProcessDeletions();
-	ProcessRemovals();
 }
 
 void Scene::Add(GameObject* pGameObject)
@@ -129,6 +130,31 @@ Camera* Scene::GetMainCamera() const
 	return m_pCamera;
 }
 
+void Scene::AddBlood(const Vector2f& pos, int ammount)
+{
+	for(int i = 0; i < ammount; ++i)
+	{
+		int rotation = utils::RandInterval(0, 365);
+		Vector2f direction = Vector2f { cos(rotation * PI / 180.f), sin(rotation * PI / 180.f) };
+		direction *= float(utils::RandInterval(-3, 20)); 
+		m_BloodPS.Add(pos.x + direction.x, pos.y + direction.y); 
+	}
+}
+
+void Scene::DrawBlood() const
+{	
+	glColor4f(1.f, 0.f, 0.f, 1.f);
+	for(int i = 0; i < m_BloodPS.count; ++i)
+	{
+		glPushMatrix();
+		glTranslatef(m_BloodPS.particles[i].x, m_BloodPS.particles[i].y, 0.f);
+		
+		utils::DrawPoint(0.f, 0.f, 4.f);
+		
+		glPopMatrix();
+	}
+}
+
 Scene::~Scene()
 {
 	for(GameObject* go : m_Scene)
@@ -144,14 +170,14 @@ void Scene::ProcessAdditions()
 		for(GameObject* go : m_AddBuffer.buffer)
 			m_Scene.push_back(go);
 		
-		m_AddBuffer.Reset();
-		
 		auto sort = [](GameObject* left, GameObject* right) 
 		{
 			return left->GetZLayer() < right->GetZLayer();
 		};
 		
 		std::sort(m_Scene.begin(), m_Scene.end(), sort);
+		
+		m_AddBuffer.Reset();
 	}
 }
 
@@ -159,9 +185,7 @@ void Scene::ProcessDeletions()
 {
 	if(m_DeleteBuffer.dirty)
 	{
-		/*
 		size_t objectCount = m_DeleteBuffer.buffer.size();
-		m_DeleteBuffer.Reset();
 		
 		auto sort = [](GameObject* left, GameObject* right) 
 		{
@@ -169,27 +193,9 @@ void Scene::ProcessDeletions()
 		};
 		
 		std::sort(m_Scene.begin(), m_Scene.end(), sort);
-		for(size_t i = 0; i < objectCount; ++i)
-		{
-			delete m_Scene.back();
-			m_Scene.pop_back();
-		}*/
-		
-		for(GameObject* go : m_DeleteBuffer.buffer)
-		{
-			for(size_t i = 0; i < m_Scene.size(); ++i)
-			{
-				if(go == m_Scene[i])
-				{
-					delete m_Scene[i];
-					GameObject* last = m_Scene.back();
-					m_Scene[m_Scene.size() - 1] = m_Scene[i];
-					m_Scene[i] = last;
-					m_Scene.pop_back();
-				}
-			}
-		}
-		
+		std::for_each(m_Scene.end() - m_DeleteBuffer.buffer.size(), m_Scene.end(), [](GameObject* go){ delete go; });
+		m_Scene.erase(m_Scene.end() - m_DeleteBuffer.buffer.size(), m_Scene.end());
+
 		m_DeleteBuffer.Reset();
 	}
 }

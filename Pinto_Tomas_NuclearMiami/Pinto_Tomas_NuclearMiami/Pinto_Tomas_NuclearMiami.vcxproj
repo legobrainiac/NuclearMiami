@@ -169,7 +169,7 @@
     <ClInclude Include="structs.h" />
     <ClInclude Include="SVGParser.h" />
     <ClInclude Include="Texture.h" />
-    <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Ui\TUiButton.h" />
     <ClInclude Include="Ui\TUiContainer.h" />
     <ClInclude Include="Ui\TUiLabel.h" />
@@ -204,7 +204,7 @@
     <ClCompile Include="structs.cpp" />
     <ClCompile Include="SVGParser.cpp" />
     <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Ui\TUiButton.cpp" />
     <ClCompile Include="Ui\TUiContainer.cpp" />
     <ClCompile Include="Ui\TUiLabel.cpp" />

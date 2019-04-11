@@ -36,7 +36,7 @@ void PickUp::Update(float dt)
 			{
 				// TODO(tomas): any gameobject should have a process pickup function if it has an inventory. Look at this later
 				pPlayer->ProcessPickUp(this);
-				m_InWorld = false;
+				SetInWorld(false);
 			}
 		}
 	}

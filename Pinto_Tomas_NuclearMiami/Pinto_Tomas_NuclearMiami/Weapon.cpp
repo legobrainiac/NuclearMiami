@@ -5,16 +5,21 @@
 #include "Projectile.h"
 #include "Scene.h"
 #include "SoundEffect.h"
+#include "ResourceManager.h"
 
 Weapon::Weapon(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pOwner, Scene* pScene, const std::string& texture, float kickBack, int fireRate)
 : PickUp(position, scale, rotation, pOwner, pScene)
-, m_pTexture(TextureManager::Get()->GetTexture(texture))
+, m_pTexture(ResourceManager::Get()->GetTexture(texture))
 , m_KickBack(kickBack)
 , m_RateOfFire(fireRate)
-, m_pShootingSound(new SoundEffect("Resources/Audio/shot_basic.wav"))
+, m_pShootingSound(ResourceManager::Get()->GetSoundEffect("shot_basic"))
+, m_pEquip(ResourceManager::Get()->GetSoundEffect("cock"))
+, m_pDrop(ResourceManager::Get()->GetSoundEffect("drop"))
 {
 	m_Friction = 20.f;
 	m_pShootingSound->SetVolume(64);
+	m_pEquip->SetVolume(64);
+	m_pDrop->SetVolume(64);
 }
 
 void Weapon::Draw() const
@@ -41,6 +46,16 @@ void Weapon::Update(float dt)
 	PickUp::Update(dt);
 }
 
+void Weapon::SetInWorld(bool val)
+{
+	PickUp::SetInWorld(val);
+
+	if(val)
+		m_pDrop->Play(0);
+	else
+		m_pEquip->Play(0);
+}
+
 // TODO(tomas): make this virtual
 void Weapon::Shoot(const Vector2f& position, const Vector2f& direction, Scene* pScene)
 {
@@ -61,5 +76,4 @@ void Weapon::Shoot(const Vector2f& position, const Vector2f& direction, Scene* p
 
 Weapon::~Weapon()
 {
-	delete m_pShootingSound;
 }

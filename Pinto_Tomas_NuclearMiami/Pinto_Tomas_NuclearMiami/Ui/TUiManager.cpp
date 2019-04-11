@@ -9,7 +9,7 @@
 #include "TUiButton.h"
 #include "TUiUtils.h"
 
-#include "..\TextureManager.h"
+#include "..\ResourceManager.h"
 
 #include <sstream>
 #include <deque>
@@ -74,13 +74,23 @@ TUiManager::TUiManager()
 		return nullptr;
 	};
 	
-	// This token exists to process texture pre-loading
+	// This token exists to process Texture pre-loading
 	m_TokenMap["TPreloadTexture"] = [](std::ifstream& descriptorStream, std::string resource)
 	{
 		std::string path = utils::GetParameterValue("path", resource);
 		std::string name = utils::GetParameterValue("name", resource);
 		
-		TextureManager::Get()->LoadTexture(path, name);
+		ResourceManager::Get()->LoadTexture(path, name);
+		return new TUiEmpty();
+	};
+	
+	// This token exists to process SoundEffect pre-loading
+	m_TokenMap["TPreloadSoundEffect"] = [](std::ifstream& descriptorStream, std::string resource)
+	{
+		std::string path = utils::GetParameterValue("path", resource);
+		std::string name = utils::GetParameterValue("name", resource);
+		
+		ResourceManager::Get()->LoadSoundEffect(path, name);
 		return new TUiEmpty();
 	};
 }

@@ -2,7 +2,7 @@
 #define WEAPON_H
 
 #include "PickUp.h"
-#include "TextureManager.h"
+#include "ResourceManager.h"
 
 class Player;
 class GameObject;
@@ -21,9 +21,12 @@ public:
 	void Update(float dt);
 	void Shoot(const Vector2f& position, const Vector2f& direction, Scene* pScene);
 	
+	void SetInWorld(bool val) override;
 private:
 	Texture* m_pTexture;
 	SoundEffect* m_pShootingSound;
+	SoundEffect* m_pEquip;
+	SoundEffect* m_pDrop;
 	float m_KickBack;
 	float m_Timer;
 	int m_RateOfFire;

@@ -26,6 +26,7 @@ public:
 	void ProcessPickUp(GameObject* pickUp);
 	
 	void SendMessage(MessageType message, int value) override;
+	void Drop();
 	
 private:	
 	void Shoot(const Vector2f& direction, float dt);

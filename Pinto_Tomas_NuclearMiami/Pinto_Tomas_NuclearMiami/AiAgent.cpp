@@ -6,7 +6,7 @@
 #include "Projectile.h"
 #include "Texture.h"
 #include "Sprite.h"
-#include "TextureManager.h"
+#include "ResourceManager.h"
 
 AiAgent::AiAgent(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pTarget, Scene* pScene)
 	: GameObject(position, scale, rotation, pScene)
@@ -14,7 +14,7 @@ AiAgent::AiAgent(const Vector2f& position, const Vector2f& scale, float rotation
 	, m_MinDistance(30.f)
 	, m_MaxDistance(1000.f)
 	, m_MovementSpeed(50.f)
-	, m_pTorsoTexture(TextureManager::Get()->GetTexture("charTorso"))
+	, m_pTorsoTexture(ResourceManager::Get()->GetTexture("charTorso"))
 	, m_pLegsSprite(new Sprite("charLegsAnimated", 10, 1, 0.05f))
 	, m_Health(15)
 {
@@ -105,6 +105,8 @@ void AiAgent::SendMessage(MessageType message, int value)
 
 		if (m_Health <= 0)
 			m_pScene->Delete(this);
+		
+		m_pScene->AddBlood(m_Position, 50);
 	}
 }
 

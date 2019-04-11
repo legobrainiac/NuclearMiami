@@ -8,11 +8,11 @@
 #include "Weapon.h"
 #include "Sprite.h"
 #include "AiAgent.h"
-#include "TextureManager.h"
+#include "ResourceManager.h"
 
 Player::Player(const Vector2f& position, const Vector2f& scale, float rotation, Scene* pScene)
 : GameObject(position, scale, rotation, pScene)
-, m_pTorsoTexture(TextureManager::Get()->GetTexture("charTorso"))
+, m_pTorsoTexture(ResourceManager::Get()->GetTexture("charTorso"))
 , m_pLegsSprite(new Sprite("charLegsAnimated", 10, 1, 0.03f))
 , m_Timer(0.f)
 , m_Health(100)
@@ -128,16 +128,17 @@ void Player::Update(float dt)
 	GameObject::Update(dt);
 }
 
+// NOTETODO(tomas): for now this is kept at two since i dont have a way of switching weapons :), do this later
 bool Player::HasEmptySlot() const
 {
-	return (m_Weapons.size() < 3);
+	return (m_Weapons.size() < 1);
 }
 
 void Player::ProcessPickUp(GameObject* pickUp)
 {
 	Weapon* pu = dynamic_cast<Weapon*>(pickUp);
 
-	if(pu != nullptr && m_Weapons.size() < 3)
+	if(pu != nullptr && HasEmptySlot())
 	{
 		m_pScene->Remove(pickUp);
 		m_Weapons.push_back(static_cast<Weapon*>(pickUp));
@@ -153,6 +154,8 @@ void Player::SendMessage(MessageType message, int value)
 		LOG("Health: " << m_Health);
 		if(m_Health <= 0) 
 			m_pScene->Delete(this);
+		
+		m_pScene->AddBlood(m_Position, 50);
 	}
 	else if (message == MessageType::regen)
 	{
@@ -180,6 +183,18 @@ void Player::Shoot(const Vector2f& direction, float dt)
 	}
 }
 
+void Player::Drop()
+{
+	if(m_Weapons.size() > 0)
+	{
+		m_Weapons[m_Weapons.size() - 1]->SetInWorld(true);
+		m_Weapons[m_Weapons.size() - 1]->SetPosition(m_Position);
+		m_Weapons[m_Weapons.size() - 1]->SetRotation(m_Rotation);
+		m_pScene->Add(m_Weapons[m_Weapons.size() - 1]);
+		m_Weapons.pop_back();
+	}
+}
+
 void Player::Move(const Uint8* keyStates, float dt)
 {	
 	if(keyStates[SDL_SCANCODE_W])
@@ -193,17 +208,5 @@ void Player::Move(const Uint8* keyStates, float dt)
 	
 	if(keyStates[SDL_SCANCODE_A])
     	ApplyForce(Vector2f{-50.f, 0.f});
-	
-	if(keyStates[SDL_SCANCODE_Q])
-	{
-		if(m_Weapons.size() > 0)
-		{
-			m_Weapons[m_Weapons.size() - 1]->SetInWorld(true);
-			m_Weapons[m_Weapons.size() - 1]->SetPosition(m_Position);
-			m_Weapons[m_Weapons.size() - 1]->SetRotation(m_Rotation);
-			m_pScene->Add(m_Weapons[m_Weapons.size() - 1]);
-			m_Weapons.pop_back();
-		}
-	}
 }
 

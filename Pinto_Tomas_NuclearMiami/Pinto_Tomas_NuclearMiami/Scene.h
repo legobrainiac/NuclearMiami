@@ -11,6 +11,20 @@ class GameObject;
 class Camera;
 class Player;
 
+#define PS_SIZE 4096
+
+struct StaticParticleSystem
+{
+	int count = 0;
+	Vector2f particles[PS_SIZE];
+	
+	void Add(float x, float y)
+	{
+		particles[count % PS_SIZE] = Vector2f {x, y};
+		++count;
+	}
+};
+
 class Scene
 {
 public:
@@ -23,15 +37,18 @@ public:
 	void Add(GameObject* pGameObject);
 	void Delete(GameObject* pGameObject);
 	void Remove(GameObject* pGameObject);
-	std::vector<GameObject*>& GetGameObjects() { return m_Scene; } // TODO(tomas): do this in cpp file
+	std::vector<GameObject*>& GetGameObjects() { return m_Scene; }
 	const std::vector<std::vector<Point2f>>& GetSceneCollider();
 	
 	Player* GetPlayer() { return m_pPlayer; }
 	
 	void SetMainCamera(Camera* pCamera);
+	void AddBlood(const Vector2f& pos, int ammount);
 	Camera* GetMainCamera() const;
 	
 private:
+	
+	void DrawBlood() const;
 	
 	// Container for the basic static level
 	struct StaticSceneContainer
@@ -52,6 +69,8 @@ private:
     Buffer<GameObject*> m_AddBuffer;
 	Buffer<GameObject*> m_DeleteBuffer;
 	Buffer<GameObject*> m_RemoveBuffer;
+	
+	StaticParticleSystem m_BloodPS;
 	
 	// Game play objects
 	Player* m_pPlayer;
