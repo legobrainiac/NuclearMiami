@@ -24,7 +24,7 @@ GameObject::GameObject(const Vector2f& position, const Vector2f& scale, float ro
 , m_ZLayer(1.f)
 , m_Friction(10.f)
 , m_MaxAcceleration(150.f)
-, m_CircleCollider(Point2f {}, 10.f)
+, m_CircleCollider(Point2f {}, 8.f)
 , m_pScene(pScene)
 
 {

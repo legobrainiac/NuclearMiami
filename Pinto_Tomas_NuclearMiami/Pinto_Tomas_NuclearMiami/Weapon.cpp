@@ -4,14 +4,17 @@
 #include "Texture.h"
 #include "Projectile.h"
 #include "Scene.h"
+#include "SoundEffect.h"
 
 Weapon::Weapon(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pOwner, Scene* pScene, const std::string& texture, float kickBack, int fireRate)
 : PickUp(position, scale, rotation, pOwner, pScene)
 , m_pTexture(TextureManager::Get()->GetTexture(texture))
 , m_KickBack(kickBack)
 , m_RateOfFire(fireRate)
+, m_pShootingSound(new SoundEffect("Resources/Audio/shot_basic.wav"))
 {
 	m_Friction = 20.f;
+	m_pShootingSound->SetVolume(64);
 }
 
 void Weapon::Draw() const
@@ -52,8 +55,11 @@ void Weapon::Shoot(const Vector2f& position, const Vector2f& direction, Scene* p
 	kickBack *= m_KickBack;
 	
 	m_pOwner->ApplyForce(kickBack);
+	
+	m_pShootingSound->Play(0);
 }
 
 Weapon::~Weapon()
 {
+	delete m_pShootingSound;
 }

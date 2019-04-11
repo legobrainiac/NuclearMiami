@@ -111,7 +111,7 @@ void Core::Initialize()
 		std::cerr << "Core::Initialize( ), error when calling Mix_OpenAudio: " << Mix_GetError() << std::endl;
 		return;
 	}
-	
+	Mix_AllocateChannels(128);
 	m_Initialized = true;
 }
 

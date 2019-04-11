@@ -8,6 +8,7 @@ class Player;
 class GameObject;
 class Texture;
 class Scene;
+class SoundEffect;
 
 class Weapon :
 	public PickUp
@@ -22,6 +23,7 @@ public:
 	
 private:
 	Texture* m_pTexture;
+	SoundEffect* m_pShootingSound;
 	float m_KickBack;
 	float m_Timer;
 	int m_RateOfFire;
