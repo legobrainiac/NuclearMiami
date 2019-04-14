@@ -42,7 +42,6 @@ Game::~Game()
 }
 
 // TODO(tomas): Think about how i wanna do the background of the menu, once we have the scene working i can make a small scene with just the ai agents going abouts
-// TODO(tomas): rule of five for all the ui, generally clean up and bring it up to standars, forgot p prefix for a lot of the points
 // TODO(tomas): scene reset
 // TODO(tomas): scene parser, right now we just load the texture and svg. Populating with items is done by hand. We want a parser where we can populate the scene in game, export it and then be able to load it back. This parser will work with TScript :)
 // TODO(tomas): different enemies

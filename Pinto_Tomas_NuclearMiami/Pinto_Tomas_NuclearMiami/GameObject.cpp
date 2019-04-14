@@ -78,7 +78,6 @@ void GameObject::Collision()
 		for(Vector2f hit : hitVertexVector)
 			medianNormal += hit.Orthogonal().Normalized();
 
-
 		medianNormal = medianNormal.Normalized();
 
 		final = (medianNormal * backtrack.Length());
@@ -88,6 +87,7 @@ void GameObject::Collision()
 		for(Vector2f hit : hitVertexVector)
 		{
 			Vector2f normal = Vector2f { std::abs(hit.y), std::abs(hit.x) }.Normalized();
+			
 			Vector2f backtrack{ m_Position.ToPoint2f(), m_PreviousPos.ToPoint2f() };		
 			
 			final.x = (backtrack.x * normal.x);
