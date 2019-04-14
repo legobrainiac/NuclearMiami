@@ -9,6 +9,16 @@
 #include "PickUp.h"
 #include "Weapon.h"
 
+Scene* Scene::m_psScene = nullptr;
+
+Scene* Scene::Get()
+{
+	if(!m_psScene)
+		m_psScene = new Scene("Resources/Scenes/Scene3/scene3.png", "Resources/Scenes/Scene3/scene3.svg"); // NOTE(tomas): Temporary
+	
+	return m_psScene;
+}
+
 Scene::Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocation)
 : m_Scene()
 , m_PlayerSpawn()
@@ -20,35 +30,35 @@ Scene::Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocat
 	m_SceneMap.pMapTexture = new Texture(sceneMapTextureLocation);
 	
 	if(SVGParser::GetVerticesFromSvgFile(m_SceneMap.colliderPointSVGLocation, m_SceneMap.sceneCollider))
-	{
-		std::cout << "Loaded collider for scene at " << m_SceneMap.colliderPointSVGLocation << std::endl; 
-	}
+		LOG("Loaded collider for scene at " << m_SceneMap.colliderPointSVGLocation); 
+}
+
+void Scene::Initialize()
+{
+	// TODO(tomas): TUiManager preloader tokens please
 	
-	// Test objects in scene
-	m_pPlayer = new Player(Vector2f{200.f, 300.f},Vector2f{1.f, 1.f}, 0.f, this);
+	// Populate scene
+	m_pPlayer = new Player(Vector2f{200.f, 300.f},Vector2f{1.f, 1.f}, 0.f);
 	
-	AiAgent* aiAgentTest = new AiAgent(Vector2f { 280.f, 700.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer, this);
+	AiAgent* aiAgentTest = new AiAgent(Vector2f { 280.f, 700.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer);
 	aiAgentTest->SetZLayer(-1.f);
 
-	AiAgent* aiAgentTest2 = new AiAgent(Vector2f { 600.f, 100.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer, this);
+	AiAgent* aiAgentTest2 = new AiAgent(Vector2f { 600.f, 100.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer);
 	aiAgentTest2->SetZLayer(-1.f);
 	
-	AiAgent* aiAgentTest3 = new AiAgent(Vector2f { 620.f, 90.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer, this);
+	AiAgent* aiAgentTest3 = new AiAgent(Vector2f { 620.f, 90.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer);
 	aiAgentTest2->SetZLayer(-1.f);
 	
-	AiAgent* aiAgentTest4 = new AiAgent(Vector2f { 580.f, 110.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer, this);
+	AiAgent* aiAgentTest4 = new AiAgent(Vector2f { 580.f, 110.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer);
 	aiAgentTest2->SetZLayer(-1.f);
 	
-	AiAgent* aiAgentTest5 = new AiAgent(Vector2f { 630.f, 130.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer, this);
+	AiAgent* aiAgentTest5 = new AiAgent(Vector2f { 630.f, 130.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer);
 	aiAgentTest2->SetZLayer(-1.f);
 	
-	PickUp* pickUp1 = new PickUp(Vector2f {200.f, 150.f}, Vector2f {1.f, 1.f}, 25.f, m_pPlayer, this);
+	Weapon* pickUp2 = new Weapon(Vector2f {230.f, 120.f}, Vector2f {1.f, 1.f}, 61.f, m_pPlayer, "pistol", 25.f, 4);
 	
-	Weapon* pickUp2 = new Weapon(Vector2f {230.f, 120.f}, Vector2f {1.f, 1.f}, 61.f, m_pPlayer, this, "pistol", 25.f, 4);
+	Weapon* pickUp3 = new Weapon(Vector2f {630.f, 130.f}, Vector2f {1.f, 1.f}, 74.f, m_pPlayer, "rifle", 200.f, 15);
 	
-	Weapon* pickUp3 = new Weapon(Vector2f {630.f, 130.f}, Vector2f {1.f, 1.f}, 74.f, m_pPlayer, this, "rifle", 200.f, 15);
-	
-	pickUp1->SetZLayer(-2);
 	pickUp2->SetZLayer(-2);
 	pickUp3->SetZLayer(-2);
 	
@@ -58,14 +68,12 @@ Scene::Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocat
 	Add(aiAgentTest3);
 	Add(aiAgentTest4);
 	Add(aiAgentTest5);
-	Add(pickUp1);
 	Add(pickUp2);
 	Add(pickUp3);
 }
 
 void Scene::Draw() const
 {	
-	
 	glPushMatrix();
 	glScalef(1.f, 1.f, 0.f);
 	glTranslatef(0.f, 0.f, 0.f);

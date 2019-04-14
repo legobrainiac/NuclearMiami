@@ -7,8 +7,8 @@
 #include "SoundEffect.h"
 #include "ResourceManager.h"
 
-Weapon::Weapon(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pOwner, Scene* pScene, const std::string& texture, float kickBack, int fireRate)
-: PickUp(position, scale, rotation, pOwner, pScene)
+Weapon::Weapon(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pOwner, const std::string& texture, float kickBack, int fireRate)
+: PickUp(position, scale, rotation, pOwner)
 , m_pTexture(ResourceManager::Get()->GetTexture(texture))
 , m_KickBack(kickBack)
 , m_RateOfFire(fireRate)
@@ -62,7 +62,7 @@ void Weapon::Shoot(const Vector2f& position, const Vector2f& direction, Scene* p
 	if(m_Timer < (1.f / m_RateOfFire) || m_InWorld) return;	
 	
 	m_Timer = 0.f;
-	Projectile* projectile = new Projectile(position, Vector2f {1.f, 1.f}, 0.f, direction.Normalized(), pScene, m_pOwner);
+	Projectile* projectile = new Projectile(position, Vector2f {1.f, 1.f}, 0.f, direction.Normalized(), m_pOwner);
 	pScene->Add(projectile);
 	
 	Vector2f kickBack = Vector2f{direction.Normalized().ToPoint2f(), Point2f{ 0.f, 0.f }};

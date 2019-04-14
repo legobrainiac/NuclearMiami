@@ -9,7 +9,9 @@ class Scene;
 class Projectile : public GameObject
 {
 public:
-	Projectile(const Vector2f& position, const Vector2f& scale, float rotation, const Vector2f& direction, Scene* pScene, GameObject* shooter);
+	Projectile(const Vector2f& position, const Vector2f& scale, float rotation, const Vector2f& direction, GameObject* shooter);
+	Projectile(const Projectile& other) = delete;
+	Projectile& operator=(const Projectile& other) = delete;
 
 	void Update(float dt) override;
 	void Draw() const override;

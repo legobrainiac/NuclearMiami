@@ -19,6 +19,11 @@ public TUiNode
     public:
 	TUiButton(std::ifstream& descriptorStream, std::string descriptor);
 	~TUiButton();
+	
+    TUiButton(const TUiButton&) = delete;
+	TUiButton& operator=(const TUiButton&) = delete;
+	TUiButton(TUiButton&&) = delete;
+	TUiButton& operator=(TUiButton&&) = delete;
     
 	virtual void Draw(const Window& window) override;
 	virtual void Update(float dt, Point2f mousePos) override;

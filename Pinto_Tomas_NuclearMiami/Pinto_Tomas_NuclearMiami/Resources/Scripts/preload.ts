@@ -3,6 +3,8 @@ TPreloadTexture(path="Resources/Images/Characters/charLegsAnimated.png", name="c
 TPreloadTexture(path="Resources/Images/Weapons/rifle.png", name="rifle")
 TPreloadTexture(path="Resources/Images/Weapons/pistol.png", name="pistol")
 
+TPreloadSoundStream(path="Resources/Audio/music.wav", name="menu_music")
+
 TPreloadSoundEffect(path="Resources/Audio/cock.wav", name="cock")
 TPreloadSoundEffect(path="Resources/Audio/drop.wav", name="drop")
 TPreloadSoundEffect(path="Resources/Audio/money.wav", name="money")

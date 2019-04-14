@@ -16,6 +16,11 @@ public TUiNode
     public:
 	TUiLabel(std::ifstream& descriptorStream, std::string descriptor);
 	~TUiLabel();
+	
+    TUiLabel(const TUiLabel&) = delete;
+	TUiLabel& operator=(const TUiLabel&) = delete;
+	TUiLabel(TUiLabel&&) = delete;
+	TUiLabel& operator=(TUiLabel&&) = delete;
     
 	// Inherited via TUiNode
 	virtual void Draw(const Window& window) override;

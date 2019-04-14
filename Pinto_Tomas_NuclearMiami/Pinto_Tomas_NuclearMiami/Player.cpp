@@ -10,8 +10,8 @@
 #include "AiAgent.h"
 #include "ResourceManager.h"
 
-Player::Player(const Vector2f& position, const Vector2f& scale, float rotation, Scene* pScene)
-: GameObject(position, scale, rotation, pScene)
+Player::Player(const Vector2f& position, const Vector2f& scale, float rotation)
+: GameObject(position, scale, rotation)
 , m_pTorsoTexture(ResourceManager::Get()->GetTexture("charTorso"))
 , m_pLegsSprite(new Sprite("charLegsAnimated", 10, 1, 0.03f))
 , m_Timer(0.f)
@@ -155,7 +155,7 @@ void Player::SendMessage(MessageType message, int value)
 		if(m_Health <= 0) 
 			m_pScene->Delete(this);
 		
-		m_pScene->AddBlood(m_Position, 50);
+		m_pScene->AddBlood(m_Position, 10);
 	}
 	else if (message == MessageType::regen)
 	{
@@ -177,7 +177,7 @@ void Player::Shoot(const Vector2f& direction, float dt)
 		int rotation = utils::RandInterval(0, 365);
 		Vector2f direction = Vector2f { cos(rotation * PI / 180.f), sin(rotation * PI / 180.f) };
 		
-		AiAgent* aiAgent = new AiAgent(m_Position + direction * 50.f, Vector2f { 1.f, 1.f }, 0.f, this, m_pScene);
+		AiAgent* aiAgent = new AiAgent(m_Position + direction * 50.f, Vector2f { 1.f, 1.f }, 0.f, this);
 		aiAgent->SetZLayer(-1.f);
 		m_pScene->Add(aiAgent);
 	}

@@ -11,8 +11,13 @@ class AiAgent :
 	public GameObject
 {
 public:
-	AiAgent(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* target, Scene* pScene);
+	AiAgent(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* target);
 	~AiAgent();
+	
+	AiAgent(const AiAgent&) = delete;
+	AiAgent& operator=(const AiAgent&) = delete;
+	AiAgent(AiAgent&&) = delete;
+	AiAgent& operator=(AiAgent&&) = delete;
 	
 	void ChangeTarget(GameObject* pTarget);
 	void Update(float dt) override;

@@ -6,18 +6,7 @@
 
 int GameObject::m_InstanceCounter = 0;
 
-GameObject::GameObject()
-: m_Position()
-, m_Scale()
-, m_Rotation()
-, m_ZLayer(1.f)
-, m_Friction(10.f)
-, m_MaxAcceleration(150.f)
-{
-	++m_InstanceCounter;
-}
-
-GameObject::GameObject(const Vector2f& position, const Vector2f& scale, float rotation, Scene* pScene)
+GameObject::GameObject(const Vector2f& position, const Vector2f& scale, float rotation)
 : m_Position(position)
 , m_Scale(scale)
 , m_Rotation(rotation)
@@ -25,7 +14,7 @@ GameObject::GameObject(const Vector2f& position, const Vector2f& scale, float ro
 , m_Friction(10.f)
 , m_MaxAcceleration(150.f)
 , m_CircleCollider(Point2f {}, 8.f)
-, m_pScene(pScene)
+, m_pScene(Scene::Get())
 
 {
 	++m_InstanceCounter;

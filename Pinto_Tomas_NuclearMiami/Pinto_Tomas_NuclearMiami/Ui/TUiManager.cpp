@@ -16,12 +16,12 @@
 
 TUiManager* TUiManager::m_pUiManager = nullptr;
 
-TUiManager& TUiManager::Get()
+TUiManager* TUiManager::Get()
 {
 	if (!m_pUiManager)
 		m_pUiManager = new TUiManager();
     
-	return *m_pUiManager;
+	return m_pUiManager;
 }
 
 void TUiManager::Reset()
@@ -55,23 +55,23 @@ TUiManager::TUiManager()
 	// Not implemented, just for testing for now
 	m_TokenMap["TSLider"] = [](std::ifstream& descriptorStream, std::string resource)
 	{
-		return new TUiLabel(descriptorStream, resource);
+		return new TUiEmpty();
 	};
     
 	m_TokenMap["TTextBox"] = [](std::ifstream& descriptorStream, std::string resource)
 	{
-		return new TUiLabel(descriptorStream, resource);
+		return new TUiEmpty();
 	};
     
 	m_TokenMap["TImage"] = [](std::ifstream& descriptorStream, std::string resource)
 	{
-		return new TUiLabel(descriptorStream, resource);
+		return new TUiEmpty();
 	};
     
-	// This token exists only for query necessities, removing this would result in extra code
+	// End token
 	m_TokenMap["TEndContainer"] = [](std::ifstream& descriptorStream, std::string resource)
 	{
-		return nullptr;
+		return new TUiEmpty();
 	};
 	
 	// This token exists to process Texture pre-loading
@@ -91,6 +91,16 @@ TUiManager::TUiManager()
 		std::string name = utils::GetParameterValue("name", resource);
 		
 		ResourceManager::Get()->LoadSoundEffect(path, name);
+		return new TUiEmpty();
+	};
+	
+	// This token exists to process SoundStream pre-loading
+	m_TokenMap["TPreloadSoundStream"] = [](std::ifstream& descriptorStream, std::string resource)
+	{
+		std::string path = utils::GetParameterValue("path", resource);
+		std::string name = utils::GetParameterValue("name", resource);
+		
+		ResourceManager::Get()->LoadSoundStream(path, name);
 		return new TUiEmpty();
 	};
 }

@@ -8,6 +8,7 @@ class Camera
 {
 public:
 	Camera(float width, float height, Window* window, Point2f* mousePos);
+	
 	void SetBoundaries(const Rectf& boundaries);
 	Point2f GetPosition(const Vector2f& target);
 	

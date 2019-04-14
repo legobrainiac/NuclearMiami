@@ -12,26 +12,32 @@ class Weapon;
 struct Window;
 struct Circlef;
 
-// TODO(tomas): for now it's a single sprite, eventually this will become a sprite sheet 
 class Player : public GameObject
 {
 public:
-	Player(const Vector2f& position, const Vector2f& scale, float rotation, Scene* pScene);	
+	Player(const Vector2f& position, const Vector2f& scale, float rotation);	
+	Player(const Player& other) = delete;
+	Player& operator=(const Player& other) = delete;
 	~Player();
 	
-	void Draw() const override;
 	void Update(float dt) override;
+	void Draw() const override;
 	
+	// Pickup helpers, NOTE(tomas): this will be gone once we re-implement pickups.
 	bool HasEmptySlot() const;
 	void ProcessPickUp(GameObject* pickUp);
 	
 	void SendMessage(MessageType message, int value) override;
+	
+	// NOTE(tomas): this should eventually be put in to private, for now since we need it from the outside it stays like this.
 	void Drop();
 	
 private:	
+	// Behaviour helpers
 	void Shoot(const Vector2f& direction, float dt);
 	void Move(const Uint8* keyStates, float dt);
-	
+
+	// Draw helpers
 	void DrawBottom() const;
 	void DrawTop() const;
 	void DrawWeapon() const;

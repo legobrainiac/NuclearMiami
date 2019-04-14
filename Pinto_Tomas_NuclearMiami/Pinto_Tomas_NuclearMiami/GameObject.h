@@ -18,12 +18,11 @@ struct Circlef;
 class GameObject
 {
 public:
-	GameObject();
-	GameObject(const Vector2f& position, const Vector2f& scale, float rotation, Scene* pScene);
-	GameObject(const GameObject& other) = delete;
-	GameObject& operator=(const GameObject& other) = delete;
-
+	GameObject(const Vector2f& position, const Vector2f& scale, float rotation);
 	virtual ~GameObject();
+	
+	GameObject(const GameObject&) = delete;
+	GameObject& operator=(const GameObject&) = delete;
 	
 	// Movement
 	void ApplyForce(const Vector2f& xy);

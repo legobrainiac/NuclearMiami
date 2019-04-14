@@ -25,7 +25,12 @@ public:
 	TUiManager();
 	~TUiManager();
 	
-	static TUiManager& Get();
+    TUiManager(const TUiManager&) = delete;
+	TUiManager& operator=(const TUiManager&) = delete;
+	TUiManager(TUiManager&&) = delete;
+	TUiManager& operator=(TUiManager&&) = delete;
+	
+	static TUiManager* Get();
 	static void Reset();
     
 	void LoadUiDescriptor(std::string resourceLocation);

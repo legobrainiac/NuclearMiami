@@ -2,12 +2,12 @@
 #include "Projectile.h"
 #include "Scene.h"
 
-Projectile::Projectile(const Vector2f& position, const Vector2f& scale, float rotation, const Vector2f& direction, Scene* pScene, GameObject* shooter)
-: GameObject(position, scale, rotation, pScene)
+Projectile::Projectile(const Vector2f& position, const Vector2f& scale, float rotation, const Vector2f& direction, GameObject* shooter)
+: GameObject(position, scale, rotation)
 , m_Direction(direction)
 , m_Speed(500.f)
 , m_BounceCount(0)
-, m_MaxBounceCount(5)
+, m_MaxBounceCount(1)
 , m_Shooter(shooter)
 {
 	m_MaxAcceleration = 1000.f;

@@ -8,8 +8,8 @@
 #include "Sprite.h"
 #include "ResourceManager.h"
 
-AiAgent::AiAgent(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pTarget, Scene* pScene)
-	: GameObject(position, scale, rotation, pScene)
+AiAgent::AiAgent(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pTarget)
+	: GameObject(position, scale, rotation)
 	, m_pTarget(pTarget)
 	, m_MinDistance(30.f)
 	, m_MaxDistance(1000.f)
@@ -106,7 +106,7 @@ void AiAgent::SendMessage(MessageType message, int value)
 		if (m_Health <= 0)
 			m_pScene->Delete(this);
 		
-		m_pScene->AddBlood(m_Position, 50);
+		m_pScene->AddBlood(m_Position, 10);
 	}
 }
 
@@ -167,7 +167,7 @@ void AiAgent::Shoot(Vector2f direction)
 	if (m_Timer < 1.f) return;
 
 	m_Timer = 0.f;
-	Projectile* projectile = new Projectile(m_Position, Vector2f{ 0.f, 0.f }, 0.f, direction.Normalized(), m_pScene, this);
+	Projectile* projectile = new Projectile(m_Position, Vector2f{ 0.f, 0.f }, 0.f, direction.Normalized(), this);
 	m_pScene->Add(projectile);
 
 	Vector2f kickBack = Vector2f{ direction.Normalized().ToPoint2f(), Point2f{ 0.f, 0.f } };

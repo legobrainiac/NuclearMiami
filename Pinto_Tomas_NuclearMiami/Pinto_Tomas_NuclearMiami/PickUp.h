@@ -9,7 +9,9 @@ class PickUp :
 	public GameObject
 {
 public:
-	PickUp(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pOwner, Scene* pScene);
+	PickUp(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pOwner);
+	PickUp(const PickUp& other) = delete;
+	PickUp& operator=(const PickUp& other) = delete;
 	~PickUp();
 	
 	void Update(float dt);

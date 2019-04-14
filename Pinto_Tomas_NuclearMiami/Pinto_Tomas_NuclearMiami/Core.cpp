@@ -71,7 +71,7 @@ void Core::Initialize()
 	{
 		SDL_GL_SetSwapInterval(0);
 	}
-    
+
 	// Set the Projection matrix to the identity matrix
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();

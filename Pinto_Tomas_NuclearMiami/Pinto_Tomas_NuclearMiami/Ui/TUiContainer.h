@@ -14,6 +14,11 @@ public TUiNode
     public:
 	TUiContainer(std::ifstream& descriptorStream, std::string descriptor);
 	~TUiContainer();
+	
+    TUiContainer(const TUiContainer&) = delete;
+	TUiContainer& operator=(const TUiContainer&) = delete;
+	TUiContainer(TUiContainer&&) = delete;
+	TUiContainer& operator=(TUiContainer&&) = delete;
     
 	// Inherited via TUiNode
 	virtual void Draw(const Window& window) override;

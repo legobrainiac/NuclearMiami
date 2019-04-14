@@ -14,7 +14,9 @@ class Weapon :
 	public PickUp
 {
 public:
-	Weapon(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pOwner, Scene* pScene, const std::string& texture, float kickBack, int fireRate);
+	Weapon(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pOwner, const std::string& texture, float kickBack, int fireRate);
+	Weapon(const Weapon& other) = delete;
+	Weapon& operator=(const Weapon& other) = delete;
 	~Weapon();
 	
 	void Draw() const;

@@ -54,8 +54,8 @@ Game::~Game()
 // TODO(tomas): more custom AI :D
 // TODO(tomas): make a document describing the inheritance of the game
 // TODO(tomas): pickups should be reworked to work with every one, ie: every object that has an inventory should have IInventory(void ProcessPickUp(GameObject* pPickup))
-// TODO(tomas): audio preloader
 // TODO(tomas): when dropping and picking up in the same frame Z-Order is wrong for dropped weapon
+// TODO(tomas): organize the header files and cpp files for every class (player, gameobject, etc, ...)
 void Game::Initialize()
 {
 	// Startup timer
@@ -64,19 +64,21 @@ void Game::Initialize()
 	//SDL_ShowCursor(SDL_DISABLE);
 	
     // Load UI from the menu tankscript file
-	TUiManager::Get().LoadUiDescriptor("Resources/Scripts/menu.ts");
+	TUiManager::Get()->LoadUiDescriptor("Resources/Scripts/menu.ts");
 	UiCallbackSetUp();
 
 	// Process preloaded textures
-	TUiManager::Get().LoadUiDescriptor("Resources/Scripts/preload.ts");
+	TUiManager::Get()->LoadUiDescriptor("Resources/Scripts/preload.ts");
 	
-	m_pScene = new Scene("Resources/Scenes/Scene3/scene3.png", "Resources/Scenes/Scene3/scene3.svg");
+	// Initialize singletone instance
+	m_pScene = Scene::Get();
+	m_pScene->Initialize();
 	m_pScene->SetMainCamera(m_pCamera);
 	
 	m_ScreenState = ScreenState::MainMenu;
 	
 	// Play start menu music
-	m_pMenuMusic = new SoundStream("Resources/Audio/music.wav");
+	m_pMenuMusic = ResourceManager::Get()->GetSoundStream("menu_music");
 	
 	if(m_pMenuMusic->IsLoaded())
 	{
@@ -97,24 +99,25 @@ void Game::Initialize()
 
 void Game::Cleanup()
 {
-	delete &TUiManager::Get();
+	// Singleton memory cleanup
+	delete TUiManager::Get();
 	delete ResourceManager::Get();
-	delete m_pMenuMusic;
-	delete m_pScene;
+	delete Scene::Get();
+	
+	// Normal memory cleanup
 	delete m_pCamera;
 }
 
 void Game::Update(float dt)
 {
 	m_ElapsedTime += dt;
-	TUiManager::Get().Update(dt, m_MousePosition);
+	
+	// Update Ui
+	TUiManager::Get()->Update(dt, m_MousePosition);
 	
 	// Don't update if the game is paused, ui still gets updated
 	if(m_ScreenState != ScreenState::Paused &&  m_ScreenState != ScreenState::MainMenu)
-	{
-		// Update game in here
 		m_pScene->Update(dt);
-	}
 }
 
 void Game::Draw() const
@@ -144,7 +147,9 @@ void Game::Draw() const
 		// ENDDRAW
 		glPopMatrix();
 	}
-	TUiManager::Get().Draw(m_Window);
+	
+	// Draw Ui
+	TUiManager::Get()->Draw(m_Window);
 }
 
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent & e)
@@ -217,16 +222,16 @@ void Game::UnloadGame()
 
 void Game::UiCallbackSetUp()
 {
-	m_pMenu = TUiManager::Get().GetComponent<TUiContainer>("menu");
+	m_pMenu = TUiManager::Get()->GetComponent<TUiContainer>("menu");
 	
 	// Get a pointer to the start button and register the click callback 
-	TUiButton* pStartButton = TUiManager::Get().GetComponent<TUiButton>("menu.startGame");
+	TUiButton* pStartButton = TUiManager::Get()->GetComponent<TUiButton>("menu.startGame");
 	
 	if (pStartButton)
 	{
 		pStartButton->RegisterClickCallBack(
 			[&](){
-			TUiContainer* menu = TUiManager::Get().GetComponent<TUiContainer>("menu");
+			TUiContainer* menu = TUiManager::Get()->GetComponent<TUiContainer>("menu");
 			if(menu) menu->SetActive(false);
 			StartGame("");
 			}
@@ -234,23 +239,23 @@ void Game::UiCallbackSetUp()
 	}
 	
 	// Settings
-	TUiButton* pSettingsButton = TUiManager::Get().GetComponent<TUiButton>("menu.settingsButton");
+	TUiButton* pSettingsButton = TUiManager::Get()->GetComponent<TUiButton>("menu.settingsButton");
 	
 	if (pSettingsButton)
 	{
 		pSettingsButton->RegisterClickCallBack(
 			[&](){
-			TUiContainer* settings = TUiManager::Get().GetComponent<TUiContainer>("settings");
+			TUiContainer* settings = TUiManager::Get()->GetComponent<TUiContainer>("settings");
 			if(settings) settings->SetActive(true);
 			
-			TUiContainer* menu = TUiManager::Get().GetComponent<TUiContainer>("menu");
+			TUiContainer* menu = TUiManager::Get()->GetComponent<TUiContainer>("menu");
 			if(menu) menu->SetActive(false);
 			});
 		
 	}
 	
 	// Exit
-	TUiButton* pExitButton = TUiManager::Get().GetComponent<TUiButton>("menu.exitGame");
+	TUiButton* pExitButton = TUiManager::Get()->GetComponent<TUiButton>("menu.exitGame");
 	
 	if (pExitButton)
 	{
@@ -258,17 +263,17 @@ void Game::UiCallbackSetUp()
 	}
 	
 	// Register click and delta click callbacks for the buttons
-	TUiButton* pInfoButton = TUiManager::Get().GetComponent<TUiButton>("infoButton");
+	TUiButton* pInfoButton = TUiManager::Get()->GetComponent<TUiButton>("infoButton");
 
 
 	if(pInfoButton)
 	{
 		pInfoButton->RegisterClickCallBack(
 			[&](){
-			TUiContainer* menu = TUiManager::Get().GetComponent<TUiContainer>("menu");
+			TUiContainer* menu = TUiManager::Get()->GetComponent<TUiContainer>("menu");
 			if(menu) menu->SetActive(true);
 			
-			TUiContainer* settings = TUiManager::Get().GetComponent<TUiContainer>("settings");
+			TUiContainer* settings = TUiManager::Get()->GetComponent<TUiContainer>("settings");
 			if(settings) settings->SetActive(false);
 			
 			UnloadGame();
@@ -277,17 +282,17 @@ void Game::UiCallbackSetUp()
 		
 		pInfoButton->RegisterClickDeltaCallBack(
 			[](float deltaPressed){
-			TUiContainer* menu = TUiManager::Get().GetComponent<TUiContainer>("menu.label1");
+			TUiContainer* menu = TUiManager::Get()->GetComponent<TUiContainer>("menu.label1");
 			if(menu) menu->SetSize(Vector2f {deltaPressed, 0.5f});
 			
-			TUiContainer* info = TUiManager::Get().GetComponent<TUiContainer>("info");
+			TUiContainer* info = TUiManager::Get()->GetComponent<TUiContainer>("info");
 			if(info) info->SetActive(false); 
 			} 
 			);
 	}
 	
 	// Toggle full screen button
-	TUiButton* toggleFullScreenButton = TUiManager::Get().GetComponent<TUiButton>("settings.fullscreenToggle");
+	TUiButton* toggleFullScreenButton = TUiManager::Get()->GetComponent<TUiButton>("settings.fullscreenToggle");
 	
 	if(toggleFullScreenButton)
 	{
@@ -339,8 +344,8 @@ void Game::ToggleInfo()
 	
 	if(m_ScreenState != ScreenState::MainMenu) return;
 	
-	TUiContainer* info = TUiManager::Get().GetComponent<TUiContainer>("info");
-	TUiContainer* menu = TUiManager::Get().GetComponent<TUiContainer>("menu");
+	TUiContainer* info = TUiManager::Get()->GetComponent<TUiContainer>("info");
+	TUiContainer* menu = TUiManager::Get()->GetComponent<TUiContainer>("menu");
 	
 	if(info && menu)
 	{
