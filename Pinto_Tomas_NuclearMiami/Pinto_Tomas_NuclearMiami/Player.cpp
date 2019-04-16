@@ -146,8 +146,7 @@ bool Player::ProcessPickUp(PickUp* pickUp)
 		pu->SetInWorld(false);
 		
 		return true;
-	}
-	
+	}	
 	return false;
 }
 
@@ -158,7 +157,7 @@ void Player::SendMessage(MessageType message, int value)
 		m_Health -= value;
 		
 		LOG("Health: " << m_Health);
-		if(m_Health <= 0) 
+		if (m_Health <= 0)
 			m_pScene->Delete(this);
 		
 		m_pScene->AddBlood(m_Position, 10);

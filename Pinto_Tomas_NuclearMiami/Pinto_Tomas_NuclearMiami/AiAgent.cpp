@@ -59,7 +59,7 @@ void AiAgent::Update(float dt)
 	// Process look direction
 	Vector2f dir{ m_Position.ToPoint2f(), m_pTarget->GetPosition().ToPoint2f() };
 	m_Rotation = -(std::atan2(dir.x, dir.y) * 180 / PI);
-
+	
 	// Base Update
 	GameObject::Update(dt);
 }
@@ -160,7 +160,6 @@ bool AiAgent::ProcessPickUp(PickUp* pickUp)
 		
 		return true;
 	}
-	
 	return false;
 }
 

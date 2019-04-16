@@ -31,6 +31,7 @@ void Weapon::Draw() const
 	if(m_InWorld)
 	{
 		glTranslatef(m_Position.x, m_Position.y, m_ZLayer);
+		glScalef(m_Scale.x, m_Scale.y, 1.f);
 		glRotatef(m_Rotation, 0.f, 0.f, 1.f);
 	}
 	
@@ -43,6 +44,16 @@ void Weapon::Draw() const
 void Weapon::Update(float dt)
 {
 	m_Timer += dt;
+	
+	if(m_InWorld)
+	{
+		m_Scale.x = 0.9f + std::abs(std::sin(m_Timer) * 0.1f);
+		m_Scale.y = m_Scale.x;
+	}
+	else
+	{
+		m_Scale = Vector2f { 1.f, 1.f };
+	}
 	PickUp::Update(dt);
 }
 

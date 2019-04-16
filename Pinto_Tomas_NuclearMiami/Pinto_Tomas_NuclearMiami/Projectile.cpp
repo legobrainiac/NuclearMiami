@@ -5,7 +5,7 @@
 Projectile::Projectile(const Vector2f& position, const Vector2f& scale, float rotation, const Vector2f& direction, GameObject* shooter)
 : GameObject(position, scale, rotation)
 , m_Direction(direction)
-, m_Speed(500.f)
+, m_Speed(1000.f)
 , m_BounceCount(0)
 , m_MaxBounceCount(1)
 , m_Shooter(shooter)
@@ -28,24 +28,20 @@ void Projectile::Update(float dt)
 void Projectile::Draw() const 
 {
 	glPushMatrix();
-	
 	glTranslatef(m_Position.x, m_Position.y, m_ZLayer);
-
 	glRotatef(m_Rotation, 0.f, 0.f, 1.f);
-	glScalef(m_Scale.x, m_Scale.y, 0.f);
 	
 	glColor4f(1.f, 0.f, 0.f, 1.f);	
 	utils::DrawPoint(0.f, 0.f, 10.f);
 	
 	GameObject::Draw();
-	
 	glPopMatrix();
 }
 
 void Projectile::Collision() 
 {
 	Point2f position = m_Position.ToPoint2f();
-	Point2f direction = (m_Direction * 10.f).ToPoint2f();
+	Point2f direction = (m_Direction * 30.f).ToPoint2f();
 	Point2f posDir = direction + position;
 	
 	utils::HitInfo hit;

@@ -4,8 +4,6 @@
 #include "Vector2f.h"
 #include "GameObject.h"
 
-class Scene;
-
 class Projectile : public GameObject
 {
 public:
