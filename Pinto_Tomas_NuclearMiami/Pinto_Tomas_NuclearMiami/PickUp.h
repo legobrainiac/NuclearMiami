@@ -9,7 +9,7 @@ class PickUp :
 	public GameObject
 {
 public:
-	PickUp(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pOwner);
+	PickUp(const Vector2f& position, const Vector2f& scale, float rotation);
 	PickUp(const PickUp& other) = delete;
 	PickUp& operator=(const PickUp& other) = delete;
 	~PickUp();
@@ -17,7 +17,8 @@ public:
 	void Update(float dt);
 	void Draw() const;
 	
-	virtual void SetInWorld(bool val) { m_InWorld = val; m_PickupTimer = 0.f; }
+	virtual void SetInWorld(bool val);
+	void SetOwner(GameObject* owner) { m_pOwner = owner; }
 	
 protected:
 	GameObject* m_pOwner;

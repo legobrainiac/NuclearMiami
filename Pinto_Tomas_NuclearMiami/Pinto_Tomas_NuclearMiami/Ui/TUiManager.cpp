@@ -71,7 +71,7 @@ TUiManager::TUiManager()
 	// End token
 	m_TokenMap["TEndContainer"] = [](std::ifstream& descriptorStream, std::string resource)
 	{
-		return new TUiEmpty();
+		return nullptr;
 	};
 	
 	// This token exists to process Texture pre-loading

@@ -24,8 +24,8 @@ public:
 	void Draw() const override;
 	
 	// Pickup helpers, NOTE(tomas): this will be gone once we re-implement pickups.
-	bool HasEmptySlot() const;
-	void ProcessPickUp(GameObject* pickUp);
+	bool HasEmptySlot() const override;
+	bool ProcessPickUp(PickUp* pickUp) override;
 	
 	void SendMessage(MessageType message, int value) override;
 	

@@ -1,12 +1,4 @@
 ﻿  AiAgent.cpp
-  Core.cpp
-  Game.cpp
-  GameObject.cpp
-  PickUp.cpp
-  Player.cpp
-  Projectile.cpp
-  ResourceManager.cpp
   Scene.cpp
-  Weapon.cpp
   Generating Code...
   Pinto_Tomas_NuclearMiami.vcxproj -> C:\Repositories\1DAE_PROG_FINAL\Pinto_Tomas_NuclearMiami\Debug\Pinto_Tomas_NuclearMiami.exe

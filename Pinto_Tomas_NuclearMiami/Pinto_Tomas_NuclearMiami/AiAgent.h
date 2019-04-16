@@ -6,6 +6,8 @@
 class Scene;
 class Texture;
 class Sprite;
+class PickUp;
+class Weapon;
 
 class AiAgent :
 	public GameObject
@@ -24,28 +26,29 @@ public:
 	void Draw() const override;
 	
 	void SendMessage(MessageType message, int value) override;
+	bool HasEmptySlot() const override { return m_Weapons.size() < 1; }
+	bool ProcessPickUp(PickUp* pickUp) override;
 	
 private:
 	void DrawBottom() const;
 	void DrawTop() const;
+	void DrawWeapon() const;
 	void DrawHealth() const;
-	
-	GameObject* m_pTarget;
-	
+		
 	float m_MinDistance;
 	float m_MaxDistance;
 	float m_MovementSpeed;
 	float m_Timer;
+	int m_Health;
 	
 	Texture* m_pTorsoTexture;
 	Sprite* m_pLegsSprite;
-	
-	int m_Health;
-	
-	bool InSight(utils::HitInfo& hitOut, Point2f tail, Point2f head);
+	GameObject* m_pTarget;
+	std::vector<Weapon*> m_Weapons;
 	
 	void Ai(float dt);
 	void Shoot(Vector2f direction);
+	bool InSight(utils::HitInfo& hitOut, Point2f tail, Point2f head);
 };
 
 #endif // !AIAGENT_H

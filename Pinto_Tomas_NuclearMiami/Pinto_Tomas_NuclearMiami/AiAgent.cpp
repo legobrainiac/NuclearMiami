@@ -7,6 +7,7 @@
 #include "Texture.h"
 #include "Sprite.h"
 #include "ResourceManager.h"
+#include "Weapon.h"
 
 AiAgent::AiAgent(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pTarget)
 	: GameObject(position, scale, rotation)
@@ -25,6 +26,15 @@ AiAgent::AiAgent(const Vector2f& position, const Vector2f& scale, float rotation
 AiAgent::~AiAgent()
 {
 	delete m_pLegsSprite;
+	
+	if(m_Weapons.size() > 0)
+	{
+		m_Weapons[m_Weapons.size() - 1]->SetInWorld(true);
+		m_Weapons[m_Weapons.size() - 1]->SetPosition(m_Position);
+		m_Weapons[m_Weapons.size() - 1]->SetRotation(m_Rotation);
+		m_pScene->Add(m_Weapons[m_Weapons.size() - 1]);
+		m_Weapons.pop_back();
+	}
 }
 
 void AiAgent::ChangeTarget(GameObject* pTarget)
@@ -35,12 +45,22 @@ void AiAgent::ChangeTarget(GameObject* pTarget)
 void AiAgent::Update(float dt)
 {
 	m_Timer += dt;
+	
+	// Update weapons
+	for(Weapon* wp : m_Weapons)
+		wp->Update(dt);
+	
+	// Update sprite animator
 	m_pLegsSprite->Update(dt);
+	
+	// Process Ai
 	Ai(dt);
 
+	// Process look direction
 	Vector2f dir{ m_Position.ToPoint2f(), m_pTarget->GetPosition().ToPoint2f() };
 	m_Rotation = -(std::atan2(dir.x, dir.y) * 180 / PI);
 
+	// Base Update
 	GameObject::Update(dt);
 }
 
@@ -72,6 +92,22 @@ void AiAgent::DrawTop() const
 
 	m_pTorsoTexture->Draw(Point2f{ -(m_pTorsoTexture->GetWidth() / 2), -(m_pTorsoTexture->GetHeight() / 2) });
 
+	DrawWeapon();
+	
+	glPopMatrix();
+}
+
+void AiAgent::DrawWeapon() const
+{
+	glColor4f(1.f, 1.f, 0.f, 1.f);
+	
+	glPushMatrix();
+	
+	// m_Weapons[m_SelectedSlot]->Draw();
+	
+	if(m_Weapons.size() > 0)
+		m_Weapons[0]->Draw();
+	
 	glPopMatrix();
 }
 
@@ -108,6 +144,24 @@ void AiAgent::SendMessage(MessageType message, int value)
 		
 		m_pScene->AddBlood(m_Position, 10);
 	}
+}
+
+bool AiAgent::ProcessPickUp(PickUp* pickUp)
+{
+	// TODO(tomas): this is repeated code from the player class. Find a way to make this code shared between both. IHasInventory, teach don't like multiple inheritence doe 
+	Weapon* pu = dynamic_cast<Weapon*>(pickUp);
+	
+	if(pu != nullptr && HasEmptySlot())
+	{
+		m_pScene->Remove(pickUp);
+		m_Weapons.push_back(pu);
+		pu->SetOwner(this);
+		pu->SetInWorld(false);
+		
+		return true;
+	}
+	
+	return false;
 }
 
 bool AiAgent::InSight(utils::HitInfo& hitOut, Point2f tail, Point2f head)
@@ -164,15 +218,6 @@ void AiAgent::Ai(float dt)
 
 void AiAgent::Shoot(Vector2f direction)
 {
-	if (m_Timer < 1.f) return;
-
-	m_Timer = 0.f;
-	Projectile* projectile = new Projectile(m_Position, Vector2f{ 0.f, 0.f }, 0.f, direction.Normalized(), this);
-	m_pScene->Add(projectile);
-
-	Vector2f kickBack = Vector2f{ direction.Normalized().ToPoint2f(), Point2f{ 0.f, 0.f } };
-
-	kickBack *= 50.f;
-
-	m_Accelleration += kickBack;
+	if(m_Weapons.size() > 0)
+		m_Weapons[0]->Shoot(m_Position, direction, m_pScene, 4);
 }

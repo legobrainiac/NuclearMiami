@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "GameObject.h"
+#include "PickUp.h"
 #include "Matrix2x3.h"
 #include "structs.h"
 #include "Scene.h"
@@ -195,4 +196,15 @@ void GameObject::Update(float dt)
 
 void GameObject::SendMessage(MessageType message, int value)
 {
+}
+
+// These are to be overriden by objects that are suppose to have inventories
+bool GameObject::ProcessPickUp(PickUp* pickup)
+{
+	return false;
+}
+
+bool GameObject::HasEmptySlot() const
+{
+	return false;
 }

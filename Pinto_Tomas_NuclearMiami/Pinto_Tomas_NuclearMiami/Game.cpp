@@ -55,6 +55,7 @@ Game::~Game()
 // TODO(tomas): pickups should be reworked to work with every one, ie: every object that has an inventory should have IInventory(void ProcessPickUp(GameObject* pPickup))
 // TODO(tomas): when dropping and picking up in the same frame Z-Order is wrong for dropped weapon
 // TODO(tomas): organize the header files and cpp files for every class (player, gameobject, etc, ...)
+// TODO(tomas): Player and AiAgent share a lot of the same behaviour, maybe put some of that joint behaviour in to a base class? 
 void Game::Initialize()
 {
 	// Startup timer
@@ -62,7 +63,7 @@ void Game::Initialize()
     
 	//SDL_ShowCursor(SDL_DISABLE);
 	
-    // Load UI from the menu tankscript file
+    // Load UI from the menu tankscript file and setup callbacks
 	TUiManager::Get()->LoadUiDescriptor("Resources/Scripts/menu.ts");
 	UiCallbackSetUp();
 
@@ -263,7 +264,6 @@ void Game::UiCallbackSetUp()
 	
 	// Register click and delta click callbacks for the buttons
 	TUiButton* pInfoButton = TUiManager::Get()->GetComponent<TUiButton>("infoButton");
-
 
 	if(pInfoButton)
 	{

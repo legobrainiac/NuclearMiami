@@ -22,6 +22,8 @@
 #include <SDL_ttf.h> 
 #include <SDL_mixer.h> 
 
+#include <assert.h>
+
 #include "structs.h"
 #include "utils.h"
 

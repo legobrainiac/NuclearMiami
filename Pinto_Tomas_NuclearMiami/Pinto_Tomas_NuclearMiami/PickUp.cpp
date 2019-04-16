@@ -5,13 +5,10 @@
 #include "GameObject.h"
 #include "Scene.h"
 
-PickUp::PickUp(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pOwner)
+PickUp::PickUp(const Vector2f& position, const Vector2f& scale, float rotation)
 : GameObject(position, scale, rotation)
-, m_pOwner(pOwner)
 , m_InWorld(true)
 {
-	m_MaxAcceleration = 100.f;
-	m_Friction = 1.f;
 }
 
 PickUp::~PickUp()
@@ -21,23 +18,16 @@ PickUp::~PickUp()
 void PickUp::Update(float dt)
 {
 	m_PickupTimer += dt;
-	if(m_InWorld && m_PickupTimer > 2.f)
-	{
-		Point2f pos = m_Position.ToPoint2f();
-		Point2f ownerPos = m_pOwner->GetPosition().ToPoint2f();
-		Vector2f direction { pos, ownerPos };
 
-		// TODO(tomas): this should look for any object that can pick an item up, not just a player
-		Player* pPlayer = dynamic_cast<Player*>(m_pOwner);
-		
-		if(pPlayer)
+	if(m_InWorld && m_PickupTimer > 1.f)
+	{
+		for(GameObject* pGo : m_pScene->GetGameObjects())
 		{
-			if(direction.Length() < 20.f && pPlayer->HasEmptySlot())
-			{
-				// TODO(tomas): any gameobject should have a process pickup function if it has an inventory. Look at this later
-				pPlayer->ProcessPickUp(this);
-				SetInWorld(false);
-			}
+			Point2f pos = m_Position.ToPoint2f();
+			Point2f goPos = pGo->GetPosition().ToPoint2f();
+			
+			if(pos.DistanceTo(goPos) < 20.f)		
+				if(pGo->ProcessPickUp(this)) break;
 		}
 	}
 	
@@ -57,4 +47,13 @@ void PickUp::Draw() const
 	
 	GameObject::Draw();
 	glPopMatrix();
+}
+
+void PickUp::SetInWorld(bool val)
+{
+	m_InWorld = val; 
+	m_PickupTimer = 0.f; 
+	
+	if(val)
+		m_pOwner = nullptr;
 }

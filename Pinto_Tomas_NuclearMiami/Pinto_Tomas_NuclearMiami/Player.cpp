@@ -134,15 +134,21 @@ bool Player::HasEmptySlot() const
 	return (m_Weapons.size() < 1);
 }
 
-void Player::ProcessPickUp(GameObject* pickUp)
+bool Player::ProcessPickUp(PickUp* pickUp)
 {
 	Weapon* pu = dynamic_cast<Weapon*>(pickUp);
 
 	if(pu != nullptr && HasEmptySlot())
 	{
 		m_pScene->Remove(pickUp);
-		m_Weapons.push_back(static_cast<Weapon*>(pickUp));
+		m_Weapons.push_back(pu);
+		pu->SetOwner(this);
+		pu->SetInWorld(false);
+		
+		return true;
 	}
+	
+	return false;
 }
 
 void Player::SendMessage(MessageType message, int value)

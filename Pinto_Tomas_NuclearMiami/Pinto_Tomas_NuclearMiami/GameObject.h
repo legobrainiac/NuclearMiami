@@ -6,54 +6,72 @@
 #include "Vector2f.h"
 #include <vector>
 
+class Scene;
+class PickUp;
+struct Circlef;
+
 enum class MessageType
 {
 	dammage,
 	regen
 };
 
-class Scene;
-struct Circlef;
-
-class GameObject
+class IDynamicObject
 {
 public:
-	GameObject(const Vector2f& position, const Vector2f& scale, float rotation);
-	virtual ~GameObject();
-	
+	virtual void Draw() const = 0;
+	virtual void Update(float dt) = 0;
+};
+
+class GameObject : public IDynamicObject
+{
+public:
+	GameObject(const Vector2f& position, const Vector2f& scale, float rotation);	
 	GameObject(const GameObject&) = delete;
 	GameObject& operator=(const GameObject&) = delete;
+	virtual ~GameObject();
 	
-	// Movement
+	void Draw() const override;
+	void Update(float dt) override;
+	
+	// GameObject position
+	const Vector2f& GetPosition() const;
+	void SetPosition(const Vector2f& position);
+	
+	// GameObject scale
+	const Vector2f& GetScale() const;
+	void SetScale(const Vector2f& scale);
+	
+	// GameObject rotation
+	float GetRotation() const;
+	void SetRotation(float rotation);
+	
+	// GameObject z-sorting layer, render order
+	float GetZLayer() const;
+	void SetZLayer(float zLayer);
+	
+	// GameObject children and parent
+	void AddChild(GameObject* pChild);
+	const std::vector<GameObject*>& GetChildren() const;
+	const GameObject* GetParent() const;
+	
+	// Pickup handling
+	virtual bool ProcessPickUp(PickUp* pickup);
+	virtual bool HasEmptySlot() const;
+	
+	std::vector<Point2f> GetCollider();
+	void SetFriction(float friction);
 	void ApplyForce(const Vector2f& xy);
+
+	// Message system to avoid Runtime type checking for everything
+	// TODO(tomas): template this
+	virtual void SendMessage(MessageType message, int value);
 	
-	// Getters
-	static int GetInstanceCount() { return m_InstanceCounter; }
+	// Object cleanup helpers
 	bool IsDirty() const { return m_ShouldDelete; }
 	virtual void MakeDirty() { m_ShouldDelete = true; }
 	
-	const Vector2f& GetPosition() const;
-	const Vector2f& GetScale() const;
-	float GetRotation() const;
-	float GetZLayer() const;
-	
-	const std::vector<GameObject*>& GetChildren() const;
-	const GameObject* GetParent() const;
-	std::vector<Point2f> GetCollider();
-	
-	// Setters
-	void SetPosition(const Vector2f& position);
-	void SetScale(const Vector2f& scale);
-	void SetRotation(float rotation);
-	void SetZLayer(float zLayer);
-	void SetFriction(float friction);
-	
-	void AddChild(GameObject* pChild);
-	
-	// TODO(tomas): template this
-	virtual void SendMessage(MessageType message, int value);
-	virtual void Draw() const;
-	virtual void Update(float dt);
+	static int GetInstanceCount() { return m_InstanceCounter; }
 	
 protected:
 	void Translate(const Vector2f& xy);
@@ -66,19 +84,19 @@ protected:
 	Vector2f m_Scale;
 	Vector2f m_Accelleration;
 	Vector2f m_PreviousPos;
+	Circlef m_CircleCollider;
 	
 	float m_Rotation;
 	float m_Friction;
 	float m_ZLayer;
 	float m_MaxAcceleration;
+	bool m_ShouldDelete;
 	
 	GameObject* m_pParent;
 	Scene* m_pScene;
+	
 	std::vector<GameObject*> m_Children;
 	std::vector<Point2f> m_VertexCollider;
-	Circlef m_CircleCollider;
-	
-	bool m_ShouldDelete;
 	
 	static int m_InstanceCounter;
 };
