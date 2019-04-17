@@ -27,7 +27,10 @@ void PickUp::Update(float dt)
 			Point2f goPos = pGo->GetPosition().ToPoint2f();
 			
 			if(pos.DistanceTo(goPos) < 20.f)		
-				if(pGo->ProcessPickUp(this)) break;
+			{
+				if(pGo->ProcessPickUp(this)) 
+					break;
+			}
 		}
 	}
 	

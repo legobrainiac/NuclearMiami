@@ -41,7 +41,7 @@ void Projectile::Draw() const
 void Projectile::Collision() 
 {
 	Point2f position = m_Position.ToPoint2f();
-	Point2f direction = (m_Direction * 30.f).ToPoint2f();
+	Point2f direction = (m_Direction * 20.f).ToPoint2f();
 	Point2f posDir = direction + position;
 	
 	utils::HitInfo hit;

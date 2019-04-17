@@ -13,6 +13,7 @@ public:
 
 	bool IsLoaded( ) const;
 	bool Play( int loops );
+	bool PlayDirectional(float rotation, float distance);
 	void SetVolume( int value ); 
 	int GetVolume( ) const; 
 	static void StopAll( );

@@ -29,6 +29,9 @@ private:
 	SoundEffect* m_pShootingSound;
 	SoundEffect* m_pEquip;
 	SoundEffect* m_pDrop;
+	
+	float m_RotationToPlayer;
+	float m_DistanceToPlayer;
 	float m_KickBack;
 	float m_Timer;
 	int m_RateOfFire;

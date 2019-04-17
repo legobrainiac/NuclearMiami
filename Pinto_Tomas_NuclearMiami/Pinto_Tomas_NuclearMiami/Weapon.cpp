@@ -17,7 +17,7 @@ Weapon::Weapon(const Vector2f& position, const Vector2f& scale, float rotation, 
 , m_pDrop(ResourceManager::Get()->GetSoundEffect("drop"))
 {
 	m_Friction = 20.f;
-	m_pShootingSound->SetVolume(64);
+	m_pShootingSound->SetVolume(48);
 	m_pEquip->SetVolume(64);
 	m_pDrop->SetVolume(64);
 }
@@ -53,6 +53,13 @@ void Weapon::Update(float dt)
 	else
 	{
 		m_Scale = Vector2f { 1.f, 1.f };
+		
+		Point2f playerPos = m_pScene->GetPlayer()->GetPosition().ToPoint2f();
+		Point2f myPos = m_pOwner->GetPosition().ToPoint2f();
+		
+		Vector2f dir { playerPos, myPos };
+		m_RotationToPlayer = std::atan2(dir.y, dir.x)  * (180.f / PI) - 90.f;
+		m_DistanceToPlayer = dir.Length() / 4.f;
 	}
 	PickUp::Update(dt);
 }
@@ -62,9 +69,9 @@ void Weapon::SetInWorld(bool val)
 	PickUp::SetInWorld(val);
 
 	if(val)
-		m_pDrop->Play(0);
+		m_pDrop->PlayDirectional(m_RotationToPlayer, m_DistanceToPlayer);
 	else
-		m_pEquip->Play(0);
+		m_pEquip->PlayDirectional(m_RotationToPlayer, m_DistanceToPlayer);
 }
 
 // TODO(tomas): make this virtual
@@ -79,8 +86,12 @@ void Weapon::Shoot(const Vector2f& position, const Vector2f& direction, Scene* p
 	Vector2f kickBack = Vector2f{direction.Normalized().ToPoint2f(), Point2f{ 0.f, 0.f }};
 	
 	kickBack *= m_KickBack;
-	m_pOwner->ApplyForce(kickBack);	
-	m_pShootingSound->Play(0);
+	m_pOwner->ApplyForce(kickBack);
+	
+	if(rofMod > 1)
+		m_pShootingSound->PlayDirectional(m_RotationToPlayer, m_DistanceToPlayer);		
+	else
+		m_pShootingSound->Play(0);
 }
 
 Weapon::~Weapon()

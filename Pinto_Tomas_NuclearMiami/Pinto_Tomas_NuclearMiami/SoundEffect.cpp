@@ -38,6 +38,23 @@ bool SoundEffect::Play( int loops )
 	}
 }
 
+bool SoundEffect::PlayDirectional(float rotation, float distance)
+{
+	float rot360 = rotation < 0 ? rotation + 360 : rotation;
+	
+	if (m_pMixChunk != nullptr)
+	{
+		int channel{ Mix_PlayChannel(-1, m_pMixChunk, 0) };
+		Mix_SetPosition(channel, int(rot360) + 180, int(distance));
+		
+		return channel == -1 ? false : true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 void SoundEffect::SetVolume( int value )
 {
 	if ( m_pMixChunk != nullptr )

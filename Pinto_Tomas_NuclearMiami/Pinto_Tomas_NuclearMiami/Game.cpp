@@ -312,6 +312,17 @@ void Game::UiCallbackSetUp()
 			}
 			);
 	}
+	
+	TUiButton* toggleVSync = TUiManager::Get()->GetComponent<TUiButton>("settings.vsyncToggle");
+	
+	if(toggleVSync)
+	{
+		toggleVSync->RegisterClickCallBack([&](){
+										   if(m_VSync) { SDL_GL_SetSwapInterval(0); m_VSync = false; }
+										   else { SDL_GL_SetSwapInterval(1); m_VSync = true; }
+										   LOG("VSync = " << m_VSync);
+										   });
+	}
 }
 
 void Game::RaycastVision() const

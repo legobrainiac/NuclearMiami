@@ -35,6 +35,7 @@ public:
 	// DATA MEMBERS
 	Window m_Window;
 	Point2f m_MousePosition;
+	bool m_VSync = true;
     
 	TUiNode* m_pMenu;
 	CoreFlags* m_ExitFlags;
