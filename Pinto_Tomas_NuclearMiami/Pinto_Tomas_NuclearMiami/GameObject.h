@@ -60,6 +60,7 @@ public:
 	virtual bool HasEmptySlot() const;
 	
 	std::vector<Point2f> GetCollider();
+	Circlef GetCircleCollider();
 	void SetFriction(float friction);
 	void ApplyForce(const Vector2f& xy);
 
@@ -78,7 +79,7 @@ protected:
 	void Scale(const Vector2f& xy);
 	void Rotate(float z);
 	
-	virtual void Collision();
+	virtual void Collision(float dt);
 	
 	Vector2f m_Position;
 	Vector2f m_Scale;
@@ -91,6 +92,7 @@ protected:
 	float m_ZLayer;
 	float m_MaxAcceleration;
 	bool m_ShouldDelete;
+	bool m_DoesCollision;
 	
 	GameObject* m_pParent;
 	Scene* m_pScene;

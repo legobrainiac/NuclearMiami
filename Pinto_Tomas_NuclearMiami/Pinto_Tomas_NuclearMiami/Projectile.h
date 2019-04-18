@@ -15,7 +15,7 @@ public:
 	void Draw() const override;
 
 private:
-	void Collision() override;
+	void Collision(float dt) override;
 	
 	Vector2f m_Direction;
 	float m_Speed;

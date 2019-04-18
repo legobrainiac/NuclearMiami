@@ -16,13 +16,10 @@ GameObject::GameObject(const Vector2f& position, const Vector2f& scale, float ro
 , m_MaxAcceleration(150.f)
 , m_CircleCollider(Point2f {}, 8.f)
 , m_pScene(Scene::Get())
+, m_DoesCollision(true)
 
 {
 	++m_InstanceCounter;
-	m_VertexCollider.push_back(Point2f {-10.f, -5.f});
-	m_VertexCollider.push_back(Point2f {-10.f, 5.f});
-	m_VertexCollider.push_back(Point2f {10.f, 5.f});
-	m_VertexCollider.push_back(Point2f {10.f, -5.f});
 }
 
 GameObject::~GameObject()
@@ -53,18 +50,42 @@ void GameObject::Rotate(float z)
 	m_Rotation += z;
 }
 
-void GameObject::Collision()
+void GameObject::Collision(float dt)
 {
-	// Collision test
-	m_CircleCollider.center = m_Position.ToPoint2f();
+	if(m_DoesCollision)
+	{
+		// Collision with other objects
+		for(GameObject* go : m_pScene->GetGameObjects())
+		{
+			if(go != this)
+			{
+				Circlef myCollider = GetCircleCollider();
+				Circlef otherCollider = go->GetCircleCollider();
+
+				if(myCollider.IsOverlapping(otherCollider) && go->m_DoesCollision)
+				{
+					Vector2f dir { myCollider.center, otherCollider.center };
+					float distance = dir.Length();
+					float overlapDistance  = (distance - (myCollider.radius + otherCollider.radius)) / 2.f;
+			
+					m_Position.x -= overlapDistance * (m_Position.x - go->m_Position.x) / distance;
+					m_Position.y -= overlapDistance * (m_Position.y - go->m_Position.y) / distance;
+			
+					go->m_Position.x += overlapDistance * (m_Position.x - go->m_Position.x) / distance;
+					go->m_Position.y += overlapDistance * (m_Position.y - go->m_Position.y) / distance;
+				}
+			}
+		}
+	}
+	
+	// Collision with the scene
+	GetCircleCollider();
 	
 	std::vector<Vector2f> hitVertexVector;
 	
 	for(std::vector<Point2f> collider : m_pScene->GetSceneCollider())
 	{
 		std::vector<Vector2f> hitVertexTempVector = utils::CustomOverlap(collider, m_CircleCollider);
-		
-		// NOTE(tomas): this is not good xD, good for now but not in the long run
 		hitVertexVector.insert( hitVertexVector.end(), hitVertexTempVector.begin(), hitVertexTempVector.end() );
 	}
 
@@ -139,6 +160,12 @@ std::vector<Point2f> GameObject::GetCollider()
 	return tMat.Transform(rMat.Transform(m_VertexCollider));
 }
 
+Circlef GameObject::GetCircleCollider()
+{
+	m_CircleCollider.center = m_Position.ToPoint2f();
+	return m_CircleCollider;
+}
+
 // Setters
 void GameObject::SetPosition(const Vector2f& position)
 {
@@ -191,7 +218,7 @@ void GameObject::Update(float dt)
 	for(GameObject* go : m_Children)
 		go->Update(dt);
 	
-	Collision();
+	Collision(dt);
 }
 
 void GameObject::SendMessage(MessageType message, int value)

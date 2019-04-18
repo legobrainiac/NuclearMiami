@@ -18,6 +18,10 @@ Player::Player(const Vector2f& position, const Vector2f& scale, float rotation)
 , m_Health(100)
 , m_WeaponPivot {10.f, 0.f}
 {
+	m_VertexCollider.push_back(Point2f {-10.f, -5.f});
+	m_VertexCollider.push_back(Point2f {-10.f, 5.f});
+	m_VertexCollider.push_back(Point2f {10.f, 5.f});
+	m_VertexCollider.push_back(Point2f {10.f, -5.f});
 }
 
 Player::~Player()

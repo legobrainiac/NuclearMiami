@@ -9,6 +9,12 @@ PickUp::PickUp(const Vector2f& position, const Vector2f& scale, float rotation)
 : GameObject(position, scale, rotation)
 , m_InWorld(true)
 {
+	m_DoesCollision = false;
+	
+	m_VertexCollider.push_back(Point2f {-10.f, -5.f});
+	m_VertexCollider.push_back(Point2f {-10.f, 5.f});
+	m_VertexCollider.push_back(Point2f {10.f, 5.f});
+	m_VertexCollider.push_back(Point2f {10.f, -5.f});
 }
 
 PickUp::~PickUp()

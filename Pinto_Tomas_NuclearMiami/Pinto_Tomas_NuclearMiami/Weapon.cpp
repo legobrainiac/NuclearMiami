@@ -20,6 +20,7 @@ Weapon::Weapon(const Vector2f& position, const Vector2f& scale, float rotation, 
 	m_pShootingSound->SetVolume(48);
 	m_pEquip->SetVolume(64);
 	m_pDrop->SetVolume(64);
+	m_CircleCollider.radius = 10.f;
 }
 
 void Weapon::Draw() const
@@ -74,7 +75,6 @@ void Weapon::SetInWorld(bool val)
 		m_pEquip->PlayDirectional(m_RotationToPlayer, m_DistanceToPlayer);
 }
 
-// TODO(tomas): make this virtual
 void Weapon::Shoot(const Vector2f& position, const Vector2f& direction, Scene* pScene, float rofMod)
 {
 	if(m_Timer < (1.f / (m_RateOfFire / rofMod)) || m_InWorld) return;	

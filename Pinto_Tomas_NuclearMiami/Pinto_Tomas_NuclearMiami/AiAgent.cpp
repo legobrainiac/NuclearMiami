@@ -21,6 +21,11 @@ AiAgent::AiAgent(const Vector2f& position, const Vector2f& scale, float rotation
 {
 	m_Friction = 10.f;
 	m_MaxAcceleration = 100.f;
+	
+	m_VertexCollider.push_back(Point2f {-10.f, -5.f});
+	m_VertexCollider.push_back(Point2f {-10.f, 5.f});
+	m_VertexCollider.push_back(Point2f {10.f, 5.f});
+	m_VertexCollider.push_back(Point2f {10.f, -5.f});
 }
 
 AiAgent::~AiAgent()

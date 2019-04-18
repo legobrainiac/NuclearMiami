@@ -11,6 +11,7 @@ Projectile::Projectile(const Vector2f& position, const Vector2f& scale, float ro
 , m_Shooter(shooter)
 {
 	m_MaxAcceleration = 1000.f;
+	m_DoesCollision = false;
 	m_Friction = 1.f;
 }
 
@@ -38,7 +39,7 @@ void Projectile::Draw() const
 	glPopMatrix();
 }
 
-void Projectile::Collision() 
+void Projectile::Collision(float dt) 
 {
 	Point2f position = m_Position.ToPoint2f();
 	Point2f direction = (m_Direction * 20.f).ToPoint2f();

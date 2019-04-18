@@ -59,7 +59,7 @@ void Scene::Initialize()
 	
 	Weapon* pickUp2 = new Weapon(Vector2f {250.f, 120.f}, Vector2f {1.f, 1.f}, 61.f, "pistol", 50.f, 4);
 	
-	Weapon* pickUp3 = new Weapon(Vector2f {630.f, 130.f}, Vector2f {1.f, 1.f}, 74.f, "rifle", 200.f, 15);
+	Weapon* pickUp3 = new Weapon(Vector2f {543.f, 420.f}, Vector2f {1.f, 1.f}, 74.f, "rifle", 200.f, 15);
 
 	pickUp1->SetZLayer(-2);
 	pickUp2->SetZLayer(-2);
