@@ -9,6 +9,8 @@
 #include "PickUp.h"
 #include "Weapon.h"
 
+#include "Ui/TUiManager.h"
+
 Scene* Scene::m_psScene = nullptr;
 
 Scene* Scene::Get()
@@ -35,45 +37,7 @@ Scene::Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocat
 
 void Scene::Initialize()
 {
-	// TODO(tomas): TUiManager preloader tokens please
-	
-	// Populate scene
-	m_pPlayer = new Player(Vector2f{200.f, 300.f},Vector2f{1.f, 1.f}, 0.f);
-	
-	AiAgent* aiAgentTest = new AiAgent(Vector2f { 280.f, 700.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer);
-	aiAgentTest->SetZLayer(-1.f);
-
-	AiAgent* aiAgentTest2 = new AiAgent(Vector2f { 600.f, 100.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer);
-	aiAgentTest2->SetZLayer(-1.f);
-	
-	AiAgent* aiAgentTest3 = new AiAgent(Vector2f { 620.f, 90.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer);
-	aiAgentTest2->SetZLayer(-1.f);
-	
-	AiAgent* aiAgentTest4 = new AiAgent(Vector2f { 580.f, 110.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer);
-	aiAgentTest2->SetZLayer(-1.f);
-	
-	AiAgent* aiAgentTest5 = new AiAgent(Vector2f { 630.f, 130.f }, Vector2f { 1.f, 1.f }, 0.f, m_pPlayer);
-	aiAgentTest2->SetZLayer(-1.f);
-	
-	Weapon* pickUp1 = new Weapon(Vector2f {230.f, 130.f}, Vector2f {1.f, 1.f}, 74.f, "rifle", 200, 15);
-	
-	Weapon* pickUp2 = new Weapon(Vector2f {250.f, 120.f}, Vector2f {1.f, 1.f}, 61.f, "pistol", 50.f, 4);
-	
-	Weapon* pickUp3 = new Weapon(Vector2f {543.f, 420.f}, Vector2f {1.f, 1.f}, 74.f, "rifle", 200.f, 15);
-
-	pickUp1->SetZLayer(-2);
-	pickUp2->SetZLayer(-2);
-	pickUp3->SetZLayer(-2);
-	
-	Add(m_pPlayer);
-	Add(aiAgentTest);
-	Add(aiAgentTest2);
-	Add(aiAgentTest3);
-	Add(aiAgentTest4);
-	Add(aiAgentTest5);
-	Add(pickUp1);
-	Add(pickUp2);
-	Add(pickUp3);
+	TUiManager::Get()->LoadUiDescriptor("Resources/Scenes/Scene3/scene3.ts");
 }
 
 void Scene::Draw() const
@@ -191,6 +155,16 @@ void Scene::ProcessAdditions()
 		
 		m_AddBuffer.Reset();
 	}
+}
+
+void Scene::ForceSort()
+{
+	auto sort = [](GameObject* left, GameObject* right) 
+	{
+		return left->GetZLayer() < right->GetZLayer();
+	};
+	
+	std::sort(m_Scene.begin(), m_Scene.end(), sort);
 }
 
 void Scene::ProcessDeletions()

@@ -51,6 +51,8 @@ public:
 	void Delete(GameObject* pGameObject);
 	void Remove(GameObject* pGameObject);
 	
+	void SetPlayer(Player* go) { m_pPlayer = go; }
+	
 	// Getters
 	std::vector<GameObject*>& GetGameObjects() { return m_Scene; }
 	const std::vector<std::vector<Point2f>>& GetSceneCollider();
@@ -58,6 +60,9 @@ public:
 	Camera* GetMainCamera() const;	
 	
 	~Scene();
+	
+	// Don't call this every frame pls
+	void ForceSort();
 	
 	// Singleton impl
 	static Scene* Get();

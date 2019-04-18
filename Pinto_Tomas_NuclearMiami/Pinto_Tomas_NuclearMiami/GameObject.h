@@ -23,7 +23,14 @@ public:
 	virtual void Update(float dt) = 0;
 };
 
-class GameObject : public IDynamicObject
+class IInventory
+{
+public:
+	virtual bool ProcessPickUp(PickUp* pickup) = 0;
+	virtual bool HasEmptySlot() const = 0;
+};
+
+class GameObject : public IDynamicObject, public IInventory
 {
 public:
 	GameObject(const Vector2f& position, const Vector2f& scale, float rotation);	
@@ -56,8 +63,8 @@ public:
 	const GameObject* GetParent() const;
 	
 	// Pickup handling
-	virtual bool ProcessPickUp(PickUp* pickup);
-	virtual bool HasEmptySlot() const;
+	bool ProcessPickUp(PickUp* pickup) override;
+	bool HasEmptySlot() const override;
 	
 	std::vector<Point2f> GetCollider();
 	Circlef GetCircleCollider();

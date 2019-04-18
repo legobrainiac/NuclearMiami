@@ -43,16 +43,13 @@ Game::~Game()
 
 // TODO(tomas): Think about how i wanna do the background of the menu, once we have the scene working i can make a small scene with just the ai agents going abouts
 // TODO(tomas): scene reset
-// TODO(tomas): scene parser, right now we just load the texture and svg. Populating with items is done by hand. We want a parser where we can populate the scene in game, export it and then be able to load it back. This parser will work with TScript :)
 // TODO(tomas): different enemies
 // TODO(tomas): weapon rating system
 // TODO(tomas): if ai doesnt have a weapon it prioritizes looking for one unless player is close to him. if enemie is not in sight ai will not prioritize looking for a weapon.
 // TODO(tomas): modern opengl, i want to use shaders plsssss, menu fadeaway in to game
-// TODO(tomas): remake camera class, implemente screen shape, lerp follow, 
+// TODO(tomas): remake camera class, implement screen shake, lerp follow
 // TODO(tomas): ui slider, ui tick box
 // TODO(tomas): more custom AI :D
-// TODO(tomas): make a document describing the inheritance of the game
-// TODO(tomas): pickups should be reworked to work with every one, ie: every object that has an inventory should have IInventory(void ProcessPickUp(GameObject* pPickup))
 // TODO(tomas): when dropping and picking up in the same frame Z-Order is wrong for dropped weapon
 // TODO(tomas): organize the header files and cpp files for every class (player, gameobject, etc, ...)
 // TODO(tomas): Player and AiAgent share a lot of the same behaviour, maybe put some of that joint behaviour in to a base class? 

@@ -12,7 +12,7 @@
 AiAgent::AiAgent(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pTarget)
 	: GameObject(position, scale, rotation)
 	, m_pTarget(pTarget)
-	, m_MinDistance(30.f)
+	, m_MinDistance(50.f)
 	, m_MaxDistance(1000.f)
 	, m_MovementSpeed(50.f)
 	, m_pTorsoTexture(ResourceManager::Get()->GetTexture("charTorso"))

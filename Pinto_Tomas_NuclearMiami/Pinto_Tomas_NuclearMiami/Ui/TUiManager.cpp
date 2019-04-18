@@ -10,6 +10,11 @@
 #include "TUiUtils.h"
 
 #include "..\ResourceManager.h"
+#include "..\Scene.h"
+
+#include "..\Player.h"
+#include "..\AiAgent.h"
+#include "..\Weapon.h"
 
 #include <sstream>
 #include <deque>
@@ -101,6 +106,65 @@ TUiManager::TUiManager()
 		std::string name = utils::GetParameterValue("name", resource);
 		
 		ResourceManager::Get()->LoadSoundStream(path, name);
+		return new TUiEmpty();
+	};
+	
+	// Scene object loaders
+	m_TokenMap["TPlayer"] = [](std::ifstream& descriptorStream, std::string resource)
+	{
+		float x = std::stof(utils::GetParameterValue("posx", resource));
+		float y = std::stof(utils::GetParameterValue("posy", resource));
+		float z = std::stof(utils::GetParameterValue("posz", resource));
+		float r = std::stof(utils::GetParameterValue("rotation", resource));
+	
+		Player* pPlayer = new Player(Vector2f { x, y }, Vector2f { 1.f, 1.f }, r);
+		pPlayer->SetZLayer(z);
+		Scene::Get()->Add(pPlayer);
+		Scene::Get()->SetPlayer(pPlayer);
+		
+		return new TUiEmpty();
+	};
+	
+	m_TokenMap["TEnemy"] = [](std::ifstream& descriptorStream, std::string resource)
+	{
+		float x = std::stof(utils::GetParameterValue("posx", resource));
+		float y = std::stof(utils::GetParameterValue("posy", resource));
+		float z = std::stof(utils::GetParameterValue("posz", resource));
+		float r = std::stof(utils::GetParameterValue("rotation", resource));
+	
+		Player* pPlayer = Scene::Get()->GetPlayer();
+		AiAgent* pAiAgent = new AiAgent(Vector2f { x, y }, Vector2f { 1.f, 1.f }, r, pPlayer);
+		pAiAgent->SetZLayer(z);
+		Scene::Get()->Add(pAiAgent);
+		
+		return new TUiEmpty();
+	};
+	
+	m_TokenMap["TRifle"] = [](std::ifstream& descriptorStream, std::string resource)
+	{
+		float x = std::stof(utils::GetParameterValue("posx", resource));
+		float y = std::stof(utils::GetParameterValue("posy", resource));
+		float z = std::stof(utils::GetParameterValue("posz", resource));
+		float r = std::stof(utils::GetParameterValue("rotation", resource));
+	
+		Weapon* pRifle = new Weapon(Vector2f {x, y}, Vector2f {1.f, 1.f}, r, "rifle", 200, 15);
+		pRifle->SetZLayer(z);
+		Scene::Get()->Add(pRifle);
+		
+		return new TUiEmpty();
+	};
+	
+	m_TokenMap["TPistol"] = [](std::ifstream& descriptorStream, std::string resource)
+	{
+		float x = std::stof(utils::GetParameterValue("posx", resource));
+		float y = std::stof(utils::GetParameterValue("posy", resource));
+		float z = std::stof(utils::GetParameterValue("posz", resource));
+		float r = std::stof(utils::GetParameterValue("rotation", resource));
+	
+		Weapon* pPistol = new Weapon(Vector2f {x, y}, Vector2f {1.f, 1.f}, r, "pistol", 50, 4);
+		pPistol->SetZLayer(z);
+		Scene::Get()->Add(pPistol);
+		
 		return new TUiEmpty();
 	};
 }
