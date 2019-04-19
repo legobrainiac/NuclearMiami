@@ -40,10 +40,11 @@ public:
 	TUiNode* m_pMenu;
 	CoreFlags* m_ExitFlags;
     float m_ElapsedTime;
+	float m_EndScreenTimer;
 
 	// Sound
 	SoundStream* m_pMenuMusic;
-	
+	SoundStream* m_pGameMusic;
 	// Scene
 	Scene* m_pScene;
 	Camera* m_pCamera;
@@ -59,7 +60,9 @@ public:
 	{
 		MainMenu, // State for the main menu when not playing
 		Playing,// State for when playing
-		Paused // State for menu when playing
+		Paused, // State for menu when playing
+		EndScreen, // State for when the player wins
+		DeathScreen // State for when the player wins
 	}m_ScreenState;
 	
 	// Game start
@@ -70,4 +73,7 @@ public:
 	
 	// Helpers
 	void ToggleInfo();
+	
+	void DoDeathScreen(float dt);
+	void DoEndScreen(float dt);
 };

@@ -32,6 +32,7 @@ Game::Game(const Window& window)
 	//, m_pCamera(new Camera(320.f, 180.f, &m_Window, &m_MousePosition))
 	//, m_pCamera(new Camera(640.f, 360.f, &m_Window, &m_MousePosition))
 	, m_pCamera(new Camera(480.f, 270.f, &m_Window, &m_MousePosition))
+//, m_pCamera(new Camera(1920.f, 1080.f, &m_Window, &m_MousePosition))
 {
 	Initialize();
 }
@@ -42,7 +43,6 @@ Game::~Game()
 }
 
 // TODO(tomas): Think about how i wanna do the background of the menu, once we have the scene working i can make a small scene with just the ai agents going abouts
-// TODO(tomas): scene reset
 // TODO(tomas): different enemies
 // TODO(tomas): weapon rating system
 // TODO(tomas): if ai doesnt have a weapon it prioritizes looking for one unless player is close to him. if enemie is not in sight ai will not prioritize looking for a weapon.
@@ -76,11 +76,17 @@ void Game::Initialize()
 
 	// Play start menu music
 	m_pMenuMusic = ResourceManager::Get()->GetSoundStream("menu_music");
+	m_pGameMusic = ResourceManager::Get()->GetSoundStream("game_music_1");
 
 	if (m_pMenuMusic->IsLoaded())
 	{
 		m_pMenuMusic->SetVolume(15);
 		m_pMenuMusic->Play(true);
+	}
+	
+	if(m_pGameMusic->IsLoaded())
+	{
+		m_pGameMusic->SetVolume(128);
 	}
 
 	// Get Elapsed time
@@ -107,6 +113,13 @@ void Game::Cleanup()
 
 void Game::Update(float dt)
 {
+	DoDeathScreen(dt);
+	DoEndScreen(dt);
+	
+	// In case a scene reset happens and our pointers become invalid
+	m_pScene = Scene::Get();
+	m_pScene->SetMainCamera(m_pCamera);
+	
 	m_ElapsedTime += dt;
 
 	// Update Ui
@@ -117,6 +130,78 @@ void Game::Update(float dt)
 		m_pScene->Update(dt);
 }
 
+void Game::DoDeathScreen(float dt)
+{
+	if(Scene::Get()->GetPlayer()->IsDead() && m_ScreenState != ScreenState::MainMenu)
+	{
+		m_ScreenState = ScreenState::DeathScreen;
+		m_EndScreenTimer += dt;
+		
+		TUiContainer* deathScreen = TUiManager::Get()->GetComponent<TUiContainer>("deathScreen");
+
+		if(deathScreen)
+			deathScreen->SetActive(true);
+		
+		TUiButton* pInfoButton = TUiManager::Get()->GetComponent<TUiButton>("infoButton");
+		
+		if (pInfoButton)
+			pInfoButton->SetActive(false);
+	}
+	
+	if(m_EndScreenTimer > 5.f && m_ScreenState == ScreenState::DeathScreen)
+	{
+		Scene::Get()->Reset();
+		m_ScreenState = ScreenState::Playing;
+		m_EndScreenTimer = 0.f;
+		
+		TUiContainer* deathScreen = TUiManager::Get()->GetComponent<TUiContainer>("deathScreen");
+		
+		if(deathScreen)
+			deathScreen->SetActive(false);
+		
+		TUiButton* pInfoButton = TUiManager::Get()->GetComponent<TUiButton>("infoButton");
+		
+		if (pInfoButton)
+			pInfoButton->SetActive(true);
+	}
+}
+
+void Game::DoEndScreen(float dt)
+{
+	if(AiAgent::GetAiInstanceCount() <= 0 && !Scene::Get()->GetPlayer()->IsDead() && m_ScreenState != ScreenState::MainMenu)
+	{
+		m_ScreenState = ScreenState::EndScreen;
+		m_EndScreenTimer += dt;
+		
+		TUiContainer* endScreen = TUiManager::Get()->GetComponent<TUiContainer>("endScreen");
+
+		if(endScreen)
+			endScreen->SetActive(true);
+		
+		TUiButton* pInfoButton = TUiManager::Get()->GetComponent<TUiButton>("infoButton");
+		
+		if (pInfoButton)
+			pInfoButton->SetActive(false);
+	}
+	
+	if(m_EndScreenTimer > 5.f && m_ScreenState == ScreenState::EndScreen)
+	{
+		Scene::Get()->Reset();
+		m_ScreenState = ScreenState::Playing;
+		m_EndScreenTimer = 0.f;
+		
+		TUiContainer* endScreen = TUiManager::Get()->GetComponent<TUiContainer>("endScreen");
+		
+		if(endScreen)
+			endScreen->SetActive(false);
+		
+		TUiButton* pInfoButton = TUiManager::Get()->GetComponent<TUiButton>("infoButton");
+		
+		if (pInfoButton)
+			pInfoButton->SetActive(true);
+	}
+}
+
 void Game::Draw() const
 {
 	ClearBackground();
@@ -124,9 +209,10 @@ void Game::Draw() const
 	if (m_ScreenState != ScreenState::Paused &&  m_ScreenState != ScreenState::MainMenu)
 	{
 		// Calculate camera position with mouse
+		m_pScene->SetMainCamera(m_pCamera);
 		Player* pPlayer = m_pScene->GetPlayer();
 		Camera* pCamera = m_pScene->GetMainCamera();
-
+		
 		Point2f cameraPosition = pCamera->GetPosition(pPlayer->GetPosition());
 		Point2f mouseOffset = Vector2f{ pPlayer->GetPosition().ToPoint2f(), pCamera->GetMouseWS(pPlayer->GetPosition()) }.ToPoint2f();
 
@@ -175,8 +261,12 @@ void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 		break;
 
 	case SDLK_b:
-		m_pScene->AddBlood(m_pScene->GetPlayer()->GetPosition(), 10);
-		LOG("Player position: " << m_pScene->GetPlayer()->GetPosition());
+		Scene::Get()->AddBlood(m_pScene->GetPlayer()->GetPosition(), 10);
+		LOG("Player position: " << Scene::Get()->GetPlayer()->GetPosition());
+		break;
+		
+	case SDLK_x:
+		Scene::Get()->Reset();
 		break;
 	}
 }
@@ -208,14 +298,15 @@ void Game::ClearBackground() const
 void Game::StartGame(std::string level)
 {
 	m_ScreenState = ScreenState::Playing;
-	m_pMenuMusic->Pause();
-	// Load level
+	m_pMenuMusic->Stop();
+	m_pGameMusic->Play(true);
 }
 
 void Game::UnloadGame()
 {
 	m_ScreenState = ScreenState::MainMenu;
-	m_pMenuMusic->Resume();
+	m_pGameMusic->Stop();
+	m_pMenuMusic->Play(true);
 }
 
 void Game::UiCallbackSetUp()

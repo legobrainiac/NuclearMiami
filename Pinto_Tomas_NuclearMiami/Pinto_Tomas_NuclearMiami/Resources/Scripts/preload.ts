@@ -4,6 +4,7 @@ TPreloadTexture(path="Resources/Images/Weapons/rifle.png", name="rifle")
 TPreloadTexture(path="Resources/Images/Weapons/pistol.png", name="pistol")
 
 TPreloadSoundStream(path="Resources/Audio/music.wav", name="menu_music")
+TPreloadSoundStream(path="Resources/Audio/music1.wav", name="game_music_1")
 
 TPreloadSoundEffect(path="Resources/Audio/cock.wav", name="cock")
 TPreloadSoundEffect(path="Resources/Audio/drop.wav", name="drop")

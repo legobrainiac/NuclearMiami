@@ -25,6 +25,8 @@ TUiButton::~TUiButton()
 
 void TUiButton::Draw(const Window& window)
 {
+	if(!m_Active) return;
+	
 	m_Rect = utils::GetScalar(*this, window);
     
 	glColor3f(0.5f, 1.0f, 0.5f);
@@ -38,6 +40,8 @@ void TUiButton::Draw(const Window& window)
 
 void TUiButton::Update(float dt, Point2f mousePos)
 {
+	if(!m_Active) return;
+	
 	m_IsOverlapped = m_Rect.ContainsPoint(mousePos);
 	
 	if(m_IsOverlapped && !m_IsOverlappedTriggered)

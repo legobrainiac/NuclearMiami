@@ -40,6 +40,13 @@ void Scene::Initialize()
 	TUiManager::Get()->LoadUiDescriptor("Resources/Scenes/Scene3/scene3.ts");
 }
 
+void Scene::Reset()
+{
+	delete m_psScene;
+	m_psScene = nullptr;
+	Scene::Get()->Initialize();
+}
+
 void Scene::Draw() const
 {	
 	glPushMatrix();
@@ -171,6 +178,8 @@ void Scene::ProcessDeletions()
 {
 	if(m_DeleteBuffer.dirty)
 	{
+		// This causes very rare wrong deletes :/
+		/*
 		size_t objectCount = m_DeleteBuffer.buffer.size();
 		
 		auto sort = [](GameObject* left, GameObject* right) 
@@ -181,7 +190,24 @@ void Scene::ProcessDeletions()
 		std::sort(m_Scene.begin(), m_Scene.end(), sort);
 		std::for_each(m_Scene.end() - m_DeleteBuffer.buffer.size(), m_Scene.end(), [](GameObject* go){ delete go; });
 		m_Scene.erase(m_Scene.end() - m_DeleteBuffer.buffer.size(), m_Scene.end());
-
+		*/
+		
+		for(GameObject* go : m_DeleteBuffer.buffer)
+		{
+			for(size_t i = 0; i < m_Scene.size(); ++i)
+			{
+				if(go == m_Scene[i])
+				{
+					GameObject* last = m_Scene.back();
+					m_Scene[m_Scene.size() - 1] = m_Scene[i];
+					m_Scene[i] = last;
+					
+					delete go;
+					m_Scene.pop_back();
+				}
+			}
+		}
+		
 		m_DeleteBuffer.Reset();
 	}
 }

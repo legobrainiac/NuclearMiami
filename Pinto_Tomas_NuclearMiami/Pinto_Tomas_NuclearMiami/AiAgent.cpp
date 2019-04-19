@@ -9,6 +9,8 @@
 #include "ResourceManager.h"
 #include "Weapon.h"
 
+int AiAgent::m_AiInstanceCounter = 0;
+
 AiAgent::AiAgent(const Vector2f& position, const Vector2f& scale, float rotation, GameObject* pTarget)
 	: GameObject(position, scale, rotation)
 	, m_pTarget(pTarget)
@@ -17,7 +19,7 @@ AiAgent::AiAgent(const Vector2f& position, const Vector2f& scale, float rotation
 	, m_MovementSpeed(50.f)
 	, m_pTorsoTexture(ResourceManager::Get()->GetTexture("charTorso"))
 	, m_pLegsSprite(new Sprite("charLegsAnimated", 10, 1, 0.05f))
-	, m_Health(15)
+	, m_Health(50.f)
 {
 	m_Friction = 10.f;
 	m_MaxAcceleration = 100.f;
@@ -26,20 +28,18 @@ AiAgent::AiAgent(const Vector2f& position, const Vector2f& scale, float rotation
 	m_VertexCollider.push_back(Point2f {-10.f, 5.f});
 	m_VertexCollider.push_back(Point2f {10.f, 5.f});
 	m_VertexCollider.push_back(Point2f {10.f, -5.f});
+	
+	m_AiInstanceCounter++;
 }
 
 AiAgent::~AiAgent()
 {
 	delete m_pLegsSprite;
 	
-	if(m_Weapons.size() > 0)
-	{
-		m_Weapons[m_Weapons.size() - 1]->SetInWorld(true);
-		m_Weapons[m_Weapons.size() - 1]->SetPosition(m_Position);
-		m_Weapons[m_Weapons.size() - 1]->SetRotation(m_Rotation);
-		m_pScene->Add(m_Weapons[m_Weapons.size() - 1]);
-		m_Weapons.pop_back();
-	}
+	for(Weapon* w : m_Weapons)
+		if(w) delete w;
+	
+	m_AiInstanceCounter--;
 }
 
 void AiAgent::ChangeTarget(GameObject* pTarget)
@@ -125,7 +125,7 @@ void AiAgent::DrawHealth() const
 	utils::FillRect(-12.5f, 10.f, 25.f, 2.f);
 
 	glColor4f(0.f, 1.f, 0.f, 1.f);
-	utils::FillRect(-12.5f, 10.f, m_Health / 4.f, 2.f);
+	utils::FillRect(-12.5f, 10.f, m_Health / 2.f, 2.f);
 
 	glPopMatrix();
 }
@@ -145,7 +145,20 @@ void AiAgent::SendMessage(MessageType message, int value)
 		m_Health -= value;
 
 		if (m_Health <= 0)
+		{
 			m_pScene->Delete(this);
+			
+			// Drop weapon
+			if(m_Weapons.size() > 0)
+			{
+				m_Weapons[m_Weapons.size() - 1]->SetInWorld(true);
+				m_Weapons[m_Weapons.size() - 1]->SetPosition(m_Position);
+				m_Weapons[m_Weapons.size() - 1]->SetRotation(m_Rotation);
+				m_pScene->Add(m_Weapons[m_Weapons.size() - 1]);
+				m_Weapons.pop_back();
+			}
+
+		}
 		
 		m_pScene->AddBlood(m_Position, 10);
 	}
@@ -174,7 +187,7 @@ bool AiAgent::InSight(utils::HitInfo& hitOut, Point2f tail, Point2f head)
 		if (Raycast(collider, tail, head, hitOut))
 			return false;
 	
-	return true;
+	return (tail.DistanceTo(head) < m_MaxDistance);
 }
 
 void AiAgent::Ai(float dt)

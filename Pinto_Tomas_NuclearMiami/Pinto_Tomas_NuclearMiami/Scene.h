@@ -41,6 +41,7 @@ class Scene
 public:
 	// Mutators
 	void Initialize();
+	void Reset();
 	void Draw() const;
 	void Update(float dt);
 	

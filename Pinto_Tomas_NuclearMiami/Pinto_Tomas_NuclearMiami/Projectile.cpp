@@ -64,7 +64,7 @@ void Projectile::Collision(float dt)
 		{
 			if(go != this && go != m_Shooter)
 			{
-				go->SendMessage(MessageType::dammage, 5);
+				go->SendMessage(MessageType::dammage, 10);
 				go->ApplyForce(m_Direction * 1000.f);
 				m_pScene->Delete(this);
 				break;

@@ -95,6 +95,8 @@ void Player::DrawHealth() const
 
 void Player::Draw() const 
 {
+	if(IsDead()) return;
+	
 	DrawBottom();
 	DrawTop();
 	DrawHealth();
@@ -103,6 +105,8 @@ void Player::Draw() const
 
 void Player::Update(float dt)
 {
+	if(IsDead()) return;
+	
 	m_Timer += dt;
 	
 	// Update weapons
@@ -159,18 +163,10 @@ void Player::SendMessage(MessageType message, int value)
 	if(message == MessageType::dammage)
 	{
 		m_Health -= value;
-		
-		LOG("Health: " << m_Health);
-		if (m_Health <= 0)
-			m_pScene->Delete(this);
-		
 		m_pScene->AddBlood(m_Position, 10);
 	}
 	else if (message == MessageType::regen)
-	{
 		m_Health += value;
-		LOG("Regen: " << m_Health);
-	}
 }
 
 void Player::Shoot(const Vector2f& direction, float dt)

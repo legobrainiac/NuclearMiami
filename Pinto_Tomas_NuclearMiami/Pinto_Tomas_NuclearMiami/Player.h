@@ -27,6 +27,7 @@ public:
 	bool HasEmptySlot() const override;
 	bool ProcessPickUp(PickUp* pickUp) override;
 	
+	bool IsDead() const { return m_Health <= 0; } ;
 	void SendMessage(MessageType message, int value) override;
 	
 	// NOTE(tomas): this should eventually be put in to private, for now since we need it from the outside it stays like this.

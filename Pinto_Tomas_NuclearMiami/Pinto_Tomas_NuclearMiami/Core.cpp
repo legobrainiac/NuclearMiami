@@ -125,10 +125,10 @@ void Core::Run()
 	}
     
 	// Create the Game object
-	Game game{ m_Window };
+	Game* game = new Game(m_Window);
 	
 	m_ExitFlags.pWindow = m_pWindow;
-    game.SetExitFlags(&m_ExitFlags);
+    game->SetExitFlags(&m_ExitFlags);
     
 	// Set start time
 	std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
@@ -147,19 +147,19 @@ void Core::Run()
                 Exit();
 				break;
                 case SDL_KEYDOWN:
-				game.ProcessKeyDownEvent(e.key);
+				game->ProcessKeyDownEvent(e.key);
 				break;
                 case SDL_KEYUP:
-				game.ProcessKeyUpEvent(e.key);
+				game->ProcessKeyUpEvent(e.key);
 				break;
                 case SDL_MOUSEMOTION:
-				game.ProcessMouseMotionEvent(e.motion);
+				game->ProcessMouseMotionEvent(e.motion);
 				break;
                 case SDL_MOUSEBUTTONDOWN:
-				game.ProcessMouseDownEvent(e.button);
+				game->ProcessMouseDownEvent(e.button);
 				break;
                 case SDL_MOUSEBUTTONUP:
-				game.ProcessMouseUpEvent(e.button);
+				game->ProcessMouseUpEvent(e.button);
 				break;
 			}
 		}
@@ -180,15 +180,17 @@ void Core::Run()
 			elapsedSeconds = std::min(elapsedSeconds, m_MaxElapsedSeconds);
             
 			// Call the Game object 's Update function, using time in seconds (!)
-			game.Update(elapsedSeconds);
+			game->Update(elapsedSeconds);
             
 			// Draw in the back buffer
-			game.Draw();
+			game->Draw();
             
 			// Update screen: swap back and front buffer
 			SDL_GL_SwapWindow(m_pWindow);
 		}
 	}
+	
+	delete game;
 }
 
 void Core::Exit()
