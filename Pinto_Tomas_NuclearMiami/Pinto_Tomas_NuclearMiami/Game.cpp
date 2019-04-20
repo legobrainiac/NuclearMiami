@@ -32,7 +32,7 @@ Game::Game(const Window& window)
 	//, m_pCamera(new Camera(320.f, 180.f, &m_Window, &m_MousePosition))
 	//, m_pCamera(new Camera(640.f, 360.f, &m_Window, &m_MousePosition))
 	, m_pCamera(new Camera(480.f, 270.f, &m_Window, &m_MousePosition))
-//, m_pCamera(new Camera(1920.f, 1080.f, &m_Window, &m_MousePosition))
+	//, m_pCamera(new Camera(1920.f, 1080.f, &m_Window, &m_MousePosition))
 {
 	Initialize();
 }
@@ -53,6 +53,9 @@ Game::~Game()
 // TODO(tomas): when dropping and picking up in the same frame Z-Order is wrong for dropped weapon
 // TODO(tomas): organize the header files and cpp files for every class (player, gameobject, etc, ...)
 // TODO(tomas): Player and AiAgent share a lot of the same behaviour, maybe put some of that joint behaviour in to a base class? 
+// TODO(tomas): streamline scene loading Scene::Get()->Load([0..., infinite]);
+// TODO(tomas): create a trigger collider that can trigger a scene load
+// TODO(tomas): export button for save files?
 void Game::Initialize()
 {
 	// Startup timer
@@ -83,8 +86,8 @@ void Game::Initialize()
 		m_pMenuMusic->SetVolume(15);
 		m_pMenuMusic->Play(true);
 	}
-	
-	if(m_pGameMusic->IsLoaded())
+
+	if (m_pGameMusic->IsLoaded())
 	{
 		m_pGameMusic->SetVolume(128);
 	}
@@ -115,11 +118,11 @@ void Game::Update(float dt)
 {
 	DoDeathScreen(dt);
 	DoEndScreen(dt);
-	
+
 	// In case a scene reset happens and our pointers become invalid
 	m_pScene = Scene::Get();
 	m_pScene->SetMainCamera(m_pCamera);
-	
+
 	m_ElapsedTime += dt;
 
 	// Update Ui
@@ -132,35 +135,35 @@ void Game::Update(float dt)
 
 void Game::DoDeathScreen(float dt)
 {
-	if(Scene::Get()->GetPlayer()->IsDead() && m_ScreenState != ScreenState::MainMenu)
+	if (Scene::Get()->GetPlayer()->IsDead() && m_ScreenState != ScreenState::MainMenu)
 	{
 		m_ScreenState = ScreenState::DeathScreen;
 		m_EndScreenTimer += dt;
-		
+
 		TUiContainer* deathScreen = TUiManager::Get()->GetComponent<TUiContainer>("deathScreen");
 
-		if(deathScreen)
+		if (deathScreen)
 			deathScreen->SetActive(true);
-		
+
 		TUiButton* pInfoButton = TUiManager::Get()->GetComponent<TUiButton>("infoButton");
-		
+
 		if (pInfoButton)
 			pInfoButton->SetActive(false);
 	}
-	
-	if(m_EndScreenTimer > 5.f && m_ScreenState == ScreenState::DeathScreen)
+
+	if (m_EndScreenTimer > 5.f && m_ScreenState == ScreenState::DeathScreen)
 	{
 		Scene::Get()->Reset();
 		m_ScreenState = ScreenState::Playing;
 		m_EndScreenTimer = 0.f;
-		
+
 		TUiContainer* deathScreen = TUiManager::Get()->GetComponent<TUiContainer>("deathScreen");
-		
-		if(deathScreen)
+
+		if (deathScreen)
 			deathScreen->SetActive(false);
-		
+
 		TUiButton* pInfoButton = TUiManager::Get()->GetComponent<TUiButton>("infoButton");
-		
+
 		if (pInfoButton)
 			pInfoButton->SetActive(true);
 	}
@@ -168,35 +171,35 @@ void Game::DoDeathScreen(float dt)
 
 void Game::DoEndScreen(float dt)
 {
-	if(AiAgent::GetAiInstanceCount() <= 0 && !Scene::Get()->GetPlayer()->IsDead() && m_ScreenState != ScreenState::MainMenu)
+	if (AiAgent::GetAiInstanceCount() <= 0 && !Scene::Get()->GetPlayer()->IsDead() && m_ScreenState != ScreenState::MainMenu)
 	{
 		m_ScreenState = ScreenState::EndScreen;
 		m_EndScreenTimer += dt;
-		
+
 		TUiContainer* endScreen = TUiManager::Get()->GetComponent<TUiContainer>("endScreen");
 
-		if(endScreen)
+		if (endScreen)
 			endScreen->SetActive(true);
-		
+
 		TUiButton* pInfoButton = TUiManager::Get()->GetComponent<TUiButton>("infoButton");
-		
+
 		if (pInfoButton)
 			pInfoButton->SetActive(false);
 	}
-	
-	if(m_EndScreenTimer > 5.f && m_ScreenState == ScreenState::EndScreen)
+
+	if (m_EndScreenTimer > 5.f && m_ScreenState == ScreenState::EndScreen)
 	{
 		Scene::Get()->Reset();
 		m_ScreenState = ScreenState::Playing;
 		m_EndScreenTimer = 0.f;
-		
+
 		TUiContainer* endScreen = TUiManager::Get()->GetComponent<TUiContainer>("endScreen");
-		
-		if(endScreen)
+
+		if (endScreen)
 			endScreen->SetActive(false);
-		
+
 		TUiButton* pInfoButton = TUiManager::Get()->GetComponent<TUiButton>("infoButton");
-		
+
 		if (pInfoButton)
 			pInfoButton->SetActive(true);
 	}
@@ -212,7 +215,7 @@ void Game::Draw() const
 		m_pScene->SetMainCamera(m_pCamera);
 		Player* pPlayer = m_pScene->GetPlayer();
 		Camera* pCamera = m_pScene->GetMainCamera();
-		
+
 		Point2f cameraPosition = pCamera->GetPosition(pPlayer->GetPosition());
 		Point2f mouseOffset = Vector2f{ pPlayer->GetPosition().ToPoint2f(), pCamera->GetMouseWS(pPlayer->GetPosition()) }.ToPoint2f();
 
@@ -264,7 +267,7 @@ void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 		Scene::Get()->AddBlood(m_pScene->GetPlayer()->GetPosition(), 10);
 		LOG("Player position: " << Scene::Get()->GetPlayer()->GetPosition());
 		break;
-		
+
 	case SDLK_x:
 		Scene::Get()->Reset();
 		break;
@@ -361,14 +364,6 @@ void Game::UiCallbackSetUp()
 
 			UnloadGame();
 		});
-
-		pInfoButton->RegisterClickDeltaCallBack([](float deltaPressed) {
-			TUiContainer* menu = TUiManager::Get()->GetComponent<TUiContainer>("menu.label1");
-			if (menu) menu->SetSize(Vector2f{ deltaPressed, 0.5f });
-
-			TUiContainer* info = TUiManager::Get()->GetComponent<TUiContainer>("info");
-			if (info) info->SetActive(false);
-		});
 	}
 
 	// Toggle full screen button
@@ -415,7 +410,7 @@ void Game::RaycastVision() const
 		for (auto pos : collider)
 		{
 			utils::HitInfo hit;
-			
+
 			if (utils::Raycast(collider, pPlayer->GetPosition().ToPoint2f(), pos, hit))
 				visiblePoints.push_back(hit.intersectPoint);
 		}

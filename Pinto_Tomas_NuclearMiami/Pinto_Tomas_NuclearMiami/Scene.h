@@ -27,6 +27,9 @@ struct StaticParticleSystem
 
 struct StaticSceneContainer
 {
+	// Level id
+	int level;
+	
 	// Texture of the level
 	std::string mapTextureLocation;
 	Texture* pMapTexture;
@@ -41,7 +44,15 @@ class Scene
 public:
 	// Mutators
 	void Initialize();
+	
+	// Will reset to the beggining of the game, used when you die or when the player
+	//  wishes to restart the game
 	void Reset();
+	
+	// This load the new scene, without deleting the player object.
+	// This way we can move on and keep the player inventory for the next level.
+	void Load(int scene);
+	
 	void Draw() const;
 	void Update(float dt);
 	
@@ -91,7 +102,7 @@ private:
 	Camera* m_pCamera;	
 	
 	// Singleton stuff
-	Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocation);
+	Scene(int level);
 	static Scene* m_psScene;
 };
 

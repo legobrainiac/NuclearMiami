@@ -3,6 +3,8 @@ TPreloadTexture(path="Resources/Images/Characters/charLegsAnimated.png", name="c
 TPreloadTexture(path="Resources/Images/Weapons/rifle.png", name="rifle")
 TPreloadTexture(path="Resources/Images/Weapons/pistol.png", name="pistol")
 
+TPreloadTexture(path="Resources/Scenes/Scene_1/scene.png", name="scene_1")
+
 TPreloadSoundStream(path="Resources/Audio/music.wav", name="menu_music")
 TPreloadSoundStream(path="Resources/Audio/music1.wav", name="game_music_1")
 

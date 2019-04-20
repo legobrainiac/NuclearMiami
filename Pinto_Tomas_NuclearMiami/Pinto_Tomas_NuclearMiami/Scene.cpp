@@ -8,6 +8,7 @@
 #include "AiAgent.h"
 #include "PickUp.h"
 #include "Weapon.h"
+#include "ResourceManager.h"
 
 #include "Ui/TUiManager.h"
 
@@ -16,20 +17,21 @@ Scene* Scene::m_psScene = nullptr;
 Scene* Scene::Get()
 {
 	if(!m_psScene)
-		m_psScene = new Scene("Resources/Scenes/Scene3/scene3.png", "Resources/Scenes/Scene3/scene3.svg"); // NOTE(tomas): Temporary
+		m_psScene = new Scene(1);
 	
 	return m_psScene;
 }
 
-Scene::Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocation)
+Scene::Scene(int level)
 : m_Scene()
 , m_PlayerSpawn()
 , m_AddBuffer()
 {
-	m_SceneMap.mapTextureLocation = sceneMapTextureLocation;
-	m_SceneMap.colliderPointSVGLocation = sceneColliderLocation;
+	m_SceneMap.level = level;
+	m_SceneMap.mapTextureLocation = "Resources/Scenes/Scene_" + std::to_string(level) + "/scene.png";
+	m_SceneMap.colliderPointSVGLocation = "Resources/Scenes/Scene_" + std::to_string(level) + "/scene.svg";
 	
-	m_SceneMap.pMapTexture = new Texture(sceneMapTextureLocation);
+	m_SceneMap.pMapTexture = ResourceManager::Get()->GetTexture("scene_" + std::to_string(level));
 	
 	if(SVGParser::GetVerticesFromSvgFile(m_SceneMap.colliderPointSVGLocation, m_SceneMap.sceneCollider))
 		LOG("Loaded collider for scene at " << m_SceneMap.colliderPointSVGLocation); 
@@ -37,7 +39,7 @@ Scene::Scene(std::string sceneMapTextureLocation, std::string sceneColliderLocat
 
 void Scene::Initialize()
 {
-	TUiManager::Get()->LoadUiDescriptor("Resources/Scenes/Scene3/scene3.ts");
+	TUiManager::Get()->LoadUiDescriptor("Resources/Scenes/Scene_" + std::to_string(m_SceneMap.level) + "/scene.ts");
 }
 
 void Scene::Reset()
@@ -142,8 +144,6 @@ Scene::~Scene()
 {
 	for(GameObject* go : m_Scene)
 		delete go;
-	
-	delete m_SceneMap.pMapTexture;
 }
 
 void Scene::ProcessAdditions()
