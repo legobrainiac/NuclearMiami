@@ -256,7 +256,7 @@ void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 		break;
 
 	case SDLK_h:
-		m_pScene->GetPlayer()->SendMessage(MessageType::regen, 50);
+		//m_pScene->GetPlayer()->SendMessage(MessageType::regen, 50);
 		break;
 
 	case SDLK_q:
@@ -264,12 +264,13 @@ void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 		break;
 
 	case SDLK_b:
-		Scene::Get()->AddBlood(m_pScene->GetPlayer()->GetPosition(), 10);
+		//Scene::Get()->AddBlood(m_pScene->GetPlayer()->GetPosition(), 10);
 		LOG("Player position: " << Scene::Get()->GetPlayer()->GetPosition());
 		break;
 
 	case SDLK_x:
-		Scene::Get()->Reset();
+		if(m_ScreenState != ScreenState::DeathScreen && m_ScreenState != ScreenState::EndScreen)
+			Scene::Get()->Reset();
 		break;
 	}
 }
