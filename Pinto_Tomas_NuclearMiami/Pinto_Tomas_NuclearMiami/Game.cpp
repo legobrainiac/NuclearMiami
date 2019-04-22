@@ -424,7 +424,7 @@ void Game::RaycastVision() const
 
 void Game::ToggleInfo()
 {
-	std::cout << "Controls: WASD to move, mouse to aim and shoot. Items are picked up atomatically if there is an empty weapon slot." << std::endl;
+	std::cout << "Controls: WASD to move, mouse to aim and shoot. Items are picked up automatically if there is an empty weapon slot." << std::endl;
 
 	if (m_ScreenState != ScreenState::MainMenu) return;
 
