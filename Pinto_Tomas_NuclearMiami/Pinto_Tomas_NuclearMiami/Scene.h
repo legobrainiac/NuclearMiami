@@ -12,6 +12,7 @@ class Camera;
 class Player;
 
 #define PS_SIZE 4096
+#define WIN_LEVEL 2
 
 struct StaticParticleSystem
 {
@@ -51,7 +52,7 @@ public:
 	
 	// This load the new scene, without deleting the player object.
 	// This way we can move on and keep the player inventory for the next level.
-	void Load(int scene);
+	void Load(int scene, Player* pCarry = nullptr);
 	
 	void Draw() const;
 	void Update(float dt);
@@ -78,12 +79,14 @@ public:
 	
 	// Singleton impl
 	static Scene* Get();
+	static int GetLevel() { return m_sLevel; };
 	
 private:
 	void DrawBlood() const;
 	void ProcessAdditions();
 	void ProcessDeletions();
 	void ProcessRemovals();
+	void ProcessLoad();
 	
 	// Scene info
 	StaticSceneContainer m_SceneMap;	
@@ -95,6 +98,11 @@ private:
 	Buffer<GameObject*> m_DeleteBuffer;
 	Buffer<GameObject*> m_RemoveBuffer;
 	
+	// For loading after the last frame is done updating
+	bool m_ShouldLoad;
+	int m_NextLevel;
+	Player* m_pCarry;
+	
 	StaticParticleSystem m_BloodPS;
 	
 	// Game play objects
@@ -104,6 +112,7 @@ private:
 	// Singleton stuff
 	Scene(int level);
 	static Scene* m_psScene;
+	static int m_sLevel;
 };
 
 #endif //!SCENE_H

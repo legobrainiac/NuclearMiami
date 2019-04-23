@@ -2,8 +2,10 @@ TPreloadTexture(path="Resources/Images/Characters/charTorso.png", name="charTors
 TPreloadTexture(path="Resources/Images/Characters/charLegsAnimated.png", name="charLegsAnimated")
 TPreloadTexture(path="Resources/Images/Weapons/rifle.png", name="rifle")
 TPreloadTexture(path="Resources/Images/Weapons/pistol.png", name="pistol")
+TPreloadTexture(path="Resources/Images/nextLevelPad.png", name="nextLevelPad")
 
 TPreloadTexture(path="Resources/Scenes/Scene_1/scene.png", name="scene_1")
+TPreloadTexture(path="Resources/Scenes/Scene_2/scene.png", name="scene_2")
 
 TPreloadSoundStream(path="Resources/Audio/music.wav", name="menu_music")
 TPreloadSoundStream(path="Resources/Audio/music1.wav", name="game_music_1")

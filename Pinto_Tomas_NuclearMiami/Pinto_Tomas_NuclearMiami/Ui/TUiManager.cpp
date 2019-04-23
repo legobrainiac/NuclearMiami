@@ -15,6 +15,7 @@
 #include "..\Player.h"
 #include "..\AiAgent.h"
 #include "..\Weapon.h"
+#include "..\NextLevelPad.h"
 
 #include <sstream>
 #include <deque>
@@ -116,11 +117,24 @@ TUiManager::TUiManager()
 		float y = std::stof(utils::GetParameterValue("posy", resource));
 		float z = std::stof(utils::GetParameterValue("posz", resource));
 		float r = std::stof(utils::GetParameterValue("rotation", resource));
-	
-		Player* pPlayer = new Player(Vector2f { x, y }, Vector2f { 1.f, 1.f }, r);
-		pPlayer->SetZLayer(z);
-		Scene::Get()->Add(pPlayer);
-		Scene::Get()->SetPlayer(pPlayer);
+		
+		Player* pPlayer = Scene::Get()->GetPlayer();
+		LOGASSERT(pPlayer == nullptr, "Player was nullptr " << pPlayer);
+		
+		if(!pPlayer || pPlayer->IsDead())
+		{
+			LOG("yeet");
+			Player* pPlayer = new Player(Vector2f { x, y }, Vector2f { 1.f, 1.f }, r);
+			pPlayer->SetZLayer(z);
+			Scene::Get()->Add(pPlayer);
+			Scene::Get()->SetPlayer(pPlayer);
+		}
+		else
+		{
+			LOG("yeeted");
+			pPlayer->SetPosition(Vector2f {x, y});
+			pPlayer->SetRotation(r);
+		}
 		
 		return new TUiEmpty();
 	};
@@ -167,6 +181,18 @@ TUiManager::TUiManager()
 		
 		return new TUiEmpty();
 	};
+	
+	m_TokenMap["TNextLevelPad"] = [](std::ifstream& descriptorStream, std::string resource)
+	{
+		float x = std::stof(utils::GetParameterValue("posx", resource));
+		float y = std::stof(utils::GetParameterValue("posy", resource));
+		float r = std::stof(utils::GetParameterValue("range", resource));
+		int l = std::stoi(utils::GetParameterValue("level", resource));
+		
+		Scene::Get()->Add(new NextLevelPad(Vector2f {x,y}, l, r));	
+		return new TUiEmpty();
+	};
+	
 }
 
 TUiManager::~TUiManager()

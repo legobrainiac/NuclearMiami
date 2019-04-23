@@ -13,11 +13,12 @@
 #include "Ui/TUiManager.h"
 
 Scene* Scene::m_psScene = nullptr;
+int Scene::m_sLevel = 1;
 
 Scene* Scene::Get()
 {
 	if(!m_psScene)
-		m_psScene = new Scene(1);
+		m_psScene = new Scene(m_sLevel);
 	
 	return m_psScene;
 }
@@ -46,7 +47,41 @@ void Scene::Reset()
 {
 	delete m_psScene;
 	m_psScene = nullptr;
+	m_sLevel = 1;
 	Scene::Get()->Initialize();
+}
+
+// Load new scene and carry the player
+void Scene::Load(int scene, Player* pCarry)
+{
+	m_ShouldLoad = true;
+	m_NextLevel = scene;
+	m_pCarry = pCarry;
+}
+
+void Scene::ProcessLoad()
+{
+	if(!m_ShouldLoad) return;
+	
+	m_sLevel = m_NextLevel;
+	Player* pCarry = m_pCarry;
+	
+	// Force removal of carry to keep it from getting deleted
+	if(pCarry)
+	{
+		Remove(pCarry);
+		ProcessRemovals();
+	}
+	
+	// Clean reset without initializing
+	delete m_psScene;
+	m_psScene = nullptr;
+	
+	// Add carry to the scene
+	Scene::Get()->Add(pCarry);
+	Scene::Get()->SetPlayer(pCarry);
+	
+	Initialize();
 }
 
 void Scene::Draw() const
@@ -74,6 +109,7 @@ void Scene::Update(float dt)
 	ProcessRemovals();
 	ProcessAdditions();
 	ProcessDeletions();
+	ProcessLoad();
 }
 
 void Scene::Add(GameObject* pGameObject)
