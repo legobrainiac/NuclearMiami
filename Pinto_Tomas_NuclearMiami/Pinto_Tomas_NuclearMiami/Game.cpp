@@ -53,7 +53,6 @@ Game::~Game()
 // TODO(tomas): when dropping and picking up in the same frame Z-Order is wrong for dropped weapon
 // TODO(tomas): organize the header files and cpp files for every class (player, gameobject, etc, ...)
 // TODO(tomas): Player and AiAgent share a lot of the same behaviour, maybe put some of that joint behaviour in to a base class? 
-// TODO(tomas): create a trigger collider that can trigger a scene load
 // TODO(tomas): export button for save files?
 void Game::Initialize()
 {

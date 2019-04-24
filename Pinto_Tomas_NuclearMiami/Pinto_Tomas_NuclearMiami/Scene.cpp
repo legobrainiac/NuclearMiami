@@ -80,6 +80,7 @@ void Scene::ProcessLoad()
 	// Add carry to the scene
 	Scene::Get()->Add(pCarry);
 	Scene::Get()->SetPlayer(pCarry);
+	pCarry->SendMessage(MessageType::regen, 50);
 	
 	Initialize();
 }
