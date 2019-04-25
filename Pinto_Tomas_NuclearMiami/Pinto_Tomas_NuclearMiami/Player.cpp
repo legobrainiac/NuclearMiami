@@ -9,6 +9,7 @@
 #include "Sprite.h"
 #include "AiAgent.h"
 #include "ResourceManager.h"
+#include "TextRenderer.h"
 
 Player::Player(const Vector2f& position, const Vector2f& scale, float rotation)
 : GameObject(position, scale, rotation)
@@ -100,7 +101,13 @@ void Player::Draw() const
 	DrawBottom();
 	DrawTop();
 	DrawHealth();
+	
+	// Frame time render
+	glPushMatrix();
+	glTranslatef(m_Position.x, m_Position.y, 0.f);
+	
 	GameObject::Draw();
+	glPopMatrix();
 }
 
 void Player::Update(float dt)

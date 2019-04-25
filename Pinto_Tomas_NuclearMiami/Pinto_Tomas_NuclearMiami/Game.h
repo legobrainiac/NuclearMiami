@@ -41,6 +41,7 @@ public:
 	CoreFlags* m_ExitFlags;
     float m_ElapsedTime;
 	float m_EndScreenTimer;
+	float m_FrameTime;
 
 	// Sound
 	SoundStream* m_pMenuMusic;

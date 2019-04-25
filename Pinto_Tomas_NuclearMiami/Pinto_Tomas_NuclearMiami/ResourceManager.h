@@ -9,6 +9,7 @@
 class Texture;
 class SoundEffect;
 class SoundStream;
+class TextRenderer;
 
 class ResourceManager
 {
@@ -24,6 +25,9 @@ public:
 	SoundStream* GetSoundStream(const std::string& name);
 	SoundStream* LoadSoundStream(const std::string& path, const std::string& name);
 	
+	TextRenderer* GetTextRenderer(const std::string& name);
+	TextRenderer* LoadTextRenderer(const std::string& path, const std::string& name);
+	
 	~ResourceManager();
 
 private:
@@ -32,6 +36,8 @@ private:
 	std::map<std::string, Texture*> m_TextureMap;
 	std::map<std::string, SoundEffect*> m_SoundEffectMap;
 	std::map<std::string, SoundStream*> m_SoundStreamMap;
+	std::map<std::string, TextRenderer*> m_TextRenderMap;
+	
 	static ResourceManager* m_pTextureManager;
 };
 

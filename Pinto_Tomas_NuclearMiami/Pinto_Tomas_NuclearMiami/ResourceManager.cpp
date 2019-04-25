@@ -4,6 +4,7 @@
 #include "Texture.h"
 #include "SoundEffect.h"
 #include "SoundStream.h"
+#include "TextRenderer.h"
 
 ResourceManager* ResourceManager::m_pTextureManager = nullptr;
 
@@ -18,88 +19,91 @@ ResourceManager* ResourceManager::Get()
 // Texture pre-loading
 Texture* ResourceManager::GetTexture(const std::string& name)
 {
-	for(const std::pair<std::string, Texture*>& tex : m_TextureMap)
-	{
-		if(tex.first == name)
-			return tex.second;
-	}
-
-	ERR("Texture '" << name << "' should be preloaded...");
-	return nullptr;
+	return m_TextureMap.find(name)->second;
 }
 
 Texture* ResourceManager::LoadTexture(const std::string& path, const std::string& name)
 {
-	for(std::pair<std::string, Texture*> tex : m_TextureMap)
+	auto pTex = m_TextureMap.find(name);
+	
+	if(pTex != m_TextureMap.end())
 	{
-		if(tex.first == name)
-		{
-			ERR("Texture '" << name << "' already loaded...");
-			return m_TextureMap[name];
-		}
+		ERR("Texture '" << name << "' already loaded...");
+		return pTex->second;
 	}
-
-	LOG("Preloading Texture: " << name);
-	m_TextureMap[name] = new Texture(path);
-	return m_TextureMap[name];
+	else
+	{
+		LOG("Preloading Texture: " << name);
+		m_TextureMap[name] = new Texture(path);
+		return m_TextureMap[name];
+	}
 }
 
 // SoundEffect pre-loading
 SoundEffect* ResourceManager::GetSoundEffect(const std::string& name)
 {
-	for(const std::pair<std::string, SoundEffect*>& snd : m_SoundEffectMap)
-	{
-		if(snd.first == name)
-			return snd.second;
-	}
-
-	ERR("Sound effect '" << name << "' should be preloaded...");
-	return nullptr;
+	return m_SoundEffectMap.find(name)->second;
 }
 
 SoundEffect* ResourceManager::LoadSoundEffect(const std::string& path, const std::string& name)
 {
-	for(std::pair<std::string, SoundEffect*> snd : m_SoundEffectMap)
+	auto pSound = m_SoundEffectMap.find(name);
+	if(pSound != m_SoundEffectMap.end())
 	{
-		if(snd.first == name)
-		{
-			ERR("SoundEffect '" << name << "' already loaded...");
-			return m_SoundEffectMap[name];
-		}
+		ERR("SoundEffect '" << name << "' already loaded...");
+		return pSound->second;
 	}
-
-	LOG("Preloading SoundEffect: " << name);
-	m_SoundEffectMap[name] = new SoundEffect(path);
-	return m_SoundEffectMap[name];
+	else
+	{
+		LOG("Preloading SoundEffect: " << name);
+		m_SoundEffectMap[name] = new SoundEffect(path);
+		return m_SoundEffectMap[name];
+	}
 }
 
 // Soundstream pre-loading
 SoundStream* ResourceManager::GetSoundStream(const std::string& name)
 {
-	for(const std::pair<std::string, SoundStream*>& snd : m_SoundStreamMap)
-	{
-		if(snd.first == name)
-			return snd.second;
-	}
-
-	ERR("SoundStream '" << name << "' should be preloaded...");
-	return nullptr;
+	return m_SoundStreamMap.find(name)->second;
 }
 
 SoundStream* ResourceManager::LoadSoundStream(const std::string& path, const std::string& name)
 {
-	for(std::pair<std::string, SoundStream*> snd : m_SoundStreamMap)
+	auto pSound = m_SoundStreamMap.find(name);
+	if(pSound != m_SoundStreamMap.end())
 	{
-		if(snd.first == name)
-		{
-			ERR("SoundStream '" << name << "' already loaded...");
-			return m_SoundStreamMap[name];
-		}
+		ERR("SoundStream '" << name << "' already loaded...");
+		return pSound->second;
 	}
+	else
+	{
+		LOG("Preloading SoundStream: " << name);
+		m_SoundStreamMap[name] = new SoundStream(path);
+		return m_SoundStreamMap[name];
+	}
+}
 
-	LOG("Preloading SoundStream: " << name);
-	m_SoundStreamMap[name] = new SoundStream(path);
-	return m_SoundStreamMap[name];
+// Text renderer preloading
+TextRenderer* ResourceManager::GetTextRenderer(const std::string& name)
+{
+	return m_TextRenderMap.find(name)->second;
+}
+
+TextRenderer* ResourceManager::LoadTextRenderer(const std::string& path, const std::string& name)
+{
+	auto pTextRender = m_TextRenderMap.find(name);
+	
+	if(pTextRender != m_TextRenderMap.end())
+	{
+		ERR("TextRenderer '" << name << "' already loaded...");
+		return pTextRender->second;
+	}
+	else
+	{
+		LOG("Preloading TextRenderer: " << name);
+		m_TextRenderMap[name] = new TextRenderer(path);
+		return m_TextRenderMap[name];
+	}
 }
 
 ResourceManager::ResourceManager()
@@ -116,4 +120,7 @@ ResourceManager::~ResourceManager()
 	
 	for(std::pair<std::string, SoundStream*> snd : m_SoundStreamMap)
 		delete snd.second;
+	
+	for(std::pair<std::string, TextRenderer*> txt : m_TextRenderMap)
+		delete txt.second;
 }

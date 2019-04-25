@@ -26,6 +26,7 @@
 #include "Interfaces.h"
 #include "PickUp.h"
 #include "ResourceManager.h"
+#include "TextRenderer.h"
 
 Game::Game(const Window& window)
 	: m_Window(window)
@@ -62,18 +63,18 @@ void Game::Initialize()
 	//SDL_ShowCursor(SDL_DISABLE);
 
 	// Load UI from the menu tankscript file and setup callbacks
+	m_ScreenState = ScreenState::MainMenu;
+	
 	TUiManager::Get()->LoadUiDescriptor("Resources/Scripts/menu.ts");
 	UiCallbackSetUp();
 
-	// Process preloaded textures
+	// Process preloading
 	TUiManager::Get()->LoadUiDescriptor("Resources/Scripts/preload.ts");
 
 	// Initialize singletone instance
 	m_pScene = Scene::Get();
 	m_pScene->Initialize();
 	m_pScene->SetMainCamera(m_pCamera);
-
-	m_ScreenState = ScreenState::MainMenu;
 
 	// Play start menu music
 	m_pMenuMusic = ResourceManager::Get()->GetSoundStream("menu_music");
@@ -86,17 +87,11 @@ void Game::Initialize()
 	}
 
 	if (m_pGameMusic->IsLoaded())
-	{
 		m_pGameMusic->SetVolume(128);
-	}
 
-	// Get Elapsed time
+	// Get startup time
 	std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
-
-	// Calculate elapsed time
 	float elapsedSeconds = std::chrono::duration<float>(t2 - t1).count();
-
-	// Prevent jumps in time caused by break points
 	LOG("Startup took: " << elapsedSeconds << " seconds...");
 
 }
@@ -114,6 +109,8 @@ void Game::Cleanup()
 
 void Game::Update(float dt)
 {
+	m_FrameTime = dt;
+	
 	DoDeathScreen(dt);
 	DoEndScreen(dt);
 
@@ -234,6 +231,14 @@ void Game::Draw() const
 
 	// Draw Ui
 	TUiManager::Get()->Draw(m_Window);
+
+	// Frame time render
+	TextRenderConfig textConfig;
+	textConfig.spacing = 3.f;
+	textConfig.scale = 1.f;
+	
+	int fps = int(1.f /m_FrameTime);
+	ResourceManager::Get()->GetTextRenderer("munro")->DrawString(std::to_string(fps), Vector2f {10.f, 10.f}, textConfig);
 }
 
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent & e)
@@ -291,7 +296,7 @@ void Game::ClearBackground() const
 	if (m_ScreenState != ScreenState::Paused &&  m_ScreenState != ScreenState::MainMenu)
 		glClearColor(0.f, 0.f, 0.f, 1.f);
 	else
-		glClearColor(0.4f, 0.4f, 0.8f, 1.0f);
+		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 
 	//Z-Ordering
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -395,6 +400,11 @@ void Game::UiCallbackSetUp()
 			LOG("VSync = " << m_VSync);
 		});
 	}
+	
+	TUiButton* toggleDebug = TUiManager::Get()->GetComponent<TUiButton>("settings.goDebug");
+	
+	if (toggleDebug)
+		toggleDebug->RegisterClickCallBack([&]() { GameObject::ToggleDebug(); });
 }
 
 void Game::RaycastVision() const

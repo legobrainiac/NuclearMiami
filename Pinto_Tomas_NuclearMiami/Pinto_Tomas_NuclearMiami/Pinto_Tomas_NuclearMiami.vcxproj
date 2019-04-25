@@ -169,6 +169,7 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="structs.h" />
     <ClInclude Include="SVGParser.h" />
+    <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Ui\TUiButton.h" />
@@ -205,6 +206,7 @@
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="structs.cpp" />
     <ClCompile Include="SVGParser.cpp" />
+    <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Ui\TUiButton.cpp" />

@@ -4,8 +4,11 @@
 #include "Matrix2x3.h"
 #include "structs.h"
 #include "Scene.h"
+#include "ResourceManager.h"
+#include "TextRenderer.h"
 
 int GameObject::m_InstanceCounter = 0;
+bool GameObject::m_Debug = false;
 
 GameObject::GameObject(const Vector2f& position, const Vector2f& scale, float rotation)
 : m_Position(position)
@@ -202,6 +205,14 @@ void GameObject::Draw() const
 {
 	for(GameObject* go : m_Children)
 		go->Draw();
+	
+	if(m_Debug)
+	{
+		TextRenderConfig textConfig;
+		textConfig.spacing = 3.f;
+		textConfig.scale = 0.3f;
+		ResourceManager::Get()->GetTextRenderer("munro")->DrawString(m_Position.ToString(), Vector2f {-100.f, 50.f}, textConfig);	
+	}	
 }
 
 void GameObject::Update(float dt) 

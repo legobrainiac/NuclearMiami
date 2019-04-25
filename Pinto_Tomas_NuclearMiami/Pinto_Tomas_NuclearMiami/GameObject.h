@@ -80,6 +80,7 @@ public:
 	virtual void MakeDirty() { m_ShouldDelete = true; }
 	
 	static int GetInstanceCount() { return m_InstanceCounter; }
+	static void ToggleDebug() { m_Debug = !m_Debug; };
 	
 protected:
 	void Translate(const Vector2f& xy);
@@ -108,6 +109,7 @@ protected:
 	std::vector<Point2f> m_VertexCollider;
 	
 	static int m_InstanceCounter;
+	static bool m_Debug;
 };
 
 #endif // !GAMEOBJECT_H

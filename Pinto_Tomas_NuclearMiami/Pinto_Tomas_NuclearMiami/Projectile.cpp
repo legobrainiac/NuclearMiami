@@ -31,9 +31,10 @@ void Projectile::Draw() const
 	glPushMatrix();
 	glTranslatef(m_Position.x, m_Position.y, m_ZLayer);
 	glRotatef(m_Rotation, 0.f, 0.f, 1.f);
+	glScalef(m_Scale.x, m_Scale.y, 1.f);
 	
-	glColor4f(1.f, 0.f, 0.f, 1.f);	
-	utils::DrawPoint(0.f, 0.f, 10.f);
+	glColor4f(1.f, 1.f, 0.f, 1.f);	
+	utils::FillEllipse(0.f, 0.f, 2.f, 2.f);
 	
 	GameObject::Draw();
 	glPopMatrix();

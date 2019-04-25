@@ -7,6 +7,8 @@ TPreloadTexture(path="Resources/Images/nextLevelPad.png", name="nextLevelPad")
 TPreloadTexture(path="Resources/Scenes/Scene_1/scene.png", name="scene_1")
 TPreloadTexture(path="Resources/Scenes/Scene_2/scene.png", name="scene_2")
 
+TPreloadTextRenderer(path="Resources/Fonts/munro.ttf", name="munro")
+
 TPreloadSoundStream(path="Resources/Audio/music.wav", name="menu_music")
 TPreloadSoundStream(path="Resources/Audio/music1.wav", name="game_music_1")
 

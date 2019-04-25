@@ -110,6 +110,16 @@ TUiManager::TUiManager()
 		return new TUiEmpty();
 	};
 	
+	// This token exists to process SoundStream pre-loading
+	m_TokenMap["TPreloadTextRenderer"] = [](std::ifstream& descriptorStream, std::string resource)
+	{
+		std::string path = utils::GetParameterValue("path", resource);
+		std::string name = utils::GetParameterValue("name", resource);
+		
+		ResourceManager::Get()->LoadTextRenderer(path, name);
+		return new TUiEmpty();
+	};
+	
 	// Scene object loaders
 	m_TokenMap["TPlayer"] = [](std::ifstream& descriptorStream, std::string resource)
 	{
@@ -214,6 +224,7 @@ void TUiManager::LoadUiDescriptor(std::string resourceLocation)
 	{
 		std::getline(stream, line);
         
+		// TODO(tomas): find?
 		for (const TokenPair& token : m_TokenMap)
 		{
 			size_t i = line.find(token.first);
