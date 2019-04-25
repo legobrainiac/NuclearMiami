@@ -55,6 +55,7 @@ Game::~Game()
 // TODO(tomas): organize the header files and cpp files for every class (player, gameobject, etc, ...)
 // TODO(tomas): Player and AiAgent share a lot of the same behaviour, maybe put some of that joint behaviour in to a base class? 
 // TODO(tomas): export button for save files?
+// TODO(tomas): level editor button in main menu that leads to a existing scene selector for editing or a new scene creator
 void Game::Initialize()
 {
 	// Startup timer
@@ -89,7 +90,6 @@ void Game::Initialize()
 	if (m_pGameMusic->IsLoaded())
 		m_pGameMusic->SetVolume(128);
 
-	// Get startup time
 	std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
 	float elapsedSeconds = std::chrono::duration<float>(t2 - t1).count();
 	LOG("Startup took: " << elapsedSeconds << " seconds...");
