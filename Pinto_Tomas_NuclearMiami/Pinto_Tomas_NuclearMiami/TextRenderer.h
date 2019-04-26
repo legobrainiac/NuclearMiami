@@ -1,7 +1,7 @@
 #ifndef TEXT_RENDER_H
 #define TEXT_RENDER_H
 
-#include <map>
+#include <unordered_map>
 #include <string>
 
 class Texture;
@@ -23,7 +23,7 @@ public:
 	
 private:
 	TTF_Font* m_pFont;
-	std::map<char, Texture*> m_CharTex;
+	std::unordered_map<char, Texture*> m_CharTex;
 };
 
 #endif // !TEXT_RENDER_H

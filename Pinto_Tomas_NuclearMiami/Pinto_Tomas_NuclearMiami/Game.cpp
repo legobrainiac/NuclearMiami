@@ -56,6 +56,7 @@ Game::~Game()
 // TODO(tomas): Player and AiAgent share a lot of the same behaviour, maybe put some of that joint behaviour in to a base class? 
 // TODO(tomas): export button for save files?
 // TODO(tomas): level editor button in main menu that leads to a existing scene selector for editing or a new scene creator
+// TODO(tomas): Turret ples
 void Game::Initialize()
 {
 	// Startup timer
@@ -235,7 +236,7 @@ void Game::Draw() const
 	// Frame time render
 	TextRenderConfig textConfig;
 	textConfig.spacing = 3.f;
-	textConfig.scale = 1.f;
+	textConfig.scale = 2.f;
 	
 	int fps = int(1.f /m_FrameTime);
 	ResourceManager::Get()->GetTextRenderer("munro")->DrawString(std::to_string(fps), Vector2f {10.f, 10.f}, textConfig);

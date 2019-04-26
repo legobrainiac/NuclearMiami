@@ -129,11 +129,9 @@ TUiManager::TUiManager()
 		float r = std::stof(utils::GetParameterValue("rotation", resource));
 		
 		Player* pPlayer = Scene::Get()->GetPlayer();
-		LOGASSERT(pPlayer == nullptr, "Player was nullptr " << pPlayer);
 		
 		if(!pPlayer || pPlayer->IsDead())
 		{
-			LOG("yeet");
 			Player* pPlayer = new Player(Vector2f { x, y }, Vector2f { 1.f, 1.f }, r);
 			pPlayer->SetZLayer(z);
 			Scene::Get()->Add(pPlayer);
@@ -141,7 +139,6 @@ TUiManager::TUiManager()
 		}
 		else
 		{
-			LOG("yeeted");
 			pPlayer->SetPosition(Vector2f {x, y});
 			pPlayer->SetRotation(r);
 		}
