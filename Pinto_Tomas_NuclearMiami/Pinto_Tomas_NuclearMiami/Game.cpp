@@ -62,7 +62,7 @@ void Game::Initialize()
 	// Startup timer
 	std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
 
-	//SDL_ShowCursor(SDL_DISABLE);
+	SDL_ShowCursor(SDL_DISABLE);
 
 	// Load UI from the menu tankscript file and setup callbacks
 	m_ScreenState = ScreenState::MainMenu;
@@ -228,18 +228,30 @@ void Game::Draw() const
 
 		// ENDDRAW
 		glPopMatrix();
+		
+		glPushMatrix();
+		glScalef(2.f, 2.f, 1.f);
+		Scene::Get()->GetPlayer()->DrawHUD();
+		glPopMatrix();
 	}
 
 	// Draw Ui
 	TUiManager::Get()->Draw(m_Window);
-
+	
 	// Frame time render
 	TextRenderConfig textConfig;
 	textConfig.spacing = 3.f;
-	textConfig.scale = 2.f;
+	textConfig.scale = 1.f;
 	
 	int fps = int(1.f /m_FrameTime);
-	ResourceManager::Get()->GetTextRenderer("munro")->DrawString(std::to_string(fps), Vector2f {10.f, 10.f}, textConfig);
+	ResourceManager::Get()->GetTextRenderer("munro")->DrawString(std::to_string(fps), Vector2f { 10.f, m_Window.height - 40.f }, textConfig);
+	
+	textConfig.scale = 2.f;
+	
+	glPushMatrix();
+	glTranslatef(m_MousePosition.x, m_MousePosition.y, 0.f);
+	ResourceManager::Get()->GetTextRenderer("munro")->DrawString("+", Vector2f { -10.f, -17.f }, textConfig);
+	glPopMatrix();
 }
 
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent & e)

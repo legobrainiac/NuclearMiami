@@ -22,6 +22,7 @@ public:
 	
 	void Update(float dt) override;
 	void Draw() const override;
+	void DrawHUD() const;
 	
 	// Pickup helpers, NOTE(tomas): this will be gone once we re-implement pickups.
 	bool HasEmptySlot() const override;
@@ -49,8 +50,9 @@ private:
 
 	Vector2f m_WeaponPivot;
 	
-	Texture* m_pTorsoTexture;
+	Texture* m_pWeaponHoldTexture;
 	Sprite* m_pLegsSprite;
+	Sprite* m_pTorsoSprite;
 	Camera* m_pCamera;
 	
 	std::vector<Weapon*> m_Weapons;

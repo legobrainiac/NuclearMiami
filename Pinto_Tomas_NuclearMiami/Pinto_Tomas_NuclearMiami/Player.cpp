@@ -13,8 +13,9 @@
 
 Player::Player(const Vector2f& position, const Vector2f& scale, float rotation)
 : GameObject(position, scale, rotation)
-, m_pTorsoTexture(ResourceManager::Get()->GetTexture("charTorso"))
+, m_pWeaponHoldTexture(ResourceManager::Get()->GetTexture("charWeaponHold"))
 , m_pLegsSprite(new Sprite("charLegsAnimated", 10, 1, 0.03f))
+, m_pTorsoSprite(new Sprite("charTorsoAnimated", 10, 1, 0.03f))
 , m_Timer(0.f)
 , m_Health(100)
 , m_WeaponPivot {10.f, 0.f}
@@ -23,6 +24,8 @@ Player::Player(const Vector2f& position, const Vector2f& scale, float rotation)
 	m_VertexCollider.push_back(Point2f {-10.f, 5.f});
 	m_VertexCollider.push_back(Point2f {10.f, 5.f});
 	m_VertexCollider.push_back(Point2f {10.f, -5.f});
+	
+	m_Scale = Vector2f{1.25f, 1.25f};
 }
 
 Player::~Player()
@@ -40,11 +43,10 @@ void Player::DrawBottom() const
 	
 	glPushMatrix();
 	glTranslatef(m_Position.x, m_Position.y, m_ZLayer);
+	glScalef(m_Scale.x, m_Scale.y, 0.f);
 	
 	float angle = -(m_Accelleration.AngleWith(Vector2f{0.f, 1.f}) * 180 / PI);
-	
 	glRotatef(angle, 0.f, 0.f, 1.f);
-	glScalef(m_Scale.x, m_Scale.y, 0.f);
 	
 	m_pLegsSprite->Draw(Point2f{-(m_pLegsSprite->GetFrameWidth() / 2), -(m_pLegsSprite->GetFrameHeight() / 2)}, 1.f);
 	glPopMatrix();
@@ -54,11 +56,14 @@ void Player::DrawTop() const
 {
 	glPushMatrix();
 	glTranslatef(m_Position.x, m_Position.y, m_ZLayer);
-	
-	glRotatef(m_Rotation, 0.f, 0.f, 1.f);
 	glScalef(m_Scale.x, m_Scale.y, 0.f);
 	
-	m_pTorsoTexture->Draw(Point2f{-(m_pTorsoTexture->GetWidth() / 2), -(m_pTorsoTexture->GetHeight() / 2)});
+	glRotatef(m_Rotation, 0.f, 0.f, 1.f);
+	
+	if(m_Weapons.size() > 0|| m_Accelleration.Length() < 50.f)
+		m_pWeaponHoldTexture->Draw(Point2f{-(m_pWeaponHoldTexture->GetWidth() / 2), -(m_pWeaponHoldTexture->GetHeight() / 2)});
+	else
+		m_pTorsoSprite->Draw(Point2f{-(m_pTorsoSprite->GetFrameWidth() / 2), -(m_pTorsoSprite->GetFrameHeight() / 2)}, 1.f);
 	
 	DrawWeapon();
 	
@@ -110,6 +115,15 @@ void Player::Draw() const
 	glPopMatrix();
 }
 
+void Player::DrawHUD() const
+{
+	TextRenderConfig textConfig;
+	textConfig.spacing = 3.f;
+	textConfig.scale = 1.f;
+	
+	ResourceManager::Get()->GetTextRenderer("munro")->DrawString("Health: " + std::to_string(m_Health), Vector2f { 20.f, 20.f }, textConfig);
+}
+
 void Player::Update(float dt)
 {
 	if(IsDead()) return;
@@ -122,6 +136,7 @@ void Player::Update(float dt)
 	
 	// Update sprite animator
 	m_pLegsSprite->Update(dt);
+	m_pTorsoSprite->Update(dt);
 	
 	//Check keyboard state
     const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
