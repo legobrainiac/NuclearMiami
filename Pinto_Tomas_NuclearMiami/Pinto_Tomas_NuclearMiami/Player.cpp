@@ -14,8 +14,8 @@
 Player::Player(const Vector2f& position, const Vector2f& scale, float rotation)
 : GameObject(position, scale, rotation)
 , m_pWeaponHoldTexture(ResourceManager::Get()->GetTexture("charWeaponHold"))
-, m_pLegsSprite(new Sprite("charLegsAnimated", 10, 1, 0.03f))
-, m_pTorsoSprite(new Sprite("charTorsoAnimated", 10, 1, 0.03f))
+, m_pLegsSprite(new Sprite("charLegsAnimated", 10, 1, 0.04f))
+, m_pTorsoSprite(new Sprite("charTorsoAnimated", 10, 1, 0.04f))
 , m_Timer(0.f)
 , m_Health(100)
 , m_WeaponPivot {10.f, 0.f}

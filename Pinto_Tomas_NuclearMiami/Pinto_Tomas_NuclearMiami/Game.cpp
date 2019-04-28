@@ -57,6 +57,9 @@ Game::~Game()
 // TODO(tomas): export button for save files?
 // TODO(tomas): level editor button in main menu that leads to a existing scene selector for editing or a new scene creator
 // TODO(tomas): Turret ples
+// TODO(tomas): implement TDynamicLabel
+// TODO(tomas): weapons have ammo count and reload
+// TODO(tomas): move player ui to TScript
 void Game::Initialize()
 {
 	// Startup timer
