@@ -15,6 +15,7 @@
 #include "..\Player.h"
 #include "..\AiAgent.h"
 #include "..\Weapon.h"
+#include "..\RocketLauncher.h"
 #include "..\NextLevelPad.h"
 
 #include <sstream>
@@ -185,6 +186,20 @@ TUiManager::TUiManager()
 		Weapon* pPistol = new Weapon(Vector2f {x, y}, Vector2f {1.f, 1.f}, r, "pistol", 50, 4);
 		pPistol->SetZLayer(z);
 		Scene::Get()->Add(pPistol);
+		
+		return new TUiEmpty();
+	};
+	
+	m_TokenMap["TRocketLauncher"] = [](std::ifstream& descriptorStream, std::string resource)
+	{
+		float x = std::stof(utils::GetParameterValue("posx", resource));
+		float y = std::stof(utils::GetParameterValue("posy", resource));
+		float z = std::stof(utils::GetParameterValue("posz", resource));
+		float r = std::stof(utils::GetParameterValue("rotation", resource));
+	
+		RocketLauncher* pRL = new RocketLauncher(Vector2f {x, y}, Vector2f {1.f, 1.f}, r);
+		pRL->SetZLayer(z);
+		Scene::Get()->Add(pRL);
 		
 		return new TUiEmpty();
 	};

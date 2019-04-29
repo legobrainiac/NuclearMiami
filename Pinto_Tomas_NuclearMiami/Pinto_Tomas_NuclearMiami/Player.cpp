@@ -195,7 +195,7 @@ void Player::Shoot(const Vector2f& direction, float dt)
 {
 	if(SDL_GetMouseState(nullptr, nullptr) == SDL_BUTTON_LEFT && m_Weapons.size())
     {
-		m_Weapons[0]->Shoot(m_Position, direction, m_pScene);
+		m_Weapons[0]->Shoot(m_Position, direction);
 	}
 	
 	if(SDL_GetMouseState(nullptr, nullptr) == SDL_BUTTON_X1 && m_Timer > 0.1f) // This is weird, SDL returns the wrong id for my mouse button

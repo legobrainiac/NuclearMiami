@@ -60,6 +60,7 @@ Game::~Game()
 // TODO(tomas): implement TDynamicLabel
 // TODO(tomas): weapons have ammo count and reload
 // TODO(tomas): move player ui to TScript
+// TODO(tomas): implement rocket, when rocket explodes it should spawn a explosion gameobject which self destruts once sprite sheet is done playing
 void Game::Initialize()
 {
 	// Startup timer

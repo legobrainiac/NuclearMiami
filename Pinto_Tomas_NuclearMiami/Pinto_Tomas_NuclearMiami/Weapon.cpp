@@ -75,13 +75,13 @@ void Weapon::SetInWorld(bool val)
 		m_pEquip->PlayDirectional(m_RotationToPlayer, m_DistanceToPlayer);
 }
 
-void Weapon::Shoot(const Vector2f& position, const Vector2f& direction, Scene* pScene, float rofMod)
+void Weapon::Shoot(const Vector2f& position, const Vector2f& direction, float rofMod)
 {
 	if(m_Timer < (1.f / (m_RateOfFire / rofMod)) || m_InWorld) return;	
 	
 	m_Timer = 0.f;
 	Projectile* projectile = new Projectile(position, Vector2f {1.f, 1.f}, 0.f, direction.Normalized(), m_pOwner);
-	pScene->Add(projectile);
+	m_pScene->Add(projectile);
 	
 	Vector2f kickBack = Vector2f{direction.Normalized().ToPoint2f(), Point2f{ 0.f, 0.f }};
 	

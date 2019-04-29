@@ -21,10 +21,10 @@ public:
 	
 	void Draw() const;
 	void Update(float dt);
-	void Shoot(const Vector2f& position, const Vector2f& direction, Scene* pScene, float rofMod = 1.f);
+	virtual void Shoot(const Vector2f& position, const Vector2f& direction, float rofMod = 1.f);
 	
 	void SetInWorld(bool val) override;
-private:
+protected:
 	Texture* m_pTexture;
 	SoundEffect* m_pShootingSound;
 	SoundEffect* m_pEquip;

@@ -236,5 +236,5 @@ void AiAgent::Ai(float dt)
 void AiAgent::Shoot(Vector2f direction)
 {
 	if(m_Weapons.size() > 0)
-		m_Weapons[0]->Shoot(m_Position, direction, m_pScene, 4);
+		m_Weapons[0]->Shoot(m_Position, direction, 4);
 }

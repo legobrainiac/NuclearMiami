@@ -4,6 +4,8 @@ TPreloadTexture(path="Resources/Images/Characters/charTorsoAnimated.png", name="
 TPreloadTexture(path="Resources/Images/Characters/charWeaponHold.png", name="charWeaponHold")
 TPreloadTexture(path="Resources/Images/Weapons/rifle.png", name="rifle")
 TPreloadTexture(path="Resources/Images/Weapons/pistol.png", name="pistol")
+TPreloadTexture(path="Resources/Images/Weapons/rocket.png", name="rocket")
+TPreloadTexture(path="Resources/Images/Weapons/rocketLauncher.png", name="rocketLauncher")
 TPreloadTexture(path="Resources/Images/nextLevelPad.png", name="nextLevelPad")
 
 TPreloadTexture(path="Resources/Scenes/Scene_1/scene.png", name="scene_1")
