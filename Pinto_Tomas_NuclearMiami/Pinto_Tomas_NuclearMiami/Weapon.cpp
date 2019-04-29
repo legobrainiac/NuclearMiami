@@ -6,6 +6,7 @@
 #include "Scene.h"
 #include "SoundEffect.h"
 #include "ResourceManager.h"
+#include "Rocket.h"
 
 Weapon::Weapon(const Vector2f& position, const Vector2f& scale, float rotation, const std::string& texture, float kickBack, int fireRate)
 : PickUp(position, scale, rotation)
@@ -15,6 +16,7 @@ Weapon::Weapon(const Vector2f& position, const Vector2f& scale, float rotation, 
 , m_pShootingSound(ResourceManager::Get()->GetSoundEffect("shot_basic"))
 , m_pEquip(ResourceManager::Get()->GetSoundEffect("cock"))
 , m_pDrop(ResourceManager::Get()->GetSoundEffect("drop"))
+, m_AmmoCount(100)
 {
 	m_Friction = 20.f;
 	m_pShootingSound->SetVolume(48);
@@ -77,7 +79,7 @@ void Weapon::SetInWorld(bool val)
 
 void Weapon::Shoot(const Vector2f& position, const Vector2f& direction, float rofMod)
 {
-	if(m_Timer < (1.f / (m_RateOfFire / rofMod)) || m_InWorld) return;	
+	if(m_Timer < (1.f / (m_RateOfFire / rofMod)) || m_InWorld || m_AmmoCount <= 0) return;	
 	
 	m_Timer = 0.f;
 	Projectile* projectile = new Projectile(position, Vector2f {1.f, 1.f}, 0.f, direction.Normalized(), m_pOwner);
@@ -92,6 +94,8 @@ void Weapon::Shoot(const Vector2f& position, const Vector2f& direction, float ro
 		m_pShootingSound->PlayDirectional(m_RotationToPlayer, m_DistanceToPlayer);		
 	else
 		m_pShootingSound->Play(0);
+	
+	m_AmmoCount--;
 }
 
 Weapon::~Weapon()

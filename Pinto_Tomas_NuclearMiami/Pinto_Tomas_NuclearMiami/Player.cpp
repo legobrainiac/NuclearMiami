@@ -18,7 +18,7 @@ Player::Player(const Vector2f& position, const Vector2f& scale, float rotation)
 , m_pTorsoSprite(new Sprite("charTorsoAnimated", 10, 1, 0.04f))
 , m_Timer(0.f)
 , m_Health(100)
-, m_WeaponPivot {10.f, 0.f}
+, m_WeaponPivot {5.f, 0.f}
 {
 	m_VertexCollider.push_back(Point2f {-10.f, -5.f});
 	m_VertexCollider.push_back(Point2f {-10.f, 5.f});
@@ -122,6 +122,9 @@ void Player::DrawHUD() const
 	textConfig.scale = 1.f;
 	
 	ResourceManager::Get()->GetTextRenderer("munro")->DrawString("Health: " + std::to_string(m_Health), Vector2f { 20.f, 20.f }, textConfig);
+	
+	if(m_Weapons.size() > 0)
+		ResourceManager::Get()->GetTextRenderer("munro")->DrawString("Ammo: " + std::to_string(m_Weapons[0]->GetAmmo()), Vector2f { 20.f, 50.f }, textConfig);
 }
 
 void Player::Update(float dt)

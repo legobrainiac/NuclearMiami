@@ -9,6 +9,7 @@ Projectile::Projectile(const Vector2f& position, const Vector2f& scale, float ro
 , m_BounceCount(0)
 , m_MaxBounceCount(1)
 , m_Shooter(shooter)
+, m_Dammage(10)
 {
 	m_MaxAcceleration = 1000.f;
 	m_DoesCollision = false;
@@ -23,6 +24,7 @@ void Projectile::Update(float dt)
 		m_pScene->Delete(this);
 	
 	m_Accelleration = m_Direction * m_Speed;
+	m_Rotation = (std::atan2(m_Direction.y, m_Direction.x) * 180 / PI) - 90;
 	GameObject::Update(dt);
 }
 
@@ -65,7 +67,7 @@ void Projectile::Collision(float dt)
 		{
 			if(go != this && go != m_Shooter)
 			{
-				go->SendMessage(MessageType::dammage, 10);
+				go->SendMessage(MessageType::dammage, m_Dammage);
 				go->ApplyForce(m_Direction * 1000.f);
 				m_pScene->Delete(this);
 				break;

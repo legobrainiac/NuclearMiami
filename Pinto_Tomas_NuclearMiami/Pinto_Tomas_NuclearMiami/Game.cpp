@@ -61,6 +61,7 @@ Game::~Game()
 // TODO(tomas): weapons have ammo count and reload
 // TODO(tomas): move player ui to TScript
 // TODO(tomas): implement rocket, when rocket explodes it should spawn a explosion gameobject which self destruts once sprite sheet is done playing
+// TODO(tomas): upercase lambdas
 void Game::Initialize()
 {
 	// Startup timer
@@ -319,7 +320,7 @@ void Game::ClearBackground() const
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Game::StartGame(std::string level)
+void Game::StartGame(const std::string& level)
 {
 	m_ScreenState = ScreenState::Playing;
 	m_pMenuMusic->Stop();

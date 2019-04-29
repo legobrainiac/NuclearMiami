@@ -11,6 +11,7 @@ class GameObject;
 class Camera;
 class Player;
 
+// TODO(tomas): static const
 #define PS_SIZE 4096
 #define WIN_LEVEL 2
 
@@ -40,6 +41,7 @@ struct StaticSceneContainer
 	std::vector<std::vector<Point2f>> sceneCollider;
 };
 
+// TODO(tomas): rule of five
 class Scene
 {
 public:
