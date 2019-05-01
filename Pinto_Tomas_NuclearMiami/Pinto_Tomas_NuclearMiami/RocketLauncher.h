@@ -13,9 +13,6 @@ public:
 	~RocketLauncher();
 	
 	void Shoot(const Vector2f& position, const Vector2f& direction, float rofMod = 1.f);
-	
-private:
-	int m_RocketCount;
 };
 
 #endif // !ROCKET_LAUNCHER_H

@@ -57,6 +57,7 @@ public:
 	
 	void UiCallbackSetUp();
 	
+	//TODO(tomas): Lower case
 	enum class ScreenState
 	{
 		MainMenu, // State for the main menu when not playing
@@ -67,7 +68,7 @@ public:
 	}m_ScreenState;
 	
 	// Game start
-	void StartGame(std::string level);
+	void StartGame(const std::string& level);
 	void UnloadGame();
 	
 	void RaycastVision() const;

@@ -24,6 +24,9 @@ public:
 	virtual void Shoot(const Vector2f& position, const Vector2f& direction, float rofMod = 1.f);
 	
 	void SetInWorld(bool val) override;
+	
+	virtual int GetAmmo() const { return m_AmmoCount; }
+	
 protected:
 	Texture* m_pTexture;
 	SoundEffect* m_pShootingSound;
@@ -35,6 +38,8 @@ protected:
 	float m_KickBack;
 	float m_Timer;
 	int m_RateOfFire;
+	
+	int m_AmmoCount;
 };
 
 #endif // !WEAPON_H

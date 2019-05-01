@@ -14,7 +14,7 @@ public:
 	void Update(float dt) override;
 	void Draw() const override;
 
-private:
+protected:
 	void Collision(float dt) override;
 	
 	Vector2f m_Direction;
@@ -22,6 +22,8 @@ private:
 	
 	int m_BounceCount;
 	int m_MaxBounceCount;
+	
+	int m_Dammage;
 	
 	GameObject* m_Shooter;
 };
