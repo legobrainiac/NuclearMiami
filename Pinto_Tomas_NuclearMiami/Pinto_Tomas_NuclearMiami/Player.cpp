@@ -31,9 +31,10 @@ Player::Player(const Vector2f& position, const Vector2f& scale, float rotation)
 Player::~Player()
 {
 	delete m_pLegsSprite;
-	
-	for(Weapon* w : m_Weapons)
-		if(w) delete w;
+	delete m_pTorsoSprite;
+
+	for(Weapon* pW : m_wWeapons)
+		if(pW) delete pW;
 }
 
 void Player::DrawBottom() const
@@ -60,7 +61,7 @@ void Player::DrawTop() const
 	
 	glRotatef(m_Rotation, 0.f, 0.f, 1.f);
 	
-	if(m_Weapons.size() > 0|| m_Accelleration.Length() < 50.f)
+	if(m_wWeapons.size() > 0|| m_Accelleration.Length() < 50.f)
 		m_pWeaponHoldTexture->Draw(Point2f{-(m_pWeaponHoldTexture->GetWidth() / 2), -(m_pWeaponHoldTexture->GetHeight() / 2)});
 	else
 		m_pTorsoSprite->Draw(Point2f{-(m_pTorsoSprite->GetFrameWidth() / 2), -(m_pTorsoSprite->GetFrameHeight() / 2)}, 1.f);
@@ -79,8 +80,8 @@ void Player::DrawWeapon() const
 
 	// m_Weapons[m_SelectedSlot]->Draw();
 	
-	if(m_Weapons.size() > 0)
-		m_Weapons[0]->Draw();
+	if(m_wWeapons.size() > 0)
+		m_wWeapons[0]->Draw();
 	
 	glPopMatrix();
 }
@@ -123,8 +124,8 @@ void Player::DrawHUD() const
 	
 	ResourceManager::Get()->GetTextRenderer("munro")->DrawString("Health: " + std::to_string(m_Health), Vector2f { 20.f, 20.f }, textConfig);
 	
-	if(m_Weapons.size() > 0)
-		ResourceManager::Get()->GetTextRenderer("munro")->DrawString("Ammo: " + std::to_string(m_Weapons[0]->GetAmmo()), Vector2f { 20.f, 50.f }, textConfig);
+	if(m_wWeapons.size() > 0)
+		ResourceManager::Get()->GetTextRenderer("munro")->DrawString("Ammo: " + std::to_string(m_wWeapons[0]->GetAmmo()), Vector2f { 20.f, 50.f }, textConfig);
 }
 
 void Player::Update(float dt)
@@ -134,8 +135,8 @@ void Player::Update(float dt)
 	m_Timer += dt;
 	
 	// Update weapons
-	for(Weapon* wp : m_Weapons)
-		wp->Update(dt);
+	for(Weapon* pW : m_wWeapons)
+		pW->Update(dt);
 	
 	// Update sprite animator
 	m_pLegsSprite->Update(dt);
@@ -164,19 +165,19 @@ void Player::Update(float dt)
 // NOTETODO(tomas): for now this is kept at two since i dont have a way of switching weapons :), do this later
 bool Player::HasEmptySlot() const
 {
-	return (m_Weapons.size() < 1);
+	return (m_wWeapons.size() < 1);
 }
 
 bool Player::ProcessPickUp(PickUp* pickUp)
 {
-	Weapon* pu = dynamic_cast<Weapon*>(pickUp);
+	Weapon* pPickUp = dynamic_cast<Weapon*>(pickUp);
 
-	if(pu != nullptr && HasEmptySlot())
+	if(pPickUp != nullptr && HasEmptySlot())
 	{
 		m_pScene->Remove(pickUp);
-		m_Weapons.push_back(pu);
-		pu->SetOwner(this);
-		pu->SetInWorld(false);
+		m_wWeapons.push_back(pPickUp);
+		pPickUp->SetOwner(this);
+		pPickUp->SetInWorld(false);
 		
 		return true;
 	}	
@@ -196,9 +197,9 @@ void Player::SendMessage(MessageType message, int value)
 
 void Player::Shoot(const Vector2f& direction, float dt)
 {
-	if(SDL_GetMouseState(nullptr, nullptr) == SDL_BUTTON_LEFT && m_Weapons.size())
+	if(SDL_GetMouseState(nullptr, nullptr) == SDL_BUTTON_LEFT && m_wWeapons.size())
     {
-		m_Weapons[0]->Shoot(m_Position, direction);
+		m_wWeapons[0]->Shoot(m_Position, direction);
 	}
 	
 	if(SDL_GetMouseState(nullptr, nullptr) == SDL_BUTTON_X1 && m_Timer > 0.1f) // This is weird, SDL returns the wrong id for my mouse button
@@ -207,21 +208,21 @@ void Player::Shoot(const Vector2f& direction, float dt)
 		int rotation = utils::RandInterval(0, 365);
 		Vector2f direction = Vector2f { cos(rotation * PI / 180.f), sin(rotation * PI / 180.f) };
 		
-		AiAgent* aiAgent = new AiAgent(m_Position + direction * 50.f, Vector2f { 1.f, 1.f }, 0.f, this);
-		aiAgent->SetZLayer(-1.f);
-		m_pScene->Add(aiAgent);
+		AiAgent* pAiAgent = new AiAgent(m_Position + direction * 50.f, Vector2f { 1.f, 1.f }, 0.f, this);
+		pAiAgent->SetZLayer(-1.f);
+		m_pScene->Add(pAiAgent);
 	}
 }
 
 void Player::Drop()
 {
-	if(m_Weapons.size() > 0)
+	if(m_wWeapons.size() > 0)
 	{
-		m_Weapons[m_Weapons.size() - 1]->SetInWorld(true);
-		m_Weapons[m_Weapons.size() - 1]->SetPosition(m_Position);
-		m_Weapons[m_Weapons.size() - 1]->SetRotation(m_Rotation);
-		m_pScene->Add(m_Weapons[m_Weapons.size() - 1]);
-		m_Weapons.pop_back();
+		m_wWeapons[m_wWeapons.size() - 1]->SetInWorld(true);
+		m_wWeapons[m_wWeapons.size() - 1]->SetPosition(m_Position);
+		m_wWeapons[m_wWeapons.size() - 1]->SetRotation(m_Rotation);
+		m_pScene->Add(m_wWeapons[m_wWeapons.size() - 1]);
+		m_wWeapons.pop_back();
 	}
 }
 

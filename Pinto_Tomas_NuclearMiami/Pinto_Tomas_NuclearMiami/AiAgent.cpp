@@ -163,14 +163,14 @@ void AiAgent::SendMessage(MessageType message, int value)
 	}
 }
 
-bool AiAgent::ProcessPickUp(PickUp* pickUp)
+bool AiAgent::ProcessPickUp(PickUp* pPickUp)
 {
 	// TODO(tomas): this is repeated code from the player class. Find a way to make this code shared between both. IHasInventory, teach don't like multiple inheritence doe 
-	Weapon* pu = dynamic_cast<Weapon*>(pickUp);
+	Weapon* pu = dynamic_cast<Weapon*>(pPickUp);
 	
 	if(pu != nullptr && HasEmptySlot())
 	{
-		m_pScene->Remove(pickUp);
+		m_pScene->Remove(pPickUp);
 		m_pWeapons.push_back(pu);
 		pu->SetOwner(this);
 		pu->SetInWorld(false);

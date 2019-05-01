@@ -16,6 +16,8 @@ class TextRenderer
 {
 public:
 	TextRenderer(const std::string& path);
+	TextRenderer(const TextRenderer& other) = delete;
+	TextRenderer& operator=(const TextRenderer& other) = delete;
 	~TextRenderer();
 	
 	void DrawString(const std::string& str, const Vector2f& pos, const TextRenderConfig& cfg) const;

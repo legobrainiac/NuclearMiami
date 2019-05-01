@@ -8,7 +8,7 @@ Projectile::Projectile(const Vector2f& position, const Vector2f& scale, float ro
 , m_Speed(1000.f)
 , m_BounceCount(0)
 , m_MaxBounceCount(1)
-, m_Shooter(shooter)
+, m_pShooter(shooter)
 , m_Dammage(10)
 {
 	m_MaxAcceleration = 1000.f;
@@ -61,14 +61,14 @@ void Projectile::Collision(float dt)
 	}
 	
 	auto scene = m_pScene->GetGameObjects();
-	for(GameObject* go : scene)
+	for(GameObject* pGo : scene)
 	{
-		if(utils::Raycast(go->GetCollider(), posDir, position, hit))
+		if(utils::Raycast(pGo->GetCollider(), posDir, position, hit))
 		{
-			if(go != this && go != m_Shooter)
+			if(pGo != this && pGo != m_pShooter)
 			{
-				go->SendMessage(MessageType::dammage, m_Dammage);
-				go->ApplyForce(m_Direction * 1000.f);
+				pGo->SendMessage(MessageType::dammage, m_Dammage);
+				pGo->ApplyForce(m_Direction * 1000.f);
 				m_pScene->Delete(this);
 				break;
 			}

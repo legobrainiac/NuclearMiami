@@ -29,7 +29,7 @@ public:
 	void ProcessMouseDownEvent(const SDL_MouseButtonEvent& e);
 	void ProcessMouseUpEvent(const SDL_MouseButtonEvent& e);
     
-    void SetExitFlags(CoreFlags* exitFlags) { m_ExitFlags = exitFlags; }
+    void SetExitFlags(CoreFlags* pExitFlags) { m_ExitFlags = pExitFlags; }
     
     private:
 	// DATA MEMBERS
@@ -60,11 +60,11 @@ public:
 	//TODO(tomas): Lower case
 	enum class ScreenState
 	{
-		MainMenu, // State for the main menu when not playing
-		Playing,// State for when playing
-		Paused, // State for menu when playing
-		EndScreen, // State for when the player wins
-		DeathScreen // State for when the player wins
+		mainMenu, // State for the main menu when not playing
+		playing,// State for when playing
+		paused, // State for menu when playing
+		endScreen, // State for when the player wins
+		deathScreen // State for when the player wins
 	}m_ScreenState;
 	
 	// Game start

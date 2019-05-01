@@ -27,7 +27,7 @@ public:
 	
 	void SendMessage(MessageType message, int value) override;
 	bool HasEmptySlot() const override { return m_pWeapons.size() < 1; }
-	bool ProcessPickUp(PickUp* pickUp) override;
+	bool ProcessPickUp(PickUp* pPickUp) override;
 	
 	static int GetAiInstanceCount() { return m_AiInstanceCounter; }
 	

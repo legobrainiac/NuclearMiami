@@ -70,7 +70,7 @@ void Game::Initialize()
 	SDL_ShowCursor(SDL_DISABLE);
 
 	// Load UI from the menu tankscript file and setup callbacks
-	m_ScreenState = ScreenState::MainMenu;
+	m_ScreenState = ScreenState::mainMenu;
 	
 	TUiManager::Get()->LoadUiDescriptor("Resources/Scripts/menu.ts");
 	UiCallbackSetUp();
@@ -130,21 +130,21 @@ void Game::Update(float dt)
 	TUiManager::Get()->Update(dt, m_MousePosition);
 
 	// Don't update if the game is paused, ui still gets updated
-	if (m_ScreenState != ScreenState::Paused &&  m_ScreenState != ScreenState::MainMenu)
+	if (m_ScreenState != ScreenState::paused &&  m_ScreenState != ScreenState::mainMenu)
 		m_pScene->Update(dt);
 }
 
 void Game::DoDeathScreen(float dt)
 {
-	if (Scene::Get()->GetPlayer()->IsDead() && m_ScreenState != ScreenState::MainMenu)
+	if (Scene::Get()->GetPlayer()->IsDead() && m_ScreenState != ScreenState::mainMenu)
 	{
-		m_ScreenState = ScreenState::DeathScreen;
+		m_ScreenState = ScreenState::deathScreen;
 		m_EndScreenTimer += dt;
 
-		TUiContainer* deathScreen = TUiManager::Get()->GetComponent<TUiContainer>("deathScreen");
+		TUiContainer* pDeathScreen = TUiManager::Get()->GetComponent<TUiContainer>("deathScreen");
 
-		if (deathScreen)
-			deathScreen->SetActive(true);
+		if (pDeathScreen)
+			pDeathScreen->SetActive(true);
 
 		TUiButton* pInfoButton = TUiManager::Get()->GetComponent<TUiButton>("infoButton");
 
@@ -152,16 +152,16 @@ void Game::DoDeathScreen(float dt)
 			pInfoButton->SetActive(false);
 	}
 
-	if (m_EndScreenTimer > 5.f && m_ScreenState == ScreenState::DeathScreen)
+	if (m_EndScreenTimer > 5.f && m_ScreenState == ScreenState::deathScreen)
 	{
 		Scene::Get()->Reset();
-		m_ScreenState = ScreenState::Playing;
+		m_ScreenState = ScreenState::playing;
 		m_EndScreenTimer = 0.f;
 
-		TUiContainer* deathScreen = TUiManager::Get()->GetComponent<TUiContainer>("deathScreen");
+		TUiContainer* pDeathScreen = TUiManager::Get()->GetComponent<TUiContainer>("deathScreen");
 
-		if (deathScreen)
-			deathScreen->SetActive(false);
+		if (pDeathScreen)
+			pDeathScreen->SetActive(false);
 
 		TUiButton* pInfoButton = TUiManager::Get()->GetComponent<TUiButton>("infoButton");
 
@@ -172,15 +172,15 @@ void Game::DoDeathScreen(float dt)
 
 void Game::DoEndScreen(float dt)
 {
-	if (AiAgent::GetAiInstanceCount() <= 0 && !Scene::Get()->GetPlayer()->IsDead() && m_ScreenState != ScreenState::MainMenu && Scene::GetLevel() == WIN_LEVEL)
+	if (AiAgent::GetAiInstanceCount() <= 0 && !Scene::Get()->GetPlayer()->IsDead() && m_ScreenState != ScreenState::mainMenu && Scene::GetLevel() == WIN_LEVEL)
 	{
-		m_ScreenState = ScreenState::EndScreen;
+		m_ScreenState = ScreenState::endScreen;
 		m_EndScreenTimer += dt;
 
-		TUiContainer* endScreen = TUiManager::Get()->GetComponent<TUiContainer>("endScreen");
+		TUiContainer* pEndScreen = TUiManager::Get()->GetComponent<TUiContainer>("endScreen");
 
-		if (endScreen)
-			endScreen->SetActive(true);
+		if (pEndScreen)
+			pEndScreen->SetActive(true);
 
 		TUiButton* pInfoButton = TUiManager::Get()->GetComponent<TUiButton>("infoButton");
 
@@ -188,16 +188,16 @@ void Game::DoEndScreen(float dt)
 			pInfoButton->SetActive(false);
 	}
 
-	if (m_EndScreenTimer > 5.f && m_ScreenState == ScreenState::EndScreen)
+	if (m_EndScreenTimer > 5.f && m_ScreenState == ScreenState::endScreen)
 	{
 		Scene::Get()->Reset();
-		m_ScreenState = ScreenState::Playing;
+		m_ScreenState = ScreenState::playing;
 		m_EndScreenTimer = 0.f;
 
-		TUiContainer* endScreen = TUiManager::Get()->GetComponent<TUiContainer>("endScreen");
+		TUiContainer* pEndScreen = TUiManager::Get()->GetComponent<TUiContainer>("endScreen");
 
-		if (endScreen)
-			endScreen->SetActive(false);
+		if (pEndScreen)
+			pEndScreen->SetActive(false);
 
 		TUiButton* pInfoButton = TUiManager::Get()->GetComponent<TUiButton>("infoButton");
 
@@ -210,7 +210,7 @@ void Game::Draw() const
 {
 	ClearBackground();
 
-	if (m_ScreenState != ScreenState::Paused &&  m_ScreenState != ScreenState::MainMenu)
+	if (m_ScreenState != ScreenState::paused &&  m_ScreenState != ScreenState::mainMenu)
 	{
 		// Calculate camera position with mouse
 		m_pScene->SetMainCamera(m_pCamera);
@@ -290,7 +290,7 @@ void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 		break;
 
 	case SDLK_x:
-		if(m_ScreenState != ScreenState::DeathScreen && m_ScreenState != ScreenState::EndScreen)
+		if(m_ScreenState != ScreenState::deathScreen && m_ScreenState != ScreenState::endScreen)
 			Scene::Get()->Reset();
 		break;
 	}
@@ -311,7 +311,7 @@ void Game::ProcessMouseUpEvent(const SDL_MouseButtonEvent& e)
 
 void Game::ClearBackground() const
 {
-	if (m_ScreenState != ScreenState::Paused &&  m_ScreenState != ScreenState::MainMenu)
+	if (m_ScreenState != ScreenState::paused &&  m_ScreenState != ScreenState::mainMenu)
 		glClearColor(0.f, 0.f, 0.f, 1.f);
 	else
 		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
@@ -322,14 +322,14 @@ void Game::ClearBackground() const
 
 void Game::StartGame(const std::string& level)
 {
-	m_ScreenState = ScreenState::Playing;
+	m_ScreenState = ScreenState::playing;
 	m_pMenuMusic->Stop();
 	m_pGameMusic->Play(true);
 }
 
 void Game::UnloadGame()
 {
-	m_ScreenState = ScreenState::MainMenu;
+	m_ScreenState = ScreenState::mainMenu;
 	m_pGameMusic->Stop();
 	m_pMenuMusic->Play(true);
 }
@@ -344,8 +344,8 @@ void Game::UiCallbackSetUp()
 	if (pStartButton)
 	{
 		pStartButton->RegisterClickCallBack([&]() {
-			TUiContainer* menu = TUiManager::Get()->GetComponent<TUiContainer>("menu");
-			if (menu) menu->SetActive(false);
+			TUiContainer* pMenu = TUiManager::Get()->GetComponent<TUiContainer>("menu");
+			if (pMenu) pMenu->SetActive(false);
 			StartGame("");
 		});
 	}
@@ -356,11 +356,11 @@ void Game::UiCallbackSetUp()
 	if (pSettingsButton)
 	{
 		pSettingsButton->RegisterClickCallBack([&]() {
-			TUiContainer* settings = TUiManager::Get()->GetComponent<TUiContainer>("settings");
-			if (settings) settings->SetActive(true);
+			TUiContainer* pSettings = TUiManager::Get()->GetComponent<TUiContainer>("settings");
+			if (pSettings) pSettings->SetActive(true);
 
-			TUiContainer* menu = TUiManager::Get()->GetComponent<TUiContainer>("menu");
-			if (menu) menu->SetActive(false);
+			TUiContainer* pMenu = TUiManager::Get()->GetComponent<TUiContainer>("menu");
+			if (pMenu) pMenu->SetActive(false);
 		});
 	}
 
@@ -378,22 +378,22 @@ void Game::UiCallbackSetUp()
 	if (pInfoButton)
 	{
 		pInfoButton->RegisterClickCallBack([&]() {
-			TUiContainer* menu = TUiManager::Get()->GetComponent<TUiContainer>("menu");
-			if (menu) menu->SetActive(true);
+			TUiContainer* pMenu = TUiManager::Get()->GetComponent<TUiContainer>("menu");
+			if (pMenu) pMenu->SetActive(true);
 
-			TUiContainer* settings = TUiManager::Get()->GetComponent<TUiContainer>("settings");
-			if (settings) settings->SetActive(false);
+			TUiContainer* pSettings = TUiManager::Get()->GetComponent<TUiContainer>("settings");
+			if (pSettings) pSettings->SetActive(false);
 
 			UnloadGame();
 		});
 	}
 
 	// Toggle full screen button
-	TUiButton* toggleFullScreenButton = TUiManager::Get()->GetComponent<TUiButton>("settings.fullscreenToggle");
+	TUiButton* pToggleFullScreenButton = TUiManager::Get()->GetComponent<TUiButton>("settings.fullscreenToggle");
 
-	if (toggleFullScreenButton)
+	if (pToggleFullScreenButton)
 	{
-		toggleFullScreenButton->RegisterClickCallBack([&]() {
+		pToggleFullScreenButton->RegisterClickCallBack([&]() {
 			m_ExitFlags->isFullScreen = !m_ExitFlags->isFullScreen;
 
 			// Set fullscreen if not in full screen
@@ -408,21 +408,21 @@ void Game::UiCallbackSetUp()
 		});
 	}
 
-	TUiButton* toggleVSync = TUiManager::Get()->GetComponent<TUiButton>("settings.vsyncToggle");
+	TUiButton* pToggleVSync = TUiManager::Get()->GetComponent<TUiButton>("settings.vsyncToggle");
 
-	if (toggleVSync)
+	if (pToggleVSync)
 	{
-		toggleVSync->RegisterClickCallBack([&]() {
+		pToggleVSync->RegisterClickCallBack([&]() {
 			if (m_VSync) { SDL_GL_SetSwapInterval(0); m_VSync = false; }
 			else { SDL_GL_SetSwapInterval(1); m_VSync = true; }
 			LOG("VSync = " << m_VSync);
 		});
 	}
 	
-	TUiButton* toggleDebug = TUiManager::Get()->GetComponent<TUiButton>("settings.goDebug");
+	TUiButton* pToggleDebug = TUiManager::Get()->GetComponent<TUiButton>("settings.goDebug");
 	
-	if (toggleDebug)
-		toggleDebug->RegisterClickCallBack([&]() { GameObject::ToggleDebug(); });
+	if (pToggleDebug)
+		pToggleDebug->RegisterClickCallBack([&]() { GameObject::ToggleDebug(); });
 }
 
 void Game::RaycastVision() const
@@ -452,14 +452,14 @@ void Game::ToggleInfo()
 {
 	std::cout << "Controls: WASD to move, mouse to aim and shoot. Items are picked up automatically if there is an empty weapon slot." << std::endl;
 
-	if (m_ScreenState != ScreenState::MainMenu) return;
+	if (m_ScreenState != ScreenState::mainMenu) return;
 
-	TUiContainer* info = TUiManager::Get()->GetComponent<TUiContainer>("info");
-	TUiContainer* menu = TUiManager::Get()->GetComponent<TUiContainer>("menu");
+	TUiContainer* pInfo = TUiManager::Get()->GetComponent<TUiContainer>("info");
+	TUiContainer* pMenu = TUiManager::Get()->GetComponent<TUiContainer>("menu");
 
-	if (info && menu)
+	if (pInfo && pMenu)
 	{
-		menu->SetActive(info->GetActive());
-		info->SetActive(!info->GetActive());
+		pMenu->SetActive(pInfo->GetActive());
+		pInfo->SetActive(!pInfo->GetActive());
 	}
 }

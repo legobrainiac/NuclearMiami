@@ -26,7 +26,7 @@ public:
 	
 	// Pickup helpers, NOTE(tomas): this will be gone once we re-implement pickups.
 	bool HasEmptySlot() const override;
-	bool ProcessPickUp(PickUp* pickUp) override;
+	bool ProcessPickUp(PickUp* pPickUp) override;
 	
 	bool IsDead() const { return m_Health <= 0; } ;
 	void SendMessage(MessageType message, int value) override;
@@ -37,7 +37,7 @@ public:
 private:	
 	// Behaviour helpers
 	void Shoot(const Vector2f& direction, float dt);
-	void Move(const Uint8* keyStates, float dt);
+	void Move(const Uint8* pKeyStates, float dt);
 
 	// Draw helpers
 	void DrawBottom() const;
@@ -55,7 +55,7 @@ private:
 	Sprite* m_pTorsoSprite;
 	Camera* m_pCamera;
 	
-	std::vector<Weapon*> m_Weapons;
+	std::vector<Weapon*> m_wWeapons;
 };
 
 #endif // !PLAYER_H

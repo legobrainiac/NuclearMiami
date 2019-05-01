@@ -24,7 +24,7 @@ Scene* Scene::Get()
 }
 
 Scene::Scene(int level)
-: m_Scene()
+: m_pScene()
 , m_PlayerSpawn()
 , m_AddBuffer()
 {
@@ -95,16 +95,16 @@ void Scene::Draw() const
 	
 	DrawBlood();
 	
-	for(GameObject* go : m_Scene)
-		go->Draw();
+	for(GameObject* pGo : m_pScene)
+		pGo->Draw();
 	
 	glPopMatrix();
 }
 
 void Scene::Update(float dt)
 {
-	for(GameObject* go : m_Scene)
-		go->Update(dt);
+	for(GameObject* pGo : m_pScene)
+		pGo->Update(dt);
 	
 	// After updating, 
 	ProcessRemovals();
@@ -179,23 +179,23 @@ void Scene::DrawBlood() const
 
 Scene::~Scene()
 {
-	for(GameObject* go : m_Scene)
-		delete go;
+	for(GameObject* pGGo : m_pScene)
+		delete pGGo;
 }
 
 void Scene::ProcessAdditions()
 {
 	if(m_AddBuffer.dirty)
 	{
-		for(GameObject* go : m_AddBuffer.buffer)
-			m_Scene.push_back(go);
+		for(GameObject* pGo : m_AddBuffer.buffer)
+			m_pScene.push_back(pGo);
 		
-		auto sort = [](GameObject* left, GameObject* right) 
+		auto sort = [](GameObject* pLeft, GameObject* pRight) 
 		{
-			return left->GetZLayer() < right->GetZLayer();
+			return pLeft->GetZLayer() < pRight->GetZLayer();
 		};
 		
-		std::sort(m_Scene.begin(), m_Scene.end(), sort);
+		std::sort(m_pScene.begin(), m_pScene.end(), sort);
 		
 		m_AddBuffer.Reset();
 	}
@@ -203,12 +203,12 @@ void Scene::ProcessAdditions()
 
 void Scene::ForceSort()
 {
-	auto sort = [](GameObject* left, GameObject* right) 
+	auto sort = [](GameObject* pLeft, GameObject* pRight) 
 	{
-		return left->GetZLayer() < right->GetZLayer();
+		return pLeft->GetZLayer() < pRight->GetZLayer();
 	};
 	
-	std::sort(m_Scene.begin(), m_Scene.end(), sort);
+	std::sort(m_pScene.begin(), m_pScene.end(), sort);
 }
 
 void Scene::ProcessDeletions()
@@ -229,18 +229,18 @@ void Scene::ProcessDeletions()
 		m_Scene.erase(m_Scene.end() - m_DeleteBuffer.buffer.size(), m_Scene.end());
 		*/
 		
-		for(GameObject* go : m_DeleteBuffer.buffer)
+		for(GameObject* pGo : m_DeleteBuffer.buffer)
 		{
-			for(size_t i = 0; i < m_Scene.size(); ++i)
+			for(size_t i = 0; i < m_pScene.size(); ++i)
 			{
-				if(go == m_Scene[i])
+				if(pGo == m_pScene[i])
 				{
-					GameObject* last = m_Scene.back();
-					m_Scene[m_Scene.size() - 1] = m_Scene[i];
-					m_Scene[i] = last;
+					GameObject* last = m_pScene.back();
+					m_pScene[m_pScene.size() - 1] = m_pScene[i];
+					m_pScene[i] = last;
 					
-					delete go;
-					m_Scene.pop_back();
+					delete pGo;
+					m_pScene.pop_back();
 				}
 			}
 		}
@@ -253,16 +253,16 @@ void Scene::ProcessRemovals()
 {
 	if(m_RemoveBuffer.dirty)
 	{
-		for(GameObject* go : m_RemoveBuffer.buffer)
+		for(GameObject* pGo : m_RemoveBuffer.buffer)
 		{
-			for(size_t i = 0; i < m_Scene.size(); ++i)
+			for(size_t i = 0; i < m_pScene.size(); ++i)
 			{
-				if(go == m_Scene[i])
+				if(pGo == m_pScene[i])
 				{
-					GameObject* last = m_Scene.back();
-					m_Scene[m_Scene.size() - 1] = m_Scene[i];
-					m_Scene[i] = last;
-					m_Scene.pop_back();
+					GameObject* pLast = m_pScene.back();
+					m_pScene[m_pScene.size() - 1] = m_pScene[i];
+					m_pScene[i] = pLast;
+					m_pScene.pop_back();
 				}
 			}
 		}

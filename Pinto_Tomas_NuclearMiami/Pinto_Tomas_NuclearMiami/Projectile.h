@@ -25,7 +25,7 @@ protected:
 	
 	int m_Dammage;
 	
-	GameObject* m_Shooter;
+	GameObject* m_pShooter;
 };
 
 #endif // !PROJECTILE_H

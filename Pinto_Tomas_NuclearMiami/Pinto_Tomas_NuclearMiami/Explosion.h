@@ -12,6 +12,11 @@ class Explosion :
 public:
 	Explosion(const Vector2f& position);
 	~Explosion();
+
+	Explosion(const Explosion&) = delete;
+	Explosion& operator=(const Explosion&) = delete;
+	Explosion(Explosion&&) = delete;
+	Explosion& operator=(Explosion&&) = delete;
 	
 	void Draw() const;
 	void Update(float dt);

@@ -11,18 +11,17 @@ class GameObject;
 class Camera;
 class Player;
 
-// TODO(tomas): static const
-#define PS_SIZE 4096
 #define WIN_LEVEL 2
 
 struct StaticParticleSystem
 {
 	int count = 0;
-	Vector2f particles[PS_SIZE];
+	static const int particleCount = 4096;
+	Vector2f particles[particleCount];
 	
 	void Add(float x, float y)
 	{
-		particles[count % PS_SIZE] = Vector2f {x, y};
+		particles[count % particleCount] = Vector2f {x, y};
 		++count;
 	}
 };
@@ -66,10 +65,10 @@ public:
 	void Delete(GameObject* pGameObject);
 	void Remove(GameObject* pGameObject);
 	
-	void SetPlayer(Player* go) { m_pPlayer = go; }
+	void SetPlayer(Player* pGo) { m_pPlayer = pGo; }
 	
 	// Getters
-	std::vector<GameObject*>& GetGameObjects() { return m_Scene; }
+	std::vector<GameObject*>& GetGameObjects() { return m_pScene; }
 	const std::vector<std::vector<Point2f>>& GetSceneCollider();
 	Player* GetPlayer() { return m_pPlayer; }
 	Camera* GetMainCamera() const;	
@@ -92,7 +91,7 @@ private:
 	
 	// Scene info
 	StaticSceneContainer m_SceneMap;	
-	std::vector<GameObject*> m_Scene;
+	std::vector<GameObject*> m_pScene;
 	Vector2f m_PlayerSpawn;
 	
 	// Objects marked to be added or deleted

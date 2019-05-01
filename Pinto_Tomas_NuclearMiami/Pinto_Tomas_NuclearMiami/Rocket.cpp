@@ -37,7 +37,7 @@ void Rocket::DoHit()
 	
 	for(GameObject* go : m_pScene->GetGameObjects())
 	{
-		if(go != m_Shooter)
+		if(go != m_pShooter)
 		{
 			Point2f pos = m_Position.ToPoint2f();
 			Point2f otherPos = go->GetPosition().ToPoint2f();
@@ -82,7 +82,7 @@ void Rocket::Collision(float dt)
 	{
 		if(utils::Raycast(go->GetCollider(), posDir, position, hit))
 		{
-			if(go != this && go != m_Shooter)
+			if(go != this && go != m_pShooter)
 			{
 				DoHit();
 				m_pScene->Delete(this);
