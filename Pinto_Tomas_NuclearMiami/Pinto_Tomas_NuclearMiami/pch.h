@@ -27,6 +27,10 @@
 #include "structs.h"
 #include "utils.h"
 
+#include "Scene.h"
+#include "GameObject.h"
+
+
 #if 0
 #define GAME_RELEASE
 #endif

@@ -10,7 +10,7 @@
 
 #include <fstream>
 #include <string>
-#include <map>
+#include <unordered_map>
 
 #include <functional>
 
@@ -49,9 +49,9 @@ public:
     
 private:
 	static TUiManager*		m_pUiManager;
-	std::vector<TUiNode*>	m_RootNodes;
+	std::vector<TUiNode*>	m_pRootNodes;
     
-	std::map<std::string, std::function<TUiNode*(std::ifstream&, std::string)>> m_TokenMap;
+	std::unordered_map<std::string, std::function<TUiNode*(std::ifstream&, std::string)>> m_TokenMap;
 };
 
 #endif // !TUIMANAGER_H

@@ -26,7 +26,7 @@ public:
 class IInventory
 {
 public:
-	virtual bool ProcessPickUp(PickUp* pickup) = 0;
+	virtual bool ProcessPickUp(PickUp* pPickup) = 0;
 	virtual bool HasEmptySlot() const = 0;
 };
 
@@ -63,7 +63,7 @@ public:
 	const GameObject* GetParent() const;
 	
 	// Pickup handling
-	bool ProcessPickUp(PickUp* pickup) override;
+	bool ProcessPickUp(PickUp* pPickUp) override;
 	bool HasEmptySlot() const override;
 	
 	std::vector<Point2f> GetCollider();
@@ -105,7 +105,7 @@ protected:
 	GameObject* m_pParent;
 	Scene* m_pScene;
 	
-	std::vector<GameObject*> m_Children;
+	std::vector<GameObject*> m_pChildren;
 	std::vector<Point2f> m_VertexCollider;
 	
 	static int m_InstanceCounter;

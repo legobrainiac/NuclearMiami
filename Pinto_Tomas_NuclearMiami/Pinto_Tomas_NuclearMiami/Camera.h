@@ -4,11 +4,16 @@
 #include "Vector2f.h"
 #include "utils.h"
 
+// TODO(tomas): remake camera :)
 class Camera
 {
 public:
 	Camera(float width, float height, Window* window, Point2f* mousePos);
-	
+	Camera(const Camera&) = delete;
+	Camera& operator=(const Camera&) = delete;
+	Camera(Camera&&) = delete;
+	Camera& operator=(Camera&&) = delete;
+
 	void SetBoundaries(const Rectf& boundaries);
 	Point2f GetPosition(const Vector2f& target);
 	

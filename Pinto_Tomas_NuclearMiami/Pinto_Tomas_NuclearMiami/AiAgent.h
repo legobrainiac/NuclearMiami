@@ -26,7 +26,7 @@ public:
 	void Draw() const override;
 	
 	void SendMessage(MessageType message, int value) override;
-	bool HasEmptySlot() const override { return m_Weapons.size() < 1; }
+	bool HasEmptySlot() const override { return m_pWeapons.size() < 1; }
 	bool ProcessPickUp(PickUp* pickUp) override;
 	
 	static int GetAiInstanceCount() { return m_AiInstanceCounter; }
@@ -46,10 +46,10 @@ private:
 	Texture* m_pTorsoTexture;
 	Sprite* m_pLegsSprite;
 	GameObject* m_pTarget;
-	std::vector<Weapon*> m_Weapons;
+	std::vector<Weapon*> m_pWeapons;
 	
 	void Ai(float dt);
-	void Shoot(Vector2f direction);
+	void Shoot(const Vector2f& direction);
 	bool InSight(utils::HitInfo& hitOut, Point2f tail, Point2f head);
 	
 	static int m_AiInstanceCounter;

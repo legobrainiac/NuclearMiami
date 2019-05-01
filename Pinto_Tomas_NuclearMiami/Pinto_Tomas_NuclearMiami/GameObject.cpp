@@ -28,8 +28,8 @@ GameObject::GameObject(const Vector2f& position, const Vector2f& scale, float ro
 GameObject::~GameObject()
 {
 	--m_InstanceCounter;
-	for(GameObject* go : m_Children)
-		delete go;
+	for(GameObject* pGo : m_pChildren)
+		delete pGo;
 }
 
 // Movement
@@ -58,24 +58,24 @@ void GameObject::Collision(float dt)
 	if(m_DoesCollision)
 	{
 		// Collision with other objects
-		for(GameObject* go : m_pScene->GetGameObjects())
+		for(GameObject* pGo : m_pScene->GetGameObjects())
 		{
-			if(go != this)
+			if(pGo != this)
 			{
 				Circlef myCollider = GetCircleCollider();
-				Circlef otherCollider = go->GetCircleCollider();
+				Circlef otherCollider = pGo->GetCircleCollider();
 
-				if(myCollider.IsOverlapping(otherCollider) && go->m_DoesCollision)
+				if(myCollider.IsOverlapping(otherCollider) && pGo->m_DoesCollision)
 				{
 					Vector2f dir { myCollider.center, otherCollider.center };
 					float distance = dir.Length();
 					float overlapDistance  = (distance - (myCollider.radius + otherCollider.radius)) / 2.f;
 			
-					m_Position.x -= overlapDistance * (m_Position.x - go->m_Position.x) / distance;
-					m_Position.y -= overlapDistance * (m_Position.y - go->m_Position.y) / distance;
+					m_Position.x -= overlapDistance * (m_Position.x - pGo->m_Position.x) / distance;
+					m_Position.y -= overlapDistance * (m_Position.y - pGo->m_Position.y) / distance;
 			
-					go->m_Position.x += overlapDistance * (m_Position.x - go->m_Position.x) / distance;
-					go->m_Position.y += overlapDistance * (m_Position.y - go->m_Position.y) / distance;
+					pGo->m_Position.x += overlapDistance * (m_Position.x - pGo->m_Position.x) / distance;
+					pGo->m_Position.y += overlapDistance * (m_Position.y - pGo->m_Position.y) / distance;
 				}
 			}
 		}
@@ -146,7 +146,7 @@ float GameObject::GetZLayer() const
 
 const std::vector<GameObject*>& GameObject::GetChildren() const
 {
-	return m_Children;
+	return m_pChildren;
 }
 
 const GameObject* GameObject::GetParent() const
@@ -192,7 +192,7 @@ void GameObject::SetZLayer(float zLayer)
 
 void GameObject::AddChild(GameObject* pChild)
 {
-	m_Children.push_back(pChild);
+	m_pChildren.push_back(pChild);
 	pChild->m_pParent = this;
 }
 
@@ -203,8 +203,8 @@ void GameObject::SetFriction(float friction)
 
 void GameObject::Draw() const 
 {
-	for(GameObject* go : m_Children)
-		go->Draw();
+	for(GameObject* pGo : m_pChildren)
+		pGo->Draw();
 	
 	if(m_Debug)
 	{
@@ -226,8 +226,8 @@ void GameObject::Update(float dt)
 	
 	Translate(m_Accelleration * dt);
 	
-	for(GameObject* go : m_Children)
-		go->Update(dt);
+	for(GameObject* pGo : m_pChildren)
+		pGo->Update(dt);
 	
 	Collision(dt);
 }
@@ -237,7 +237,7 @@ void GameObject::SendMessage(MessageType message, int value)
 }
 
 // These are to be overriden by objects that are suppose to have inventories
-bool GameObject::ProcessPickUp(PickUp* pickup)
+bool GameObject::ProcessPickUp(PickUp* pPickup)
 {
 	return false;
 }

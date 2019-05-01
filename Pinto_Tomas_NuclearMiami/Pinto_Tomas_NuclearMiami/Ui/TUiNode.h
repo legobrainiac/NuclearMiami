@@ -44,7 +44,7 @@ class TUiNode
     
 	protected:
 	TUiNode* m_pParent;
-	std::vector<TUiNode*> m_Children;
+	std::vector<TUiNode*> m_pChildren;
     
 	std::string m_Id;
 	Vector2f m_Size;

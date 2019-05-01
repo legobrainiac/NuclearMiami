@@ -18,7 +18,7 @@ public:
 	void Draw() const;
 	
 	virtual void SetInWorld(bool val);
-	void SetOwner(GameObject* owner) { m_pOwner = owner; }
+	void SetOwner(GameObject* pOwner) { m_pOwner = pOwner; }
 	
 protected:
 	GameObject* m_pOwner;

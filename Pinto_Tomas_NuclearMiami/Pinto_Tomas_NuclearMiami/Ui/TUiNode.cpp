@@ -16,26 +16,26 @@ TUiNode::TUiNode()
 
 TUiNode::~TUiNode()
 {
-	for (TUiNode* children : m_Children)
-		delete children;
+	for (TUiNode* pChildren : m_pChildren)
+		delete pChildren;
     
-	m_Children.clear();
+	m_pChildren.clear();
 }
 
 void TUiNode::Draw(const Window& window)
 {
     if(!m_Active) return;
     
-	for (TUiNode* node : m_Children)
-		node->Draw(window);
+	for (TUiNode* pNode : m_pChildren)
+		pNode->Draw(window);
 }
 
 void TUiNode::Update(float dt, Point2f mousePos)
 {
     if(!m_Active) return;
     
-	for (TUiNode* node : m_Children)
-		node->Update(dt, mousePos);
+	for (TUiNode* pNode : m_pChildren)
+		pNode->Update(dt, mousePos);
 }
 
 void TUiNode::ProcessDescriptor(std::ifstream& descriptorStream, std::string descriptor)
@@ -64,12 +64,12 @@ TUiNode* TUiNode::GetComponentWithId(std::deque<std::string> idDecomp)
 	if (idDecomp.empty())
 		return this;	
     
-	for (TUiNode* node : m_Children)
+	for (TUiNode* pNode : m_pChildren)
 	{
-		if (node->GetId() == idDecomp[0])
+		if (pNode->GetId() == idDecomp[0])
 		{
 			idDecomp.pop_front();
-			return node->GetComponentWithId(idDecomp);
+			return pNode->GetComponentWithId(idDecomp);
 		}
 	}
     
@@ -78,7 +78,7 @@ TUiNode* TUiNode::GetComponentWithId(std::deque<std::string> idDecomp)
 
 std::vector<TUiNode*>& TUiNode::GetChildren()
 {
-	return m_Children;
+	return m_pChildren;
 }
 
 const Vector2f& TUiNode::GetSize() const

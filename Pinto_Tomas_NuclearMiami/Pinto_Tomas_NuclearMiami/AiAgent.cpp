@@ -36,8 +36,8 @@ AiAgent::~AiAgent()
 {
 	delete m_pLegsSprite;
 	
-	for(Weapon* w : m_Weapons)
-		if(w) delete w;
+	for(Weapon* pW : m_pWeapons)
+		if(pW) delete pW;
 	
 	m_AiInstanceCounter--;
 }
@@ -52,8 +52,8 @@ void AiAgent::Update(float dt)
 	m_Timer += dt;
 	
 	// Update weapons
-	for(Weapon* wp : m_Weapons)
-		wp->Update(dt);
+	for(Weapon* pW : m_pWeapons)
+		pW->Update(dt);
 	
 	// Update sprite animator
 	m_pLegsSprite->Update(dt);
@@ -110,8 +110,8 @@ void AiAgent::DrawWeapon() const
 	
 	// m_Weapons[m_SelectedSlot]->Draw();
 	
-	if(m_Weapons.size() > 0)
-		m_Weapons[0]->Draw();
+	if(m_pWeapons.size() > 0)
+		m_pWeapons[0]->Draw();
 	
 	glPopMatrix();
 }
@@ -149,17 +149,16 @@ void AiAgent::SendMessage(MessageType message, int value)
 			m_pScene->Delete(this);
 			
 			// Drop weapon
-			if(m_Weapons.size() > 0)
+			if(m_pWeapons.size() > 0)
 			{
-				m_Weapons[m_Weapons.size() - 1]->SetInWorld(true);
-				m_Weapons[m_Weapons.size() - 1]->SetPosition(m_Position);
-				m_Weapons[m_Weapons.size() - 1]->SetRotation(m_Rotation);
-				m_pScene->Add(m_Weapons[m_Weapons.size() - 1]);
-				m_Weapons.pop_back();
+				m_pWeapons[m_pWeapons.size() - 1]->SetInWorld(true);
+				m_pWeapons[m_pWeapons.size() - 1]->SetPosition(m_Position);
+				m_pWeapons[m_pWeapons.size() - 1]->SetRotation(m_Rotation);
+				m_pScene->Add(m_pWeapons[m_pWeapons.size() - 1]);
+				m_pWeapons.pop_back();
 			}
-
 		}
-		
+
 		m_pScene->AddBlood(m_Position, 10);
 	}
 }
@@ -172,7 +171,7 @@ bool AiAgent::ProcessPickUp(PickUp* pickUp)
 	if(pu != nullptr && HasEmptySlot())
 	{
 		m_pScene->Remove(pickUp);
-		m_Weapons.push_back(pu);
+		m_pWeapons.push_back(pu);
 		pu->SetOwner(this);
 		pu->SetInWorld(false);
 		
@@ -233,8 +232,8 @@ void AiAgent::Ai(float dt)
 	}
 }
 
-void AiAgent::Shoot(Vector2f direction)
+void AiAgent::Shoot(const Vector2f& direction)
 {
-	if(m_Weapons.size() > 0)
-		m_Weapons[0]->Shoot(m_Position, direction, 4);
+	if(m_pWeapons.size() > 0)
+		m_pWeapons[0]->Shoot(m_Position, direction, 4);
 }

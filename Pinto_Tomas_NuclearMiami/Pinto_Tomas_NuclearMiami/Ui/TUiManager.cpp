@@ -227,8 +227,8 @@ void TUiManager::LoadUiDescriptor(std::string resourceLocation)
 {
 	std::ifstream	stream(resourceLocation);
 	std::string		line;
-	TUiNode*		node = nullptr;
-	TUiContainer*	openContainer = nullptr;
+	TUiNode*		pNode = nullptr;
+	TUiContainer*	pOpenContainer = nullptr;
     
 	bool			isContainerOpen = false;
     
@@ -236,38 +236,36 @@ void TUiManager::LoadUiDescriptor(std::string resourceLocation)
 	{
 		std::getline(stream, line);
         
-		// TODO(tomas): find?
 		for (const TokenPair& token : m_TokenMap)
 		{
 			size_t i = line.find(token.first);
             
 			if (i != -1)
 			{
-				DEBUG("Token [ " << token.first << "(... ] found for " << resourceLocation);
-				node = m_TokenMap[token.first](stream, line);
+				LOG("Token [ " << token.first << "(... ] found for " << resourceLocation);
+				pNode = m_TokenMap[token.first](stream, line);
                 
 				if (token.first == "TContainer")
 				{
-					DEBUG("Container opened [ " << token.first << "(... ]" << "for " << resourceLocation);
+					LOG("Container opened [ " << token.first << "(... ]" << "for " << resourceLocation);
                     
-					m_RootNodes.push_back(node);
-					openContainer = static_cast<TUiContainer*>(node);
+					m_pRootNodes.push_back(pNode);
+					pOpenContainer = static_cast<TUiContainer*>(pNode);
                     
 					isContainerOpen = true;
 				}
 				else if (token.first == "TEndContainer")
 				{
-					DEBUG("Container closed [ " << token.first << "(... ]" << " for " << resourceLocation);
+					LOG("Container closed [ " << token.first << "(... ]" << " for " << resourceLocation);
 					isContainerOpen = false;
 				}
-				else if (isContainerOpen && openContainer)
+				else if (isContainerOpen && pOpenContainer)
 				{
-					node->SetParent(static_cast<TUiNode*>(openContainer));
-					openContainer->GetChildren().push_back(node);
+					pNode->SetParent(static_cast<TUiNode*>(pOpenContainer));
+					pOpenContainer->GetChildren().push_back(pNode);
 				}
 				else // If no container is open, none container objects can become root nodes
-					m_RootNodes.push_back(node);
-                
+					m_pRootNodes.push_back(pNode);
 				break;
 			}
 		}
@@ -279,14 +277,14 @@ void TUiManager::LoadUiDescriptor(std::string resourceLocation)
 
 void TUiManager::Update(float dt, Point2f mousePos)
 {
-	for (TUiNode* node : m_RootNodes)
-		node->Update(dt, mousePos);
+	for (TUiNode* pNode : m_pRootNodes)
+		pNode->Update(dt, mousePos);
 }
 
 void TUiManager::Draw(const Window& window)
 {
-	for (TUiNode* node : m_RootNodes)
-		node->Draw(window);
+	for (TUiNode* pNode : m_pRootNodes)
+		pNode->Draw(window);
 }
 
 TUiNode* TUiManager::GetComponent(std::string id) const
@@ -297,16 +295,16 @@ TUiNode* TUiManager::GetComponent(std::string id) const
 	for (std::string temp; std::getline(idDecompStream, temp, '.');)
 		idDecomp.push_back(temp);
     
-	for (TUiNode* node : m_RootNodes)
+	for (TUiNode* pNode : m_pRootNodes)
 	{
-		if (node->GetId() == idDecomp[0])
+		if (pNode->GetId() == idDecomp[0])
 		{
 			idDecomp.pop_front();
             
 			if (idDecomp.size() == 0)
-				return node;
+				return pNode;
             
-			return node->GetComponentWithId(idDecomp);
+			return pNode->GetComponentWithId(idDecomp);
 		}
 	}
     
@@ -315,5 +313,5 @@ TUiNode* TUiManager::GetComponent(std::string id) const
 
 std::vector<TUiNode*>& TUiManager::GetRootNodes()
 {
-	return m_RootNodes;
+	return m_pRootNodes;
 }
