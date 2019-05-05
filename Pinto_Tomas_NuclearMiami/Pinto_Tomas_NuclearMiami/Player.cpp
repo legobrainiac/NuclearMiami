@@ -1,15 +1,11 @@
 #include "pch.h"
 #include "Player.h"
-#include "Texture.h"
-#include "Scene.h"
-#include "Camera.h"
+
 #include "Projectile.h"
+#include "AiAgent.h"
+#include "Camera.h"
 #include "PickUp.h"
 #include "Weapon.h"
-#include "Sprite.h"
-#include "AiAgent.h"
-#include "ResourceManager.h"
-#include "TextRenderer.h"
 
 Player::Player(const Vector2f& position, const Vector2f& scale, float rotation)
 : GameObject(position, scale, rotation)

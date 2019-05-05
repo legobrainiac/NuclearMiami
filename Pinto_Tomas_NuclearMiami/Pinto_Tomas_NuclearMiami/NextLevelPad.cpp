@@ -1,11 +1,8 @@
 #include "pch.h"
 #include "NextLevelPad.h"
 
-#include "Texture.h"
-#include "Player.h"
-#include "Scene.h"
-#include "ResourceManager.h"
 #include "AiAgent.h"
+#include "Player.h"
 
 NextLevelPad::NextLevelPad(const Vector2f& position, int level, float range)
 : GameObject(position, Vector2f { 0.f, 0.f }, 0)

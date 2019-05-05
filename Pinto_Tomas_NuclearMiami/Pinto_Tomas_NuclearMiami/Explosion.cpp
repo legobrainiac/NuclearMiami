@@ -1,9 +1,6 @@
 #include "pch.h"
 #include "Explosion.h"
-#include "Sprite.h"
-#include "Scene.h"
-#include "ResourceManager.h"
-#include "SoundEffect.h"
+
 #include "Player.h"
 
 Explosion::Explosion(const Vector2f& position)

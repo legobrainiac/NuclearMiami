@@ -1,9 +1,7 @@
 #include "pch.h"
 #include "PickUp.h"
-#include "utils.h"
+
 #include "Player.h"
-#include "GameObject.h"
-#include "Scene.h"
 
 PickUp::PickUp(const Vector2f& position, const Vector2f& scale, float rotation)
 : GameObject(position, scale, rotation)

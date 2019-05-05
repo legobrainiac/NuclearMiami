@@ -4,6 +4,7 @@
 #include "structs.h"
 
 class Core;
+class TUiNode;
 class SoundEffect;
 class SoundStream;
 class GameObject;

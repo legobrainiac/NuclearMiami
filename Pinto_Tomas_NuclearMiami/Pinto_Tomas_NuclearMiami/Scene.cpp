@@ -1,14 +1,13 @@
 #include "pch.h"
-
 #include "Scene.h"
-#include "Texture.h"
+
+
 #include "GameObject.h"
 #include "SVGParser.h"
 #include "Player.h"
 #include "AiAgent.h"
 #include "PickUp.h"
 #include "Weapon.h"
-#include "ResourceManager.h"
 
 #include "Ui/TUiManager.h"
 

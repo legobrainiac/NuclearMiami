@@ -1,11 +1,8 @@
 #include "pch.h"
 #include "GameObject.h"
-#include "PickUp.h"
+
 #include "Matrix2x3.h"
-#include "structs.h"
-#include "Scene.h"
-#include "ResourceManager.h"
-#include "TextRenderer.h"
+#include "PickUp.h"
 
 int GameObject::m_InstanceCounter = 0;
 bool GameObject::m_Debug = false;

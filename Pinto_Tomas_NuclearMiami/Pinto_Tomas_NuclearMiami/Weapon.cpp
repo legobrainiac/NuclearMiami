@@ -1,11 +1,8 @@
 #include "pch.h"
 #include "Weapon.h"
-#include "Player.h"
-#include "Texture.h"
+
 #include "Projectile.h"
-#include "Scene.h"
-#include "SoundEffect.h"
-#include "ResourceManager.h"
+#include "Player.h"
 #include "Rocket.h"
 
 Weapon::Weapon(const Vector2f& position, const Vector2f& scale, float rotation, const std::string& texture, float kickBack, int fireRate)

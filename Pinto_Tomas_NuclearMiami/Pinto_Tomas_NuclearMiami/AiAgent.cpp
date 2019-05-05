@@ -1,12 +1,7 @@
 #include "pch.h"
 #include "AiAgent.h"
 
-#include "utils.h"
-#include "Scene.h"
 #include "Projectile.h"
-#include "Texture.h"
-#include "Sprite.h"
-#include "ResourceManager.h"
 #include "Weapon.h"
 
 int AiAgent::m_AiInstanceCounter = 0;

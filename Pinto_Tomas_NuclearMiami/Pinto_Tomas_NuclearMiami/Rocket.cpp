@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "Rocket.h"
-#include "Texture.h"
-#include "ResourceManager.h"
-#include "Scene.h"
+
 #include "Explosion.h"
 
 Rocket::Rocket(const Vector2f& position, const Vector2f& scale, float rotation, const Vector2f& direction, GameObject* shooter)

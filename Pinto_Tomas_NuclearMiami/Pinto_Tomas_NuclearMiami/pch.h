@@ -21,15 +21,28 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h> 
 #include <SDL_mixer.h> 
+#include <gl/GLU.h>
 
+#include <iostream>
+#include <algorithm>
 #include <assert.h>
 
 #include "structs.h"
 #include "utils.h"
 
+#include "Game.h"
+#include "Core.h"
+
+#include "SoundEffect.h"
+#include "SoundStream.h"
+#include "Texture.h"
+#include "Sprite.h"
+#include "TextRenderer.h"
+
+#include "ResourceManager.h"
+
 #include "Scene.h"
 #include "GameObject.h"
-
 
 #if 0
 #define GAME_RELEASE

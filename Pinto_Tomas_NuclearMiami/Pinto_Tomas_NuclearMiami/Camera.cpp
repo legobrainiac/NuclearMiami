@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "Camera.h"
-#include "structs.h"
 
 Camera::Camera(float width, float height, Window* window, Point2f* mousePos)
 : m_Width(width)

@@ -1,7 +1,5 @@
 #include "pch.h"
 #include "Sprite.h"
-#include "Texture.h"
-#include "ResourceManager.h"
 
 #include <iostream>
 

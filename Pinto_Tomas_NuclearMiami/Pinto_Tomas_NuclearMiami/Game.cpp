@@ -1,38 +1,22 @@
 #include "pch.h"
-#include "Game.h"
-
-#include <gl/GLU.h>
-
-#include <iostream>
-#include <algorithm>
-#include "Game.h"
-#include "Core.h"
-#include "structs.h"
-#include "Matrix2x3.h"
-
-#include "SoundEffect.h"
-#include "SoundStream.h"
 
 #include "Ui/TUiManager.h"
 #include "Ui/TUiButton.h"
 #include "Ui/TUiContainer.h"
 
-#include "GameObject.h"
-#include "Player.h"
-#include "AiAgent.h"
+#include "Matrix2x3.h"
 #include "Scene.h"
 #include "Camera.h"
-#include "Projectile.h"
-#include "Interfaces.h"
-#include "PickUp.h"
+#include "Player.h"
+#include "AiAgent.h"
 #include "ResourceManager.h"
 #include "TextRenderer.h"
 
 Game::Game(const Window& window)
 	: m_Window(window)
 	//, m_pCamera(new Camera(320.f, 180.f, &m_Window, &m_MousePosition))
-	//, m_pCamera(new Camera(640.f, 360.f, &m_Window, &m_MousePosition))
-	, m_pCamera(new Camera(480.f, 270.f, &m_Window, &m_MousePosition))
+	, m_pCamera(new Camera(640.f, 360.f, &m_Window, &m_MousePosition))
+	//, m_pCamera(new Camera(480.f, 270.f, &m_Window, &m_MousePosition))
 	//, m_pCamera(new Camera(1920.f, 1080.f, &m_Window, &m_MousePosition))
 {
 	Initialize();

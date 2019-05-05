@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "Projectile.h"
-#include "Scene.h"
 
 Projectile::Projectile(const Vector2f& position, const Vector2f& scale, float rotation, const Vector2f& direction, GameObject* shooter)
 : GameObject(position, scale, rotation)

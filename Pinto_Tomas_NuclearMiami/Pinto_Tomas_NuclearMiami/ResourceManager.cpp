@@ -1,11 +1,6 @@
 #include "pch.h"
 #include "ResourceManager.h"
 
-#include "Texture.h"
-#include "SoundEffect.h"
-#include "SoundStream.h"
-#include "TextRenderer.h"
-
 ResourceManager* ResourceManager::m_pTextureManager = nullptr;
 
 ResourceManager* ResourceManager::Get()
