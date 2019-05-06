@@ -1,17 +1,13 @@
 #include "pch.h"
 #include "Camera.h"
 
-Camera::Camera(float width, float height, Window* window, Point2f* mousePos)
-: m_Width(width)
-, m_Height(height)
-, m_pWindow(window)
-, m_pMousePos(mousePos)
+Camera::Camera(float scale, Window* pWindow, Point2f* pMousePos)
+: m_Width(pWindow->width / scale)
+, m_Height(pWindow->height / scale)
+, m_Scale(scale)
+, m_pWindow(pWindow)
+, m_pMousePos(pMousePos)
 {
-}
-
-void Camera::SetBoundaries(const Rectf& boundaries)
-{
-	m_Boundaries = boundaries;
 }
 
 Point2f Camera::GetPosition(const Vector2f& target) 
@@ -22,16 +18,6 @@ Point2f Camera::GetPosition(const Vector2f& target)
 	return Point2f { xRaw, yRaw };
 }
 
-float Camera::GetHeight() const
-{
-	return m_Height;
-}
-
-float Camera::GetWidth() const
-{
-	return m_Width;
-}
-
 Point2f Camera::GetMouseWS(const Vector2f& cameraTarget)
 {
 	float mouseX = m_pMousePos->x * GetRatio(*m_pWindow);
@@ -40,4 +26,9 @@ Point2f Camera::GetMouseWS(const Vector2f& cameraTarget)
 	return Point2f{mouseX, mouseY} + GetPosition(cameraTarget);
 }
 
+void Camera::Transform(Point2f camPosition)
+{
+	glScalef(m_pWindow->width / m_Width, m_pWindow->height / m_Height, 0.f);
+	glTranslatef(-camPosition.x, -camPosition.y, 0.f);
+}
 

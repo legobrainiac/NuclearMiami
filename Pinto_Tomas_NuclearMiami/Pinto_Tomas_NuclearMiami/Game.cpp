@@ -5,19 +5,13 @@
 #include "Ui/TUiContainer.h"
 
 #include "Matrix2x3.h"
-#include "Scene.h"
 #include "Camera.h"
 #include "Player.h"
 #include "AiAgent.h"
-#include "ResourceManager.h"
-#include "TextRenderer.h"
 
 Game::Game(const Window& window)
 	: m_Window(window)
-	//, m_pCamera(new Camera(320.f, 180.f, &m_Window, &m_MousePosition))
-	, m_pCamera(new Camera(640.f, 360.f, &m_Window, &m_MousePosition))
-	//, m_pCamera(new Camera(480.f, 270.f, &m_Window, &m_MousePosition))
-	//, m_pCamera(new Camera(1920.f, 1080.f, &m_Window, &m_MousePosition))
+	, m_pCamera(new Camera(3.f, &m_Window, &m_MousePosition))
 {
 	Initialize();
 }
@@ -29,22 +23,15 @@ Game::~Game()
 
 // TODO(tomas): Think about how i wanna do the background of the menu, once we have the scene working i can make a small scene with just the ai agents going abouts
 // TODO(tomas): different enemies
-// TODO(tomas): weapon rating system
-// TODO(tomas): if ai doesnt have a weapon it prioritizes looking for one unless player is close to him. if enemie is not in sight ai will not prioritize looking for a weapon.
 // TODO(tomas): modern opengl, i want to use shaders plsssss, menu fadeaway in to game
-// TODO(tomas): remake camera class, implement screen shake, lerp follow
 // TODO(tomas): ui slider, ui tick box
 // TODO(tomas): more custom AI :D
 // TODO(tomas): when dropping and picking up in the same frame Z-Order is wrong for dropped weapon
-// TODO(tomas): organize the header files and cpp files for every class (player, gameobject, etc, ...)
 // TODO(tomas): Player and AiAgent share a lot of the same behaviour, maybe put some of that joint behaviour in to a base class? 
 // TODO(tomas): export button for save files?
 // TODO(tomas): level editor button in main menu that leads to a existing scene selector for editing or a new scene creator
 // TODO(tomas): Turret ples
 // TODO(tomas): implement TDynamicLabel
-// TODO(tomas): weapons have ammo count and reload
-// TODO(tomas): move player ui to TScript
-// TODO(tomas): implement rocket, when rocket explodes it should spawn a explosion gameobject which self destruts once sprite sheet is done playing
 // TODO(tomas): upercase lambdas
 void Game::Initialize()
 {
@@ -83,6 +70,9 @@ void Game::Initialize()
 	std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
 	float elapsedSeconds = std::chrono::duration<float>(t2 - t1).count();
 	LOG("Startup took: " << elapsedSeconds << " seconds...");
+	
+	// Because if, for some fucking reason, I don't call this i get a memory leak if i close the game without pressing start
+	m_pScene->Update(0.f);
 
 }
 
@@ -209,8 +199,7 @@ void Game::Draw() const
 
 		// Matrix operations
 		glPushMatrix();
-		glScalef(m_Window.width / pCamera->GetWidth(), m_Window.height / m_pCamera->GetHeight(), 0.f);
-		glTranslatef(-cameraPosition.x, -cameraPosition.y, 0.f);
+		pCamera->Transform(cameraPosition);
 
 		// DRAW
 		m_pScene->Draw();
@@ -353,7 +342,7 @@ void Game::UiCallbackSetUp()
 
 	if (pExitButton)
 	{
-		pExitButton->RegisterClickCallBack([&]() {m_ExitFlags->shouldExit = true; });
+		pExitButton->RegisterClickCallBack([&]() { m_ExitFlags->shouldExit = true; });
 	}
 
 	// Register click and delta click callbacks for the buttons

@@ -2,6 +2,7 @@
 #include "Weapon.h"
 
 #include "Projectile.h"
+#include "Matrix2x3.h"
 #include "Player.h"
 #include "Rocket.h"
 
@@ -78,11 +79,16 @@ void Weapon::Shoot(const Vector2f& position, const Vector2f& direction, float ro
 {
 	if(m_Timer < (1.f / (m_RateOfFire / rofMod)) || m_InWorld || m_AmmoCount <= 0) return;	
 	
+	// this is test code
+	int spread = utils::RandInterval(-10, 10);
+	Matrix2x3 rot = Matrix2x3::CreateRotationMatrix(float(spread));
+	Vector2f d = rot.Transform(direction);
+	
 	m_Timer = 0.f;
-	Projectile* projectile = new Projectile(position, Vector2f {1.f, 1.f}, 0.f, direction.Normalized(), m_pOwner);
+	Projectile* projectile = new Projectile(position, Vector2f {1.f, 1.f}, 0.f, d.Normalized(), m_pOwner);
 	m_pScene->Add(projectile);
 	
-	Vector2f kickBack = Vector2f{direction.Normalized().ToPoint2f(), Point2f{ 0.f, 0.f }};
+	Vector2f kickBack = Vector2f{d.Normalized().ToPoint2f(), Point2f{ 0.f, 0.f }};
 	
 	kickBack *= m_KickBack;
 	m_pOwner->ApplyForce(kickBack);
