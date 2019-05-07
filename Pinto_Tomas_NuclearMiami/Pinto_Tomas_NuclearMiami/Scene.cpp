@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Scene.h"
 
-
 #include "GameObject.h"
 #include "SVGParser.h"
 #include "Player.h"
@@ -168,6 +167,7 @@ void Scene::DrawBlood() const
 	for(int i = 0; i < m_BloodPS.count; ++i)
 	{
 		glPushMatrix();
+		glScalef(1.f, 1.f, 0.f);
 		glTranslatef(m_BloodPS.particles[i].x, m_BloodPS.particles[i].y, 0.f);
 		
 		utils::DrawPoint(0.f, 0.f, 4.f);

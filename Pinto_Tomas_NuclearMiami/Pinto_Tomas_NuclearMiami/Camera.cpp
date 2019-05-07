@@ -2,8 +2,8 @@
 #include "Camera.h"
 
 Camera::Camera(float scale, Window* pWindow, Point2f* pMousePos)
-: m_Width(pWindow->width / scale)
-, m_Height(pWindow->height / scale)
+: m_Width(1920.f / scale)
+, m_Height(1080.f / scale)
 , m_Scale(scale)
 , m_pWindow(pWindow)
 , m_pMousePos(pMousePos)
