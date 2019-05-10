@@ -16,7 +16,7 @@ typedef std::function<void(float deltaPressed)> TimeCallback;
 class TUiButton :
 public TUiNode
 {
-    public:
+public:
 	TUiButton(std::ifstream& descriptorStream, std::string descriptor);
 	~TUiButton();
 	
@@ -33,7 +33,7 @@ public TUiNode
     void RegisterHoverCallBack(SimpleCallback callback);
     void RegisterClickDeltaCallBack(TimeCallback callback);
 	
-    private:
+private:
 	std::string m_Text;
 	std::string m_BackgroundTextureLocation;
 	std::string m_ClickSoundLocation;

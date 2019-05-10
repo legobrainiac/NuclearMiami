@@ -8,6 +8,7 @@
 #include "TUiLabel.h"
 #include "TUiButton.h"
 #include "TUiUtils.h"
+#include "TUiDynamicLabel.h"
 
 #include "..\ResourceManager.h"
 #include "..\Scene.h"
@@ -57,6 +58,11 @@ TUiManager::TUiManager()
 	m_TokenMap["TButton"] = [](std::ifstream& descriptorStream, std::string resource)
 	{
 		return new TUiButton(descriptorStream, resource);
+	};
+	
+	m_TokenMap["TDynamicLabel"] = [](std::ifstream& descriptorStream, std::string resource)
+	{
+		return new TUiDynamicLabel(descriptorStream, resource);
 	};
     
 	// Not implemented, just for testing for now

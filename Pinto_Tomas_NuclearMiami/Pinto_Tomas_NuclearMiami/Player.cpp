@@ -7,6 +7,9 @@
 #include "PickUp.h"
 #include "Weapon.h"
 
+#include "Ui/TUiManager.h"
+#include "Ui/TUiDynamicLabel.h"
+
 Player::Player(const Vector2f& position, const Vector2f& scale, float rotation)
 : GameObject(position, scale, rotation)
 , m_pWeaponHoldTexture(ResourceManager::Get()->GetTexture("charWeaponHold"))
@@ -114,14 +117,6 @@ void Player::Draw() const
 
 void Player::DrawHUD() const
 {
-	TextRenderConfig textConfig;
-	textConfig.spacing = 3.f;
-	textConfig.scale = 1.f;
-	
-	ResourceManager::Get()->GetTextRenderer("munro")->DrawString("Health: " + std::to_string(m_Health), Vector2f { 20.f, 20.f }, textConfig);
-	
-	if(m_wWeapons.size() > 0)
-		ResourceManager::Get()->GetTextRenderer("munro")->DrawString("Ammo: " + std::to_string(m_wWeapons[0]->GetAmmo()), Vector2f { 20.f, 50.f }, textConfig);
 }
 
 void Player::Update(float dt)
@@ -153,6 +148,19 @@ void Player::Update(float dt)
 	
 	// Test if it should be shooting
 	Shoot(dir, dt);
+	
+	// Update hud components
+	TUiManager::Get()->GetComponent<TUiDynamicLabel>("HUD.health")->SetText(std::to_string(m_Health));
+	
+	if(m_wWeapons.size() > 0)
+	{
+		TUiManager::Get()->GetComponent<TUiDynamicLabel>("HUD.ammo")->SetActive(true);
+		TUiManager::Get()->GetComponent<TUiDynamicLabel>("HUD.ammo")->SetText(std::to_string(m_wWeapons[0]->GetAmmo()));
+	}
+	else
+	{
+		TUiManager::Get()->GetComponent<TUiDynamicLabel>("HUD.ammo")->SetActive(false);
+	}
 	
 	// Base Update
 	GameObject::Update(dt);

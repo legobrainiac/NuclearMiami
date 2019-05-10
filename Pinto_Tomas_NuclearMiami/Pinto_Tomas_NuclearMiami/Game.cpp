@@ -40,14 +40,15 @@ void Game::Initialize()
 
 	SDL_ShowCursor(SDL_DISABLE);
 
-	// Load UI from the menu tankscript file and setup callbacks
 	m_ScreenState = ScreenState::mainMenu;
-	
-	TUiManager::Get()->LoadUiDescriptor("Resources/Scripts/menu.ts");
-	UiCallbackSetUp();
 
+	
 	// Process preloading
 	TUiManager::Get()->LoadUiDescriptor("Resources/Scripts/preload.ts");
+
+	// Load UI from the menu tankscript file and setup callbacks
+	TUiManager::Get()->LoadUiDescriptor("Resources/Scripts/menu.ts");
+	UiCallbackSetUp();
 
 	// Initialize singletone instance
 	m_pScene = Scene::Get();
@@ -319,6 +320,9 @@ void Game::UiCallbackSetUp()
 		pStartButton->RegisterClickCallBack([&]() {
 			TUiContainer* pMenu = TUiManager::Get()->GetComponent<TUiContainer>("menu");
 			if (pMenu) pMenu->SetActive(false);
+											
+			TUiContainer* pHud = TUiManager::Get()->GetComponent<TUiContainer>("HUD");
+			if (pHud) pHud->SetActive(true);
 			StartGame("");
 		});
 	}
@@ -351,6 +355,10 @@ void Game::UiCallbackSetUp()
 	if (pInfoButton)
 	{
 		pInfoButton->RegisterClickCallBack([&]() {
+										   
+		   TUiContainer* pHud = TUiManager::Get()->GetComponent<TUiContainer>("HUD");
+		   if (pHud) pHud->SetActive(false);
+										   
 			TUiContainer* pMenu = TUiManager::Get()->GetComponent<TUiContainer>("menu");
 			if (pMenu) pMenu->SetActive(true);
 

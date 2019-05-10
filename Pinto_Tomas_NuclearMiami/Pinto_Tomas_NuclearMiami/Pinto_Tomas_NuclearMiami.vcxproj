@@ -177,6 +177,7 @@
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="Ui\TUiDynamicLabel.h" />
     <ClInclude Include="Ui\TUiButton.h" />
     <ClInclude Include="Ui\TUiContainer.h" />
     <ClInclude Include="Ui\TUiLabel.h" />
@@ -217,6 +218,7 @@
     <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="Ui\TUiDynamicLabel.cpp" />
     <ClCompile Include="Ui\TUiButton.cpp" />
     <ClCompile Include="Ui\TUiContainer.cpp" />
     <ClCompile Include="Ui\TUiLabel.cpp" />

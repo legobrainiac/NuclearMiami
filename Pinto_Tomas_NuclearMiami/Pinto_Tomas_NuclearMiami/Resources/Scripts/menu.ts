@@ -36,3 +36,8 @@ TLabel(id="", sizeX="0.8", sizeY="0.15", posX="0.0", posY="0.35", ptSize="100", 
 TLabel(id="", sizeX="0.8", sizeY="0.15", posX="0.0", posY="0.2", ptSize="100", text="Mouse 2 to shoot secondary")
 TLabel(id="", sizeX="0.5", sizeY="0.15", posX="0.0", posY="0.05", ptSize="100", text="Q to drop weapons")
 TEndContainer()
+
+TContainer(id="HUD", sizeX="1", sizeY="1", posX="0", posY="0", title="", drawOutline="0", startHidden="1")
+	TDynamicLabel(id="health", sizeX="2", sizeY="2", posX="10", posY="10", prefix="Health: ")
+	TDynamicLabel(id="ammo", sizeX="2", sizeY="2", posX="10", posY="40", prefix="Ammo: ")
+TEndContainer()
