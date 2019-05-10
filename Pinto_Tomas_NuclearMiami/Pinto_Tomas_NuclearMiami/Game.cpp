@@ -398,29 +398,6 @@ void Game::UiCallbackSetUp()
 		pToggleDebug->RegisterClickCallBack([&]() { GameObject::ToggleDebug(); });
 }
 
-void Game::RaycastVision() const
-{
-	Player* pPlayer = m_pScene->GetPlayer();
-
-	// Visible
-	std::vector<Point2f> visiblePoints;
-
-	for (std::vector<Point2f> collider : m_pScene->GetSceneCollider())
-	{
-		for (auto pos : collider)
-		{
-			utils::HitInfo hit;
-
-			if (utils::Raycast(collider, pPlayer->GetPosition().ToPoint2f(), pos, hit))
-				visiblePoints.push_back(hit.intersectPoint);
-		}
-	}
-
-	// TODO(tomas): Tesselation with gl/GLU.h
-	glColor4f(0.f, 0.f, 0.f, 1.f);
-	utils::DrawPolygon(visiblePoints, true, 3.f);
-}
-
 void Game::ToggleInfo()
 {
 	std::cout << "Controls: WASD to move, mouse to aim and shoot. Items are picked up automatically if there is an empty weapon slot." << std::endl;

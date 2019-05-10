@@ -72,8 +72,6 @@ public:
 	void StartGame(const std::string& level);
 	void UnloadGame();
 	
-	void RaycastVision() const;
-	
 	// Helpers
 	void ToggleInfo();
 	
