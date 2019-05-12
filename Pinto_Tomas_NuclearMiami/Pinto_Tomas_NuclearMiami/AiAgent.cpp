@@ -2,6 +2,7 @@
 #include "AiAgent.h"
 
 #include "Projectile.h"
+#include "HitMarker.h"
 #include "Weapon.h"
 
 int AiAgent::m_AiInstanceCounter = 0;
@@ -139,6 +140,9 @@ void AiAgent::SendMessage(MessageType message, int value)
 	{
 		m_Health -= value;
 
+		HitMarker* pHm = new HitMarker(m_Position, std::to_string(value));
+		m_pScene->Add(pHm);
+		
 		if (m_Health <= 0)
 		{
 			m_pScene->Delete(this);

@@ -2,6 +2,7 @@
 #include "Player.h"
 
 #include "Projectile.h"
+#include "HitMarker.h"
 #include "AiAgent.h"
 #include "Camera.h"
 #include "PickUp.h"
@@ -9,6 +10,7 @@
 
 #include "Ui/TUiManager.h"
 #include "Ui/TUiDynamicLabel.h"
+
 
 Player::Player(const Vector2f& position, const Vector2f& scale, float rotation)
 : GameObject(position, scale, rotation)
@@ -194,6 +196,9 @@ void Player::SendMessage(MessageType message, int value)
 	{
 		m_Health -= value;
 		m_pScene->AddBlood(m_Position, 10);
+		
+		HitMarker* pHm = new HitMarker(m_Position, std::to_string(value));
+		m_pScene->Add(pHm);
 	}
 	else if (message == MessageType::regen)
 		m_Health += value;

@@ -159,6 +159,7 @@
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="HitMarker.h" />
     <ClInclude Include="Interfaces.h" />
     <ClInclude Include="Matrix2x3.h" />
     <ClInclude Include="NextLevelPad.h" />
@@ -195,6 +196,7 @@
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="HitMarker.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix2x3.cpp" />
     <ClCompile Include="NextLevelPad.cpp" />

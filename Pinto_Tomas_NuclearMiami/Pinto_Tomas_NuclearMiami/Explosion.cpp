@@ -38,5 +38,5 @@ void Explosion::Update(float dt)
 
 Explosion::~Explosion()
 {
-	
+	delete m_pExplosion;
 }
