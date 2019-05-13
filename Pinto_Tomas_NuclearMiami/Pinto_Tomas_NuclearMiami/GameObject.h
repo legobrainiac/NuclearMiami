@@ -44,6 +44,7 @@ public:
 	// GameObject position
 	const Vector2f& GetPosition() const;
 	void SetPosition(const Vector2f& position);
+	float GetAcceleration() const { return m_Accelleration.Length(); }
 	
 	// GameObject scale
 	const Vector2f& GetScale() const;

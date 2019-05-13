@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Player.h"
 
+#include "TextureObject.h"
+#include "HealthPickup.h"
 #include "Projectile.h"
 #include "HitMarker.h"
 #include "AiAgent.h"
@@ -166,6 +168,11 @@ void Player::Update(float dt)
 	
 	// Base Update
 	GameObject::Update(dt);
+	
+	if(GetAcceleration() > 10.f)
+		m_pScene->GetMainCamera()->SetScale(5);
+	else
+		m_pScene->GetMainCamera()->SetScale(3);
 }
 
 // NOTETODO(tomas): for now this is kept at two since i dont have a way of switching weapons :), do this later
@@ -176,6 +183,16 @@ bool Player::HasEmptySlot() const
 
 bool Player::ProcessPickUp(PickUp* pickUp)
 {
+	// Test if is health pickup
+	HealthPickup* pHp = dynamic_cast<HealthPickup*>(pickUp);
+
+	if(pHp !=  nullptr)
+	{
+		m_Health += pHp->GetHealthGain();
+		return true;
+	}
+	
+	// Test if is weapon pickup
 	Weapon* pPickUp = dynamic_cast<Weapon*>(pickUp);
 
 	if(pPickUp != nullptr && HasEmptySlot())
@@ -192,13 +209,21 @@ bool Player::ProcessPickUp(PickUp* pickUp)
 
 void Player::SendMessage(MessageType message, int value)
 {
-	if(message == MessageType::dammage)
+	if(message == MessageType::dammage && m_Health > 0)
 	{
 		m_Health -= value;
 		m_pScene->AddBlood(m_Position, 10);
 		
 		HitMarker* pHm = new HitMarker(m_Position, std::to_string(value));
 		m_pScene->Add(pHm);
+		
+		if(m_Health <= 0)
+		{
+			TextureObject* pT = new TextureObject(m_Position, m_Rotation, "deadPlayer");
+			m_pScene->Add(pT);
+			
+			m_pScene->GetMainCamera()->SetScale(10);
+		}
 	}
 	else if (message == MessageType::regen)
 		m_Health += value;

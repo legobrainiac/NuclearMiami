@@ -159,6 +159,7 @@
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="HealthPickup.h" />
     <ClInclude Include="HitMarker.h" />
     <ClInclude Include="Interfaces.h" />
     <ClInclude Include="Matrix2x3.h" />
@@ -178,6 +179,7 @@
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="TextureObject.h" />
     <ClInclude Include="Ui\TUiDynamicLabel.h" />
     <ClInclude Include="Ui\TUiButton.h" />
     <ClInclude Include="Ui\TUiContainer.h" />
@@ -196,6 +198,7 @@
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="HealthPickup.cpp" />
     <ClCompile Include="HitMarker.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix2x3.cpp" />
@@ -220,6 +223,7 @@
     <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="TextureObject.cpp" />
     <ClCompile Include="Ui\TUiDynamicLabel.cpp" />
     <ClCompile Include="Ui\TUiButton.cpp" />
     <ClCompile Include="Ui\TUiContainer.cpp" />

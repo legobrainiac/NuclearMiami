@@ -8,6 +8,10 @@ TPreloadTexture(path="Resources/Images/Weapons/rocket.png", name="rocket")
 TPreloadTexture(path="Resources/Images/Weapons/rocketLauncher.png", name="rocketLauncher")
 TPreloadTexture(path="Resources/Images/Weapons/splode.png", name="splode")
 TPreloadTexture(path="Resources/Images/nextLevelPad.png", name="nextLevelPad")
+TPreloadTexture(path="Resources/Images/health.png", name="health")
+
+TPreloadTexture(path="Resources/Images/deadAi.png", name="deadAi")
+TPreloadTexture(path="Resources/Images/deadPlayer.png", name="deadPlayer")
 
 TPreloadTexture(path="Resources/Scenes/Scene_1/scene.png", name="scene_1")
 TPreloadTexture(path="Resources/Scenes/Scene_2/scene.png", name="scene_2")

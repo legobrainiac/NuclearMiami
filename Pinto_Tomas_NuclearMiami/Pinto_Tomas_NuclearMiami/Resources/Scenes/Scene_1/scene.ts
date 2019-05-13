@@ -1,6 +1,7 @@
 // Player and basic spawn pistol
 TPlayer(posx="150", posy="300", posz="0", rotation="0")
 TPistol(posx="255", posy="400", posz="-2", rotation="-35")
+THealthPickUp(posx="143", posy="942")
 TRocketLauncher(posx="255", posy="350", posz="-2", rotation="55")
 
 // Basic enemy clusters

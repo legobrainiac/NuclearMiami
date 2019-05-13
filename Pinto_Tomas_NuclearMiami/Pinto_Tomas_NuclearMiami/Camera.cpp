@@ -5,9 +5,31 @@ Camera::Camera(float scale, Window* pWindow, Point2f* pMousePos)
 : m_Width(1920.f / scale)
 , m_Height(1080.f / scale)
 , m_Scale(scale)
+, m_IntendedScale(scale)
 , m_pWindow(pWindow)
 , m_pMousePos(pMousePos)
 {
+}
+
+void Camera::SetScale(float scale)
+{ 
+	m_IntendedScale = scale;
+}
+
+void Camera::ForceScale(float scale)
+{
+	m_Scale = scale; 
+	
+	m_Width = 1920.f / m_Scale;
+	m_Height = 1080.f / m_Scale;
+}
+
+void Camera::Update(float dt)
+{
+	m_Scale = utils::Lerp(m_Scale, m_IntendedScale, dt); 
+	
+	m_Width = 1920.f / m_Scale;
+	m_Height = 1080.f / m_Scale;
 }
 
 Point2f Camera::GetPosition(const Vector2f& target) 

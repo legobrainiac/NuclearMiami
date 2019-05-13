@@ -18,6 +18,7 @@
 #include "..\Weapon.h"
 #include "..\RocketLauncher.h"
 #include "..\NextLevelPad.h"
+#include "..\HealthPickup.h"
 
 #include <sstream>
 #include <deque>
@@ -221,6 +222,14 @@ TUiManager::TUiManager()
 		return new TUiEmpty();
 	};
 	
+	m_TokenMap["THealthPickUp"] = [](std::ifstream& descriptorStream, std::string resource)
+	{
+		float x = std::stof(utils::GetParameterValue("posx", resource));
+		float y = std::stof(utils::GetParameterValue("posy", resource));
+		
+		Scene::Get()->Add(new HealthPickup(Vector2f { x,y }, Vector2f { 1.f, 1.f }, 0, 15));	
+		return new TUiEmpty();
+	};
 }
 
 TUiManager::~TUiManager()

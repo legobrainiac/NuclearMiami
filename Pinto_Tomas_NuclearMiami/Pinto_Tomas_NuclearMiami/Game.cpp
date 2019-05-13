@@ -32,6 +32,7 @@ Game::~Game()
 // TODO(tomas): level editor button in main menu that leads to a existing scene selector for editing or a new scene creator
 // TODO(tomas): Turret ples
 // TODO(tomas): upercase lambdas
+// TODO(tomas): Start game shutters
 void Game::Initialize()
 {
 	// Startup timer
@@ -90,6 +91,7 @@ void Game::Cleanup()
 void Game::Update(float dt)
 {
 	m_FrameTime = dt;
+	m_ElapsedTime += dt;
 	
 	DoDeathScreen(dt);
 	DoEndScreen(dt);
@@ -98,7 +100,7 @@ void Game::Update(float dt)
 	m_pScene = Scene::Get();
 	m_pScene->SetMainCamera(m_pCamera);
 
-	m_ElapsedTime += dt;
+	m_pCamera->Update(dt);	
 
 	// Update Ui
 	TUiManager::Get()->Update(dt, m_MousePosition);
@@ -193,10 +195,10 @@ void Game::Draw() const
 
 		Point2f cameraPosition = pCamera->GetPosition(pPlayer->GetPosition());
 		Point2f mouseOffset = Vector2f{ pPlayer->GetPosition().ToPoint2f(), pCamera->GetMouseWS(pPlayer->GetPosition()) }.ToPoint2f();
-
+		
 		cameraPosition.x += mouseOffset.x / 2.f;
 		cameraPosition.y += mouseOffset.y / 2.f;
-
+		
 		// Matrix operations
 		glPushMatrix();
 		pCamera->Transform(cameraPosition);

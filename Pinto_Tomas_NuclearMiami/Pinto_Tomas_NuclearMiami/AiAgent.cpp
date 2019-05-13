@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "AiAgent.h"
 
+#include "TextureObject.h"
 #include "Projectile.h"
 #include "HitMarker.h"
 #include "Weapon.h"
@@ -146,6 +147,9 @@ void AiAgent::SendMessage(MessageType message, int value)
 		if (m_Health <= 0)
 		{
 			m_pScene->Delete(this);
+			
+			TextureObject* pT = new TextureObject(m_Position, m_Rotation, "deadAi");
+			m_pScene->Add(pT);
 			
 			// Drop weapon
 			if(m_pWeapons.size() > 0)
