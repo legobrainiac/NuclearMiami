@@ -12,6 +12,7 @@ struct Vector2f
 	explicit Vector2f( float x, float y );
 	explicit Vector2f( const Point2f& fromPoint, const Point2f& tillPoint );
 	explicit Vector2f( const Point2f& point );
+	explicit Vector2f(Point2f& point) : x(point.x), y(point.y) {}
 
 	// -------------------------
 	// Member operators

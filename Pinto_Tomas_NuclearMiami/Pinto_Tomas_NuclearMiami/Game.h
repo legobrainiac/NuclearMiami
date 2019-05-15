@@ -38,6 +38,9 @@ public:
 	Point2f m_MousePosition;
 	bool m_VSync = true;
     
+	Vector2f m_CurrentMouseOffset;
+	Vector2f m_MouseOffsetGoal;
+	
 	TUiNode* m_pMenu;
 	CoreFlags* m_ExitFlags;
     float m_ElapsedTime;

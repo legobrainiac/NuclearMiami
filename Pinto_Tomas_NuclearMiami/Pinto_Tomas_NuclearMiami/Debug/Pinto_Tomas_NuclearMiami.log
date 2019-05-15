@@ -7,35 +7,35 @@
   GameObject.cpp
   HealthPickup.cpp
   HitMarker.cpp
-  main.cpp
   Matrix2x3.cpp
   NextLevelPad.cpp
   PickUp.cpp
   Player.cpp
   Projectile.cpp
+  ResourceManager.cpp
   Rocket.cpp
   RocketLauncher.cpp
+  SVGParser.cpp
   Scene.cpp
   SoundEffect.cpp
   SoundStream.cpp
-  Sprite.cpp
   Generating Code...
   Compiling...
-  structs.cpp
-  SVGParser.cpp
+  Sprite.cpp
   TextRenderer.cpp
   Texture.cpp
-  ResourceManager.cpp
   TextureObject.cpp
-  TUiDynamicLabel.cpp
   TUiButton.cpp
   TUiContainer.cpp
+  TUiDynamicLabel.cpp
   TUiLabel.cpp
   TUiManager.cpp
   TUiNode.cpp
-  utils.cpp
   Vector2f.cpp
   Weapon.cpp
+  main.cpp
+  structs.cpp
+  utils.cpp
   Generating Code...
      Creating library C:\Repositories\1DAE_PROG_FINAL\Pinto_Tomas_NuclearMiami\Debug\Pinto_Tomas_NuclearMiami.lib and object C:\Repositories\1DAE_PROG_FINAL\Pinto_Tomas_NuclearMiami\Debug\Pinto_Tomas_NuclearMiami.exp
   Pinto_Tomas_NuclearMiami.vcxproj -> C:\Repositories\1DAE_PROG_FINAL\Pinto_Tomas_NuclearMiami\Debug\Pinto_Tomas_NuclearMiami.exe

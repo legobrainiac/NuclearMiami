@@ -99,8 +99,13 @@ void Game::Update(float dt)
 	m_pScene = Scene::Get();
 	m_pScene->SetMainCamera(m_pCamera);
 
+	// Update camera and camera offset
 	m_pCamera->Update(dt);	
-
+	Player* pPlayer = m_pScene->GetPlayer();
+	Point2f cameraPosition = m_pCamera->GetPosition(pPlayer->GetPosition());
+	Point2f m_MouseOffsetGoal = Vector2f{ pPlayer->GetPosition().ToPoint2f(), m_pCamera->GetMouseWS(pPlayer->GetPosition()) }.ToPoint2f();
+	m_CurrentMouseOffset = utils::Lerp(Vector2f { m_CurrentMouseOffset }, Vector2f { m_MouseOffsetGoal }, dt * 10.f);
+	
 	// Update Ui
 	TUiManager::Get()->Update(dt, m_MousePosition);
 
@@ -185,10 +190,9 @@ void Game::Draw() const
 		Camera* pCamera = m_pScene->GetMainCamera();
 
 		Point2f cameraPosition = pCamera->GetPosition(pPlayer->GetPosition());
-		Point2f mouseOffset = Vector2f{ pPlayer->GetPosition().ToPoint2f(), pCamera->GetMouseWS(pPlayer->GetPosition()) }.ToPoint2f();
 		
-		cameraPosition.x += mouseOffset.x / 2.f;
-		cameraPosition.y += mouseOffset.y / 2.f;
+		cameraPosition.x += m_CurrentMouseOffset.x / 2.f;
+		cameraPosition.y += m_CurrentMouseOffset.y / 2.f;
 		
 		// Matrix operations
 		glPushMatrix();
