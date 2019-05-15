@@ -1,7 +1,6 @@
 // Player and basic spawn pistol
 TPlayer(posx="60", posy="960", posz="-1", rotation="90")
-TPistol(posx="50", posy="940", posz="-2", rotation="-95")
-TPistol(posx="100", posy="940", posz="-2", rotation="56")
+TRocketLauncher(posx="50", posy="940", posz="-2", rotation="0")
 
 // Basic enemy clusters
 TEnemy(posx="420", posy="380", posz="-1", rotation="90")

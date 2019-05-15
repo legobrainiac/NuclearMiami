@@ -74,7 +74,6 @@ void Game::Initialize()
 	
 	// Because if, for some fucking reason, I don't call this i get a memory leak if i close the game without pressing start
 	m_pScene->Update(0.f);
-
 }
 
 void Game::Cleanup()
@@ -118,12 +117,10 @@ void Game::DoDeathScreen(float dt)
 		m_EndScreenTimer += dt;
 
 		TUiContainer* pDeathScreen = TUiManager::Get()->GetComponent<TUiContainer>("deathScreen");
-
 		if (pDeathScreen)
 			pDeathScreen->SetActive(true);
 
 		TUiButton* pInfoButton = TUiManager::Get()->GetComponent<TUiButton>("infoButton");
-
 		if (pInfoButton)
 			pInfoButton->SetActive(false);
 	}
@@ -135,12 +132,10 @@ void Game::DoDeathScreen(float dt)
 		m_EndScreenTimer = 0.f;
 
 		TUiContainer* pDeathScreen = TUiManager::Get()->GetComponent<TUiContainer>("deathScreen");
-
 		if (pDeathScreen)
 			pDeathScreen->SetActive(false);
 
 		TUiButton* pInfoButton = TUiManager::Get()->GetComponent<TUiButton>("infoButton");
-
 		if (pInfoButton)
 			pInfoButton->SetActive(true);
 	}
@@ -154,12 +149,10 @@ void Game::DoEndScreen(float dt)
 		m_EndScreenTimer += dt;
 
 		TUiContainer* pEndScreen = TUiManager::Get()->GetComponent<TUiContainer>("endScreen");
-
 		if (pEndScreen)
 			pEndScreen->SetActive(true);
 
 		TUiButton* pInfoButton = TUiManager::Get()->GetComponent<TUiButton>("infoButton");
-
 		if (pInfoButton)
 			pInfoButton->SetActive(false);
 	}
@@ -171,12 +164,10 @@ void Game::DoEndScreen(float dt)
 		m_EndScreenTimer = 0.f;
 
 		TUiContainer* pEndScreen = TUiManager::Get()->GetComponent<TUiContainer>("endScreen");
-
 		if (pEndScreen)
 			pEndScreen->SetActive(false);
 
 		TUiButton* pInfoButton = TUiManager::Get()->GetComponent<TUiButton>("infoButton");
-
 		if (pInfoButton)
 			pInfoButton->SetActive(true);
 	}
@@ -252,7 +243,6 @@ void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 		break;
 
 	case SDLK_h:
-		//m_pScene->GetPlayer()->SendMessage(MessageType::regen, 50);
 		break;
 
 	case SDLK_q:
@@ -260,7 +250,6 @@ void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 		break;
 
 	case SDLK_b:
-		//Scene::Get()->AddBlood(m_pScene->GetPlayer()->GetPosition(), 10);
 		LOG("Player position: " << Scene::Get()->GetPlayer()->GetPosition());
 		break;
 
@@ -315,94 +304,106 @@ void Game::UiCallbackSetUp()
 
 	// Get a pointer to the start button and register the click callback 
 	TUiButton* pStartButton = TUiManager::Get()->GetComponent<TUiButton>("menu.startGame");
-
 	if (pStartButton)
 	{
-		pStartButton->RegisterClickCallBack([&]() {
+		auto Callback = [this]() 
+		{
 			TUiContainer* pMenu = TUiManager::Get()->GetComponent<TUiContainer>("menu");
 			if (pMenu) pMenu->SetActive(false);
-											
+			
 			TUiContainer* pHud = TUiManager::Get()->GetComponent<TUiContainer>("HUD");
 			if (pHud) pHud->SetActive(true);
 			StartGame("");
-		});
+		};
+		
+		pStartButton->RegisterClickCallBack(Callback);
 	}
 
 	// Settings
 	TUiButton* pSettingsButton = TUiManager::Get()->GetComponent<TUiButton>("menu.settingsButton");
-
 	if (pSettingsButton)
 	{
-		pSettingsButton->RegisterClickCallBack([&]() {
+		auto Callback = [this]() 
+		{
 			TUiContainer* pSettings = TUiManager::Get()->GetComponent<TUiContainer>("settings");
 			if (pSettings) pSettings->SetActive(true);
-
+			
 			TUiContainer* pMenu = TUiManager::Get()->GetComponent<TUiContainer>("menu");
 			if (pMenu) pMenu->SetActive(false);
-		});
+		};
+		
+		pSettingsButton->RegisterClickCallBack(Callback);
 	}
 
 	// Exit
 	TUiButton* pExitButton = TUiManager::Get()->GetComponent<TUiButton>("menu.exitGame");
-
 	if (pExitButton)
-	{
-		pExitButton->RegisterClickCallBack([&]() { m_ExitFlags->shouldExit = true; });
-	}
+		pExitButton->RegisterClickCallBack([this]() { m_ExitFlags->shouldExit = true; });
 
 	// Register click and delta click callbacks for the buttons
 	TUiButton* pInfoButton = TUiManager::Get()->GetComponent<TUiButton>("infoButton");
-
 	if (pInfoButton)
 	{
-		pInfoButton->RegisterClickCallBack([&]() {
-										   
-		   TUiContainer* pHud = TUiManager::Get()->GetComponent<TUiContainer>("HUD");
-		   if (pHud) pHud->SetActive(false);
-										   
+		auto Callback = [this]() 
+		{
+			TUiContainer* pHud = TUiManager::Get()->GetComponent<TUiContainer>("HUD");
+			if (pHud) pHud->SetActive(false);
+			
 			TUiContainer* pMenu = TUiManager::Get()->GetComponent<TUiContainer>("menu");
 			if (pMenu) pMenu->SetActive(true);
-
+			
 			TUiContainer* pSettings = TUiManager::Get()->GetComponent<TUiContainer>("settings");
 			if (pSettings) pSettings->SetActive(false);
-
+			
 			UnloadGame();
-		});
+		};
+		
+		pInfoButton->RegisterClickCallBack(Callback);
 	}
 
 	// Toggle full screen button
 	TUiButton* pToggleFullScreenButton = TUiManager::Get()->GetComponent<TUiButton>("settings.fullscreenToggle");
-
 	if (pToggleFullScreenButton)
 	{
-		pToggleFullScreenButton->RegisterClickCallBack([&]() {
+		auto Callback = [this]() 
+		{
 			m_ExitFlags->isFullScreen = !m_ExitFlags->isFullScreen;
-
+			
 			// Set fullscreen if not in full screen
 			if (m_ExitFlags->isFullScreen)
 			{
 				SDL_SetWindowFullscreen(m_ExitFlags->pWindow, SDL_WINDOW_FULLSCREEN);
 				return;
 			}
-
+			
 			// Exit fullscreen if in fullscreen
 			SDL_SetWindowFullscreen(m_ExitFlags->pWindow, 0);
-		});
+		};
+		
+		pToggleFullScreenButton->RegisterClickCallBack(Callback);
 	}
 
 	TUiButton* pToggleVSync = TUiManager::Get()->GetComponent<TUiButton>("settings.vsyncToggle");
-
 	if (pToggleVSync)
 	{
-		pToggleVSync->RegisterClickCallBack([&]() {
-			if (m_VSync) { SDL_GL_SetSwapInterval(0); m_VSync = false; }
-			else { SDL_GL_SetSwapInterval(1); m_VSync = true; }
+		auto Callback = [this]() 
+		{
+			if (m_VSync) 
+			{ 	
+				SDL_GL_SetSwapInterval(0); 
+				m_VSync = false; 
+				return;
+			} 
+			
+			SDL_GL_SetSwapInterval(1); 
+			m_VSync = true; 
 			LOG("VSync = " << m_VSync);
-		});
+		};
+		
+		pToggleVSync->RegisterClickCallBack(Callback);
 	}
 	
 	TUiButton* pToggleDebug = TUiManager::Get()->GetComponent<TUiButton>("settings.goDebug");
-	
 	if (pToggleDebug)
 		pToggleDebug->RegisterClickCallBack([&]() { GameObject::ToggleDebug(); });
 }

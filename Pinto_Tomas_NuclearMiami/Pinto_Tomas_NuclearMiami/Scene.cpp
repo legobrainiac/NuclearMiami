@@ -167,10 +167,10 @@ void Scene::DrawBlood() const
 	for(int i = 0; i < m_BloodPS.count; ++i)
 	{
 		glPushMatrix();
-		glScalef(1.f, 1.f, 0.f);
 		glTranslatef(m_BloodPS.particles[i].x, m_BloodPS.particles[i].y, 0.f);
+		glScalef(1.f, 1.f, 1.f);
 		
-		utils::DrawPoint(0.f, 0.f, 4.f);
+		utils::FillEllipse(0.f, 0.f, 3.f, 3.f);
 		
 		glPopMatrix();
 	}

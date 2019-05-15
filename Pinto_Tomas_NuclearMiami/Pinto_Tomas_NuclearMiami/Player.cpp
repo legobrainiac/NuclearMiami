@@ -10,9 +10,8 @@
 #include "PickUp.h"
 #include "Weapon.h"
 
-#include "Ui/TUiManager.h"
 #include "Ui/TUiDynamicLabel.h"
-
+#include "Ui/TUiManager.h"
 
 Player::Player(const Vector2f& position, const Vector2f& scale, float rotation)
 : GameObject(position, scale, rotation)
@@ -185,7 +184,6 @@ bool Player::ProcessPickUp(PickUp* pickUp)
 {
 	// Test if is health pickup
 	HealthPickup* pHp = dynamic_cast<HealthPickup*>(pickUp);
-
 	if(pHp !=  nullptr)
 	{
 		m_Health += pHp->GetHealthGain();
@@ -194,7 +192,6 @@ bool Player::ProcessPickUp(PickUp* pickUp)
 	
 	// Test if is weapon pickup
 	Weapon* pPickUp = dynamic_cast<Weapon*>(pickUp);
-
 	if(pPickUp != nullptr && HasEmptySlot())
 	{
 		m_pScene->Remove(pickUp);
@@ -232,20 +229,7 @@ void Player::SendMessage(MessageType message, int value)
 void Player::Shoot(const Vector2f& direction, float dt)
 {
 	if(SDL_GetMouseState(nullptr, nullptr) == SDL_BUTTON_LEFT && m_wWeapons.size())
-    {
 		m_wWeapons[0]->Shoot(m_Position, direction);
-	}
-	
-	if(SDL_GetMouseState(nullptr, nullptr) == SDL_BUTTON_X1 && m_Timer > 0.1f) // This is weird, SDL returns the wrong id for my mouse button
-	{
-		m_Timer = 0.f;
-		int rotation = utils::RandInterval(0, 365);
-		Vector2f direction = Vector2f { cos(rotation * PI / 180.f), sin(rotation * PI / 180.f) };
-		
-		AiAgent* pAiAgent = new AiAgent(m_Position + direction * 50.f, Vector2f { 1.f, 1.f }, 0.f, this);
-		pAiAgent->SetZLayer(-1.f);
-		m_pScene->Add(pAiAgent);
-	}
 }
 
 void Player::Drop()

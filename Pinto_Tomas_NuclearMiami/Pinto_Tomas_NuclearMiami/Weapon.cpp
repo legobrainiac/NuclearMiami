@@ -2,6 +2,7 @@
 #include "Weapon.h"
 
 #include "Projectile.h"
+#include "HitMarker.h"
 #include "Matrix2x3.h"
 #include "Player.h"
 #include "Rocket.h"
@@ -14,7 +15,7 @@ Weapon::Weapon(const Vector2f& position, const Vector2f& scale, float rotation, 
 , m_pShootingSound(ResourceManager::Get()->GetSoundEffect("shot_basic"))
 , m_pEquip(ResourceManager::Get()->GetSoundEffect("cock"))
 , m_pDrop(ResourceManager::Get()->GetSoundEffect("drop"))
-, m_AmmoCount(100)
+, m_AmmoCount(30)
 {
 	m_Friction = 20.f;
 	m_pShootingSound->SetVolume(48);
@@ -77,7 +78,16 @@ void Weapon::SetInWorld(bool val)
 
 void Weapon::Shoot(const Vector2f& position, const Vector2f& direction, float rofMod)
 {
-	if(m_Timer < (1.f / (m_RateOfFire / rofMod)) || m_InWorld || m_AmmoCount <= 0) return;	
+	if(m_Timer < (1.f / (m_RateOfFire / rofMod)) || m_InWorld) return;	
+	
+	if(m_AmmoCount <= 0 && m_Timer > (1.f / (m_RateOfFire / rofMod)))
+	{
+		HitMarker* pHm = new HitMarker(m_pOwner->GetPosition(), "No ammo!");
+		m_pScene->Add(pHm);
+		m_Timer = 0.f;
+		
+		return;
+	}
 	
 	// this is test code
 	int spread = utils::RandInterval(-10, 10);
