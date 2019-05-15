@@ -11,7 +11,7 @@ class GameObject;
 class Camera;
 class Player;
 
-#define WIN_LEVEL 2
+#define WIN_LEVEL 3
 
 struct StaticParticleSystem
 {

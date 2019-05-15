@@ -15,6 +15,7 @@ TPreloadTexture(path="Resources/Images/deadPlayer.png", name="deadPlayer")
 
 TPreloadTexture(path="Resources/Scenes/Scene_1/scene.png", name="scene_1")
 TPreloadTexture(path="Resources/Scenes/Scene_2/scene.png", name="scene_2")
+TPreloadTexture(path="Resources/Scenes/Scene_3/scene.png", name="scene_3")
 
 TPreloadTextRenderer(path="Resources/Fonts/munro.ttf", name="munro")
 

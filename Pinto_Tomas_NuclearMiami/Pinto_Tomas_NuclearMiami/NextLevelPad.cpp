@@ -4,6 +4,8 @@
 #include "AiAgent.h"
 #include "Player.h"
 
+int NextLevelPad::m_pPadCount = 0;
+
 NextLevelPad::NextLevelPad(const Vector2f& position, int level, float range)
 : GameObject(position, Vector2f { 0.f, 0.f }, 0)
 , m_Level(level)
@@ -12,10 +14,12 @@ NextLevelPad::NextLevelPad(const Vector2f& position, int level, float range)
 {
 	m_DoesCollision = false;
 	m_ZLayer = -5;
+	m_pPadCount++;
 }
 
 NextLevelPad::~NextLevelPad()
 {
+	m_pPadCount--;
 }
 
 void NextLevelPad::Draw() const 

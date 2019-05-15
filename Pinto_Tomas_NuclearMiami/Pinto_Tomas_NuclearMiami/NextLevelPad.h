@@ -19,10 +19,14 @@ public:
 	void Draw() const override;
 	void Update(float dt) override;
 	
+	static int GetCount() { return m_pPadCount; }
+	
 private:
 	Texture* m_pTexture;
 	int m_Level;
 	float m_Range;
+	
+	static int m_pPadCount;
 };
 
 #endif // !NEXT_LEVEL_PAD_H
