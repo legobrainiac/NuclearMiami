@@ -101,6 +101,17 @@ TextRenderer* ResourceManager::LoadTextRenderer(const std::string& path, const s
 	}
 }
 
+void ResourceManager::AddName(const std::string name)
+{
+	m_Names.push_back(name);
+}
+
+const std::string& ResourceManager::GetName() const
+{
+	int i = utils::RandInterval(0, m_Names.size() - 1);
+	return m_Names[i];
+}
+
 ResourceManager::ResourceManager()
 {
 }

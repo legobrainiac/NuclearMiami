@@ -21,18 +21,13 @@ Game::~Game()
 	Cleanup();
 }
 
-// TODO(tomas): Think about how i wanna do the background of the menu, once we have the scene working i can make a small scene with just the ai agents going abouts
 // TODO(tomas): different enemies
-// TODO(tomas): modern opengl, i want to use shaders plsssss, menu fadeaway in to game
 // TODO(tomas): ui slider, ui tick box
 // TODO(tomas): more custom AI :D
-// TODO(tomas): when dropping and picking up in the same frame Z-Order is wrong for dropped weapon
-// TODO(tomas): Player and AiAgent share a lot of the same behaviour, maybe put some of that joint behaviour in to a base class? 
 // TODO(tomas): export button for save files?
 // TODO(tomas): level editor button in main menu that leads to a existing scene selector for editing or a new scene creator
 // TODO(tomas): Turret ples
 // TODO(tomas): upercase lambdas
-// TODO(tomas): Start game shutters
 void Game::Initialize()
 {
 	// Startup timer
@@ -41,7 +36,6 @@ void Game::Initialize()
 	SDL_ShowCursor(SDL_DISABLE);
 
 	m_ScreenState = ScreenState::mainMenu;
-
 	
 	// Process preloading
 	TUiManager::Get()->LoadUiDescriptor("Resources/Scripts/preload.ts");

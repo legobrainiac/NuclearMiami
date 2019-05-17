@@ -230,6 +230,14 @@ TUiManager::TUiManager()
 		Scene::Get()->Add(new HealthPickup(Vector2f { x,y }, Vector2f { 1.f, 1.f }, 0, 15));	
 		return new TUiEmpty();
 	};
+	
+	m_TokenMap["TName"] = [](std::ifstream& descriptorStream, std::string resource)
+	{
+		std::string name = utils::GetParameterValue("name", resource);
+		ResourceManager::Get()->AddName(name);
+		
+		return new TUiEmpty();
+	};
 }
 
 TUiManager::~TUiManager()

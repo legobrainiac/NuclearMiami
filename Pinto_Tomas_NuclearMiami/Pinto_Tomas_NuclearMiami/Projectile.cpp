@@ -54,7 +54,6 @@ void Projectile::Collision(float dt)
 		{
 			m_Direction = m_Direction.Reflect(hit.normal);
 			m_Accelleration = Vector2f {};
-			
 			m_BounceCount++;
 		}
 	}

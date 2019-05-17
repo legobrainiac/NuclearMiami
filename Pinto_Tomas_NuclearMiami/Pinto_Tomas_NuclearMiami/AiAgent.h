@@ -43,6 +43,7 @@ private:
 	float m_Timer;
 	int m_Health;
 	
+	std::string m_Name;
 	Texture* m_pTorsoTexture;
 	Sprite* m_pLegsSprite;
 	GameObject* m_pTarget;

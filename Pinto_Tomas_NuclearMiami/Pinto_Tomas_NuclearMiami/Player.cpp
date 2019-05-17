@@ -219,7 +219,7 @@ void Player::SendMessage(MessageType message, int value)
 			TextureObject* pT = new TextureObject(m_Position, m_Rotation, "deadPlayer");
 			m_pScene->Add(pT);
 			TUiManager::Get()->GetComponent<TUiDynamicLabel>("HUD.health")->SetText(std::to_string(m_Health));
-			m_pScene->GetMainCamera()->SetScale(10);
+			m_pScene->GetMainCamera()->SetScale(20);
 		}
 	}
 	else if (message == MessageType::regen)

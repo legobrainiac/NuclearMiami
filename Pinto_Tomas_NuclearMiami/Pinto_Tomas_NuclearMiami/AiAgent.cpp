@@ -15,6 +15,7 @@ AiAgent::AiAgent(const Vector2f& position, const Vector2f& scale, float rotation
 	, m_MaxDistance(1000.f)
 	, m_MovementSpeed(50.f)
 	, m_pTorsoTexture(ResourceManager::Get()->GetTexture("charTorso"))
+    , m_Name(ResourceManager::Get()->GetName())
 	, m_pLegsSprite(new Sprite("charLegsAnimated", 10, 1, 0.05f))
 	, m_Health(50)
 {
@@ -123,7 +124,12 @@ void AiAgent::DrawHealth() const
 
 	glColor4f(0.f, 1.f, 0.f, 1.f);
 	utils::FillRect(-12.5f, 10.f, m_Health / 2.f, 2.f);
-
+	
+	TextRenderConfig textConfig;
+	textConfig.spacing = 3.f;
+	textConfig.scale = 0.3f;
+	ResourceManager::Get()->GetTextRenderer("munro")->DrawString(m_Name, Vector2f { -40.f, 50.f }, textConfig);
+	
 	glPopMatrix();
 }
 

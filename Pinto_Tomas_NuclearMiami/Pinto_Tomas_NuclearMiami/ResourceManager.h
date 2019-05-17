@@ -2,6 +2,7 @@
 #define RESOURCE_MANAGER_H
 
 #include <string>
+#include <vector>
 #include <map>
 
 #include "utils.h"
@@ -27,6 +28,9 @@ public:
 	
 	TextRenderer* GetTextRenderer(const std::string& name);
 	TextRenderer* LoadTextRenderer(const std::string& path, const std::string& name);
+
+	void AddName(const std::string name);
+	const std::string& GetName() const;
 	
 	~ResourceManager();
 
@@ -37,6 +41,8 @@ private:
 	std::map<std::string, SoundEffect*> m_SoundEffectMap;
 	std::map<std::string, SoundStream*> m_SoundStreamMap;
 	std::map<std::string, TextRenderer*> m_TextRenderMap;
+	
+	std::vector<std::string> m_Names;
 	
 	static ResourceManager* m_pTextureManager;
 };
