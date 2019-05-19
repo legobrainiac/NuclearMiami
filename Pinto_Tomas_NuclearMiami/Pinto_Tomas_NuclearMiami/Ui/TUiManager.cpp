@@ -124,7 +124,33 @@ TUiManager::TUiManager()
 		std::string path = utils::GetParameterValue("path", resource);
 		std::string name = utils::GetParameterValue("name", resource);
 		
-		ResourceManager::Get()->LoadTextRenderer(path, name);
+		int color = std::stoi(utils::GetParameterValue("color", resource));
+		std::string alpha = utils::GetParameterValue("alpha", resource);
+
+		Color4f fcolor;
+		
+		switch(color)
+		{
+		case 0:
+			fcolor = Color4f { 1.f, 1.f, 1.f, 1.f };
+		break;
+
+		case 1:
+			fcolor = Color4f { 1.f, 0.f, 0.f, 1.f };
+		break;
+				
+		case 2:
+			fcolor = Color4f { 0.f, 1.f, 0.f, 1.f };
+		break;
+			
+		case 3:
+			fcolor = Color4f { 0.f, 0.f, 1.f, 1.f };
+		break;			
+		}
+		
+		fcolor.a = std::stof(alpha);
+		
+		ResourceManager::Get()->LoadTextRenderer(path, name,  fcolor);
 		return new TUiEmpty();
 	};
 	

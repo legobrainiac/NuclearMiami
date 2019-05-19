@@ -27,7 +27,7 @@ public:
 	SoundStream* LoadSoundStream(const std::string& path, const std::string& name);
 	
 	TextRenderer* GetTextRenderer(const std::string& name);
-	TextRenderer* LoadTextRenderer(const std::string& path, const std::string& name);
+	TextRenderer* LoadTextRenderer(const std::string& path, const std::string& name, const Color4f color);
 
 	void AddName(const std::string name);
 	const std::string& GetName() const;

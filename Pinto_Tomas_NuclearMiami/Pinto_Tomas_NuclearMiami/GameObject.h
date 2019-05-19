@@ -82,6 +82,7 @@ public:
 	
 	static int GetInstanceCount() { return m_InstanceCounter; }
 	static void ToggleDebug() { m_Debug = !m_Debug; };
+	static bool GetDebug() { return m_Debug; }
 	
 protected:
 	void Translate(const Vector2f& xy);

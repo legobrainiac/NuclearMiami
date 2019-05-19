@@ -187,7 +187,10 @@ void Scene::ProcessAdditions()
 	if(m_AddBuffer.dirty)
 	{
 		for(GameObject* pGo : m_AddBuffer.buffer)
+		{
 			m_pScene.push_back(pGo);
+			LDEBUG("GameObject added... " + std::to_string(m_pScene.size()));
+		}
 		
 		auto sort = [](GameObject* pLeft, GameObject* pRight) 
 		{
@@ -202,6 +205,7 @@ void Scene::ProcessAdditions()
 
 void Scene::ForceSort()
 {
+	LDEBUG("-------------- SORT --------------");
 	auto sort = [](GameObject* pLeft, GameObject* pRight) 
 	{
 		return pLeft->GetZLayer() < pRight->GetZLayer();
@@ -240,6 +244,8 @@ void Scene::ProcessDeletions()
 					
 					delete pGo;
 					m_pScene.pop_back();
+					
+					LDEBUG("GameObject Deleted... " + std::to_string(m_pScene.size()));
 				}
 			}
 		}
@@ -262,6 +268,8 @@ void Scene::ProcessRemovals()
 					m_pScene[m_pScene.size() - 1] = m_pScene[i];
 					m_pScene[i] = pLast;
 					m_pScene.pop_back();
+					
+					LDEBUG("GameObject Removed... " + std::to_string(m_pScene.size()));
 				}
 			}
 		}

@@ -63,4 +63,6 @@ void PickUp::SetInWorld(bool val)
 	
 	if(val)
 		m_pOwner = nullptr;
+	
+	LDEBUG("PickUp world status changed: " + std::to_string(m_InWorld));
 }

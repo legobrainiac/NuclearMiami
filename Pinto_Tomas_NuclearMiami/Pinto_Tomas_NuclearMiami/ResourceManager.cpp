@@ -84,7 +84,7 @@ TextRenderer* ResourceManager::GetTextRenderer(const std::string& name)
 	return m_TextRenderMap.find(name)->second;
 }
 
-TextRenderer* ResourceManager::LoadTextRenderer(const std::string& path, const std::string& name)
+TextRenderer* ResourceManager::LoadTextRenderer(const std::string& path, const std::string& name, const Color4f color)
 {
 	auto pTextRender = m_TextRenderMap.find(name);
 	
@@ -96,7 +96,7 @@ TextRenderer* ResourceManager::LoadTextRenderer(const std::string& path, const s
 	else
 	{
 		LOG("Preloading TextRenderer: " << name);
-		m_TextRenderMap[name] = new TextRenderer(path);
+		m_TextRenderMap[name] = new TextRenderer(path, color);
 		return m_TextRenderMap[name];
 	}
 }

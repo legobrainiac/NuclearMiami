@@ -5,9 +5,9 @@
 #include "Ui/TUiContainer.h"
 
 #include "Matrix2x3.h"
+#include "AiAgent.h"
 #include "Camera.h"
 #include "Player.h"
-#include "AiAgent.h"
 
 Game::Game(const Window& window)
 	: m_Window(window)
@@ -214,14 +214,17 @@ void Game::Draw() const
 	textConfig.scale = 1.f;
 	
 	int fps = int(1.f /m_FrameTime);
-	ResourceManager::Get()->GetTextRenderer("munro")->DrawString(std::to_string(fps), Vector2f { 10.f, m_Window.height - 40.f }, textConfig);
-	
+	ResourceManager::Get()->GetTextRenderer("munroDebug")->DrawString(std::to_string(fps), Vector2f { 10.f, m_Window.height - 40.f }, textConfig);
 	textConfig.scale = 2.f;
+	
+	if(GameObject::GetDebug())
+		DebugLogger::Get()->Draw();
 	
 	glPushMatrix();
 	glTranslatef(m_MousePosition.x, m_MousePosition.y, 0.f);
 	ResourceManager::Get()->GetTextRenderer("munro")->DrawString("+", Vector2f { -10.f, -17.f }, textConfig);
 	glPopMatrix();
+	
 }
 
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent & e)
@@ -249,7 +252,7 @@ void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 		break;
 
 	case SDLK_b:
-		LOG("Player position: " << Scene::Get()->GetPlayer()->GetPosition());
+		LDEBUG("Player position: " + Scene::Get()->GetPlayer()->GetPosition().ToString());
 		break;
 
 	case SDLK_x:

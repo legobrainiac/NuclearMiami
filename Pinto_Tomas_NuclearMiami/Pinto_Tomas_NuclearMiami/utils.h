@@ -6,6 +6,7 @@
 #define LOG(T) std::cout << T << std::endl
 #define DEBUG(T) std::cerr << T << std::endl
 #define LOGASSERT(T, A) if(T) std::cout << A << std::endl
+#define LDEBUG(T) DebugLogger::Get()->Log(T);
 #define ERR DEBUG
 
 #include <cmath>

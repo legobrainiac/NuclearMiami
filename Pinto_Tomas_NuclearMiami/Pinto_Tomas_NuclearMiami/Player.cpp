@@ -208,6 +208,8 @@ void Player::SendMessage(MessageType message, int value)
 {
 	if(message == MessageType::dammage && m_Health > 0)
 	{
+		LDEBUG("Player took " + std::to_string(value) + " dammage...")
+		
 		m_Health -= value;
 		m_pScene->AddBlood(m_Position, 10);
 		

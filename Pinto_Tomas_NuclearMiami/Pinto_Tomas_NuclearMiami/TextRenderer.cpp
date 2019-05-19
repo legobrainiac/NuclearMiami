@@ -2,9 +2,11 @@
 #include "TextRenderer.h"
 #include "Texture.h"
 #include "utils.h"
+#include "structs.h"
 
-TextRenderer::TextRenderer(const std::string& path)
+TextRenderer::TextRenderer(const std::string& path, const Color4f color)
 : m_pFont(TTF_OpenFont(path.c_str(), 30))
+, m_Color(color)
 {
 	if (m_pFont == nullptr)
 	{
@@ -15,7 +17,7 @@ TextRenderer::TextRenderer(const std::string& path)
 	for(char c = 0; c < 127; c++)
 	{
 		std::string s(1, c);
-		m_CharTex[c] = new Texture(s, m_pFont, Color4f { 1.f, 1.f, 1.f, 1.f });
+		m_CharTex[c] = new Texture(s, m_pFont, color);
 	}
 	
 	TTF_CloseFont(m_pFont);

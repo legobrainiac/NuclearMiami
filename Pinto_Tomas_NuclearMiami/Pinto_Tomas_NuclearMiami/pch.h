@@ -40,6 +40,7 @@
 #include "TextRenderer.h"
 
 #include "ResourceManager.h"
+#include "DebugLogger.h"
 
 #include "Scene.h"
 #include "GameObject.h"

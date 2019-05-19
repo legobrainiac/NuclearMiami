@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <string>
 
+#include "structs.h"
+
 class Texture;
 
 struct TextRenderConfig
@@ -15,7 +17,7 @@ struct TextRenderConfig
 class TextRenderer
 {
 public:
-	TextRenderer(const std::string& path);
+	TextRenderer(const std::string& path, const Color4f color);
 	TextRenderer(const TextRenderer& other) = delete;
 	TextRenderer& operator=(const TextRenderer& other) = delete;
 	~TextRenderer();
@@ -25,6 +27,7 @@ public:
 	
 private:
 	TTF_Font* m_pFont;
+	Color4f m_Color;
 	std::unordered_map<char, Texture*> m_CharTex;
 };
 
