@@ -17,7 +17,7 @@ TextRenderer::TextRenderer(const std::string& path, const Color4f color)
 	for(char c = 0; c < 127; c++)
 	{
 		std::string s(1, c);
-		m_CharTex[c] = new Texture(s, m_pFont, color);
+		m_pCharTex[int(c)] = new Texture(s, m_pFont, color);
 	}
 	
 	TTF_CloseFont(m_pFont);
@@ -33,7 +33,7 @@ void TextRenderer::DrawString(const std::string& str, const Vector2f& pos, const
 	
 	for(size_t i = 0; i < str.size(); ++i)
 	{
-		Texture* pCharTex = GetChar(str[i]);
+		Texture* pCharTex = m_pCharTex[int(str[i])];
 		
 		if(pCharTex)
 		{
@@ -49,11 +49,13 @@ void TextRenderer::DrawString(const std::string& str, const Vector2f& pos, const
 
 Texture* TextRenderer::GetChar(char c) const
 {
-	return m_CharTex.find(c)->second;
+	return m_pCharTex[int(c)];
 }
 
 TextRenderer::~TextRenderer()
 {
-	for(std::pair<char, Texture*> tex : m_CharTex)
-		delete tex.second;
+	for(char c = 0; c < 127; c++)
+	{
+		delete m_pCharTex[int(c)];
+	}
 }

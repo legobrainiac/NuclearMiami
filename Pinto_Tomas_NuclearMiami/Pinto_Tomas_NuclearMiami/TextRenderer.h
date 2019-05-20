@@ -1,10 +1,7 @@
 #ifndef TEXT_RENDER_H
 #define TEXT_RENDER_H
 
-#include <unordered_map>
 #include <string>
-
-#include "structs.h"
 
 class Texture;
 
@@ -27,8 +24,8 @@ public:
 	
 private:
 	TTF_Font* m_pFont;
+	Texture* m_pCharTex[127];
 	Color4f m_Color;
-	std::unordered_map<char, Texture*> m_CharTex;
 };
 
 #endif // !TEXT_RENDER_H
