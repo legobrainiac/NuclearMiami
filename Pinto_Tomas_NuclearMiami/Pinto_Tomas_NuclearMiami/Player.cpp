@@ -80,8 +80,6 @@ void Player::DrawWeapon() const
 
 	glPushMatrix();
 
-	// m_Weapons[m_SelectedSlot]->Draw();
-	
 	if(m_wWeapons.size() > 0)
 		m_wWeapons[0]->Draw();
 	

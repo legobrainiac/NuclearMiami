@@ -23,10 +23,11 @@ TPistol(posx="1000", posy="570", posz="-2", rotation="13")
 
 // Rifles
 TRifle(posx="205", posy="775", posz="-2", rotation="-56")
-TRifle(posx="855", posy="860", posz="-2", rotation="98")
 
 TEnemy(posx="770", posy="70", posz="-1", rotation="90")
 TRifle(posx="770", posy="70", posz="-2", rotation="13")
 
 TEnemy(posx="916", posy="846", posz="-1", rotation="90")
 TRifle(posx="916", posy="846", posz="-2", rotation="13")
+
+TNextLevelPad(posx="820", posy="877", range="30", level="4")

@@ -17,9 +17,11 @@ TPreloadTexture(path="Resources/Images/deadAi.png", name="deadAi")
 TPreloadTexture(path="Resources/Scenes/Scene_1/scene.png", name="scene_1")
 TPreloadTexture(path="Resources/Scenes/Scene_2/scene.png", name="scene_2")
 TPreloadTexture(path="Resources/Scenes/Scene_3/scene.png", name="scene_3")
+TPreloadTexture(path="Resources/Scenes/Scene_4/scene.png", name="scene_4")
+TPreloadTexture(path="Resources/Scenes/Scene_5/scene.png", name="scene_5")
 
+TPreloadTextRenderer(path="Resources/Fonts/munro.ttf", name="munroDebug", color="2", alpha="0.5")
 TPreloadTextRenderer(path="Resources/Fonts/munro.ttf", name="munro", color="0", alpha="1.0")
-TPreloadTextRenderer(path="Resources/Fonts/munro.ttf", name="munroDebug", color="1", alpha="0.5")
 
 TPreloadSoundStream(path="Resources/Audio/music1.wav", name="game_music_1")
 TPreloadSoundStream(path="Resources/Audio/music.wav", name="menu_music")

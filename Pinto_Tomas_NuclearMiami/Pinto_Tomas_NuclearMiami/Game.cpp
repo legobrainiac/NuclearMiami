@@ -213,13 +213,14 @@ void Game::Draw() const
 	textConfig.spacing = 3.f;
 	textConfig.scale = 1.f;
 	
-	int fps = int(1.f /m_FrameTime);
-	ResourceManager::Get()->GetTextRenderer("munroDebug")->DrawString(std::to_string(fps), Vector2f { 10.f, m_Window.height - 40.f }, textConfig);
-	textConfig.scale = 2.f;
-	
 	if(GameObject::GetDebug())
+	{
+		int fps = int(1.f / m_FrameTime);
+		ResourceManager::Get()->GetTextRenderer("munroDebug")->DrawString(std::to_string(fps), Vector2f { 10.f, m_Window.height - 40.f }, textConfig);
 		DebugLogger::Get()->Draw();
-	
+	}
+
+	textConfig.scale = 2.f;
 	glPushMatrix();
 	glTranslatef(m_MousePosition.x, m_MousePosition.y, 0.f);
 	ResourceManager::Get()->GetTextRenderer("munro")->DrawString("+", Vector2f { -10.f, -17.f }, textConfig);

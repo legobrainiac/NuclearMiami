@@ -81,6 +81,9 @@ void Scene::ProcessLoad()
 	pCarry->SendMessage(MessageType::regen, 50);
 	
 	Initialize();
+	LDEBUG("----------------------------");
+	LDEBUG("SCENE " + std::to_string(m_sLevel) + " loaded!!");
+	LDEBUG("----------------------------");
 }
 
 void Scene::Draw() const

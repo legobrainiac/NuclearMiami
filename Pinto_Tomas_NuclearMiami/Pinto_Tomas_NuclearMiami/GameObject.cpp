@@ -208,8 +208,10 @@ void GameObject::Draw() const
 	{
 		TextRenderConfig textConfig;
 		textConfig.spacing = 3.f;
-		textConfig.scale = 0.3f;
-		ResourceManager::Get()->GetTextRenderer("munro")->DrawString(m_Position.ToString(), Vector2f {-100.f, 50.f}, textConfig);	
+		textConfig.scale = 0.2f;
+		
+		// TODO(tomas): maybe dont use get every frame, just saying
+		ResourceManager::Get()->GetTextRenderer("munroDebug")->DrawString(m_Position.ToString(), Vector2f {-100.f, 50.f}, textConfig);	
 	}	
 }
 
