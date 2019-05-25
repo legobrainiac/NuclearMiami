@@ -69,6 +69,11 @@ void Game::Initialize()
 	
 	// Because if, for some fucking reason, I don't call this i get a memory leak if i close the game without pressing start
 	m_pScene->Update(0.f);
+	
+	
+	TUiContainer* pDeathScreen = TUiManager::Get()->GetComponent<TUiContainer>("deathScreen");
+	if (pDeathScreen)
+		pDeathScreen->FadeActive(false);
 }
 
 void Game::Cleanup()
@@ -118,7 +123,7 @@ void Game::DoDeathScreen(float dt)
 
 		TUiContainer* pDeathScreen = TUiManager::Get()->GetComponent<TUiContainer>("deathScreen");
 		if (pDeathScreen)
-			pDeathScreen->SetActive(true);
+			pDeathScreen->FadeActive(true);
 
 		TUiButton* pInfoButton = TUiManager::Get()->GetComponent<TUiButton>("infoButton");
 		if (pInfoButton)
@@ -133,7 +138,7 @@ void Game::DoDeathScreen(float dt)
 
 		TUiContainer* pDeathScreen = TUiManager::Get()->GetComponent<TUiContainer>("deathScreen");
 		if (pDeathScreen)
-			pDeathScreen->SetActive(false);
+			pDeathScreen->FadeActive(false);
 
 		TUiButton* pInfoButton = TUiManager::Get()->GetComponent<TUiButton>("infoButton");
 		if (pInfoButton)
@@ -150,7 +155,7 @@ void Game::DoEndScreen(float dt)
 
 		TUiContainer* pEndScreen = TUiManager::Get()->GetComponent<TUiContainer>("endScreen");
 		if (pEndScreen)
-			pEndScreen->SetActive(true);
+			pEndScreen->FadeActive(true);
 
 		TUiButton* pInfoButton = TUiManager::Get()->GetComponent<TUiButton>("infoButton");
 		if (pInfoButton)
@@ -165,7 +170,7 @@ void Game::DoEndScreen(float dt)
 
 		TUiContainer* pEndScreen = TUiManager::Get()->GetComponent<TUiContainer>("endScreen");
 		if (pEndScreen)
-			pEndScreen->SetActive(false);
+			pEndScreen->FadeActive(false);
 
 		TUiButton* pInfoButton = TUiManager::Get()->GetComponent<TUiButton>("infoButton");
 		if (pInfoButton)
@@ -177,33 +182,30 @@ void Game::Draw() const
 {
 	ClearBackground();
 
-	if (m_ScreenState != ScreenState::paused &&  m_ScreenState != ScreenState::mainMenu)
-	{
-		// Calculate camera position with mouse
-		m_pScene->SetMainCamera(m_pCamera);
-		Player* pPlayer = m_pScene->GetPlayer();
-		Camera* pCamera = m_pScene->GetMainCamera();
+	// Calculate camera position with mouse
+	m_pScene->SetMainCamera(m_pCamera);
+	Player* pPlayer = m_pScene->GetPlayer();
+	Camera* pCamera = m_pScene->GetMainCamera();
 
-		Point2f cameraPosition = pCamera->GetPosition(pPlayer->GetPosition());
+	Point2f cameraPosition = pCamera->GetPosition(pPlayer->GetPosition());
 		
-		cameraPosition.x += m_CurrentMouseOffset.x / 2.f;
-		cameraPosition.y += m_CurrentMouseOffset.y / 2.f;
+	cameraPosition.x += m_CurrentMouseOffset.x / 2.f;
+	cameraPosition.y += m_CurrentMouseOffset.y / 2.f;
 		
-		// Matrix operations
-		glPushMatrix();
-		pCamera->Transform(cameraPosition);
+	// Matrix operations
+	glPushMatrix();
+	pCamera->Transform(cameraPosition);
 
-		// DRAW
-		m_pScene->Draw();
-
-		// ENDDRAW
-		glPopMatrix();
-		
-		glPushMatrix();
-		glScalef(2.f, 2.f, 1.f);
-		Scene::Get()->GetPlayer()->DrawHUD();
-		glPopMatrix();
-	}
+	// DRAW
+	m_pScene->Draw();
+	
+	// ENDDRAW
+	glPopMatrix();
+	
+	glPushMatrix();
+	glScalef(2.f, 2.f, 1.f);
+	Scene::Get()->GetPlayer()->DrawHUD();
+	glPopMatrix();
 
 	// Draw Ui
 	TUiManager::Get()->Draw(m_Window);
@@ -312,10 +314,10 @@ void Game::UiCallbackSetUp()
 		auto Callback = [this]() 
 		{
 			TUiContainer* pMenu = TUiManager::Get()->GetComponent<TUiContainer>("menu");
-			if (pMenu) pMenu->SetActive(false);
+			if (pMenu) pMenu->FadeActive(false);
 			
 			TUiContainer* pHud = TUiManager::Get()->GetComponent<TUiContainer>("HUD");
-			if (pHud) pHud->SetActive(true);
+			if (pHud) pHud->FadeActive(true);
 			StartGame("");
 		};
 		
@@ -329,10 +331,10 @@ void Game::UiCallbackSetUp()
 		auto Callback = [this]() 
 		{
 			TUiContainer* pSettings = TUiManager::Get()->GetComponent<TUiContainer>("settings");
-			if (pSettings) pSettings->SetActive(true);
+			if (pSettings) pSettings->FadeActive(true);
 			
 			TUiContainer* pMenu = TUiManager::Get()->GetComponent<TUiContainer>("menu");
-			if (pMenu) pMenu->SetActive(false);
+			if (pMenu) pMenu->FadeActive(false);
 		};
 		
 		pSettingsButton->RegisterClickCallBack(Callback);
@@ -350,13 +352,13 @@ void Game::UiCallbackSetUp()
 		auto Callback = [this]() 
 		{
 			TUiContainer* pHud = TUiManager::Get()->GetComponent<TUiContainer>("HUD");
-			if (pHud) pHud->SetActive(false);
+			if (pHud) pHud->FadeActive(false);
 			
 			TUiContainer* pMenu = TUiManager::Get()->GetComponent<TUiContainer>("menu");
-			if (pMenu) pMenu->SetActive(true);
+			if (pMenu) pMenu->FadeActive(true);
 			
 			TUiContainer* pSettings = TUiManager::Get()->GetComponent<TUiContainer>("settings");
-			if (pSettings) pSettings->SetActive(false);
+			if (pSettings) pSettings->FadeActive(false);
 			
 			UnloadGame();
 		};
@@ -422,7 +424,7 @@ void Game::ToggleInfo()
 
 	if (pInfo && pMenu)
 	{
-		pMenu->SetActive(pInfo->GetActive());
-		pInfo->SetActive(!pInfo->GetActive());
+		pMenu->FadeActive(pInfo->GetActive());
+		pInfo->FadeActive(!pInfo->GetActive());
 	}
 }

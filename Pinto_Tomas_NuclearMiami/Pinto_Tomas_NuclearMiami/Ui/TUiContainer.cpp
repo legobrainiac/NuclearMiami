@@ -5,8 +5,15 @@
 
 TUiContainer::TUiContainer(std::ifstream& descriptorStream, std::string descriptor)
 : TUiNode(descriptorStream, descriptor)
+, m_FadeActive(true)
+, m_BasePos(m_Pos)
 {
 	ProcessDescriptor(descriptorStream, descriptor);
+
+	if(!m_Active)
+	{
+		m_Pos = m_BasePos + Vector2f { 0.f, 1.f }; 
+	}
 }
 
 TUiContainer::~TUiContainer()
@@ -30,8 +37,19 @@ void TUiContainer::Draw(const Window& window)
 
 void TUiContainer::Update(float dt, Point2f mousePos)
 {
-    if(!m_Active) return;
-	TUiNode::Update(dt, mousePos);
+	if(m_FadeActive)
+	{
+		m_Pos = utils::Lerp(m_Pos, m_BasePos, dt * 4.f);
+		m_TakesInput = true;
+	}
+	else
+	{
+		m_Pos = utils::Lerp(m_Pos, m_BasePos + Vector2f { 0.f, 1.f }, dt * 4.f);
+		m_TakesInput = false;
+	}
+	
+    if(m_Active && m_TakesInput)
+		TUiNode::Update(dt, mousePos);
 }
 
 void TUiContainer::ProcessDescriptor(std::ifstream& descriptorStream, std::string descriptor)

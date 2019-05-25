@@ -11,7 +11,7 @@
 class TUiContainer :
 public TUiNode
 {
-    public:
+public:
 	TUiContainer(std::ifstream& descriptorStream, std::string descriptor);
 	~TUiContainer();
 	
@@ -25,9 +25,14 @@ public TUiNode
 	virtual void Update(float dt, Point2f mousePos) override;
 	virtual void ProcessDescriptor(std::ifstream& descriptorStream, std::string descriptor) override;
     
-    private:
+	void FadeActive(bool val) { m_Active = true; m_FadeActive = val; };
+	
+private:
 	std::string m_Title;
+	Vector2f m_BasePos;
     bool m_DrawOutline;
+	bool m_FadeActive;
+	bool m_TakesInput;
 };
 
 #endif // !TUICONTAINER_H
