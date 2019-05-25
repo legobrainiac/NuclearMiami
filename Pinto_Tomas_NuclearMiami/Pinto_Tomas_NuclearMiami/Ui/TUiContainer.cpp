@@ -12,7 +12,7 @@ TUiContainer::TUiContainer(std::ifstream& descriptorStream, std::string descript
 
 	if(!m_Active)
 	{
-		m_Pos = m_BasePos + Vector2f { 0.f, 1.f }; 
+		m_Pos = m_BasePos + Vector2f { -1.f, 0.f }; 
 	}
 }
 
@@ -44,7 +44,7 @@ void TUiContainer::Update(float dt, Point2f mousePos)
 	}
 	else
 	{
-		m_Pos = utils::Lerp(m_Pos, m_BasePos + Vector2f { 0.f, 1.f }, dt * 4.f);
+		m_Pos = utils::Lerp(m_Pos, m_BasePos + Vector2f { -1.f, 0.f }, dt * 4.f);
 		m_TakesInput = false;
 	}
 	

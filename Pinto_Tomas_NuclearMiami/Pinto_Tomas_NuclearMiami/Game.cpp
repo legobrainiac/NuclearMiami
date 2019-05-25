@@ -280,10 +280,7 @@ void Game::ProcessMouseUpEvent(const SDL_MouseButtonEvent& e)
 
 void Game::ClearBackground() const
 {
-	if (m_ScreenState != ScreenState::paused &&  m_ScreenState != ScreenState::mainMenu)
-		glClearColor(0.f, 0.f, 0.f, 1.f);
-	else
-		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+	glClearColor(0.f, 0.f, 0.f, 1.f);
 
 	//Z-Ordering
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
