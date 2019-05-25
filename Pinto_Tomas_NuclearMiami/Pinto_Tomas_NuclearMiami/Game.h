@@ -37,6 +37,7 @@ public:
 	Window m_Window;
 	Point2f m_MousePosition;
 	bool m_VSync = true;
+	bool m_Info = false;
     
 	Vector2f m_CurrentMouseOffset;
 	Vector2f m_MouseOffsetGoal;

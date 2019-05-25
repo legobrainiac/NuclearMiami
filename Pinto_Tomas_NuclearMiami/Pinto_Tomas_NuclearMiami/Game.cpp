@@ -417,11 +417,9 @@ void Game::ToggleInfo()
 	if (m_ScreenState != ScreenState::mainMenu) return;
 
 	TUiContainer* pInfo = TUiManager::Get()->GetComponent<TUiContainer>("info");
-	TUiContainer* pMenu = TUiManager::Get()->GetComponent<TUiContainer>("menu");
-
-	if (pInfo && pMenu)
+	if (pInfo)
 	{
-		pMenu->FadeActive(pInfo->GetActive());
-		pInfo->FadeActive(!pInfo->GetActive());
+		m_Info = !m_Info;
+		pInfo->FadeActive(m_Info);
 	}
 }
