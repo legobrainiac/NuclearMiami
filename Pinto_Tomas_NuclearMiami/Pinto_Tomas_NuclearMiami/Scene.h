@@ -77,6 +77,7 @@ public:
 	
 	// Don't call this every frame pls
 	void ForceSort();
+	void ForceProcessAdditions() { ProcessAdditions();  }
 	
 	// Singleton impl
 	static Scene* Get();

@@ -192,7 +192,7 @@ void Scene::ProcessAdditions()
 		for(GameObject* pGo : m_AddBuffer.buffer)
 		{
 			m_pScene.push_back(pGo);
-			LDEBUG("GameObject added... " + std::to_string(m_pScene.size()));
+			LDEBUG("GameObject( " + std::string(typeid(*pGo).name()) + " ) added... " + std::to_string(m_pScene.size()));
 		}
 		
 		auto sort = [](GameObject* pLeft, GameObject* pRight) 
@@ -241,14 +241,14 @@ void Scene::ProcessDeletions()
 			{
 				if(pGo == m_pScene[i])
 				{
+					LDEBUG("GameObject( " + std::string(typeid(*pGo).name()) + " ) Deleted... " + std::to_string(m_pScene.size()));
+					
 					GameObject* last = m_pScene.back();
 					m_pScene[m_pScene.size() - 1] = m_pScene[i];
 					m_pScene[i] = last;
 					
 					delete pGo;
-					m_pScene.pop_back();
-					
-					LDEBUG("GameObject Deleted... " + std::to_string(m_pScene.size()));
+					m_pScene.pop_back();	
 				}
 			}
 		}
@@ -272,7 +272,7 @@ void Scene::ProcessRemovals()
 					m_pScene[i] = pLast;
 					m_pScene.pop_back();
 					
-					LDEBUG("GameObject Removed... " + std::to_string(m_pScene.size()));
+					LDEBUG("GameObject( " + std::string(typeid(*pGo).name()) + " ) Removed... " + std::to_string(m_pScene.size()));
 				}
 			}
 		}

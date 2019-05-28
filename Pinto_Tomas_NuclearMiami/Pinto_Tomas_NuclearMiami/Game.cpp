@@ -67,9 +67,8 @@ void Game::Initialize()
 	float elapsedSeconds = std::chrono::duration<float>(t2 - t1).count();
 	LOG("Startup took: " << elapsedSeconds << " seconds...");
 	
-	// Because if, for some fucking reason, I don't call this i get a memory leak if i close the game without pressing start
-	m_pScene->Update(0.f);
-	
+	// Since the scene doesn't get updated until the player starts, if they were to close the game without starting it would create a big memory leak
+	m_pScene->ForceProcessAdditions();
 	
 	TUiContainer* pDeathScreen = TUiManager::Get()->GetComponent<TUiContainer>("deathScreen");
 	if (pDeathScreen)
@@ -82,6 +81,7 @@ void Game::Cleanup()
 	delete TUiManager::Get();
 	delete ResourceManager::Get();
 	delete Scene::Get();
+	delete DebugLogger::Get();
 
 	// Normal memory cleanup
 	delete m_pCamera;
@@ -227,7 +227,6 @@ void Game::Draw() const
 	glTranslatef(m_MousePosition.x, m_MousePosition.y, 0.f);
 	ResourceManager::Get()->GetTextRenderer("munro")->DrawString("+", Vector2f { -10.f, -17.f }, textConfig);
 	glPopMatrix();
-	
 }
 
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent & e)
