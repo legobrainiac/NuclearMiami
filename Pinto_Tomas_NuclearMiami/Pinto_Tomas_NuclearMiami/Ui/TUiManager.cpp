@@ -272,6 +272,25 @@ TUiManager::~TUiManager()
 	Reset();
 }
 
+// TODO(tomas): change this to use use ' instead of "
+// Meant for simple adding of objects
+void TUiManager::ExecuteOneLiner(const std::string& script)
+{
+	for (const TokenPair& token : m_TokenMap)
+	{
+		size_t i = script.find(token.first);
+		
+		if (i != -1)
+		{
+			std::ifstream stream(script.c_str());
+			
+			LOG("Token [ " << token.first << "(... ] found for INTERNAL" << std::endl);
+			TUiNode* pNode = m_TokenMap[token.first](stream, script);
+			m_pRootNodes.push_back(pNode);
+		}
+	}
+}
+
 void TUiManager::LoadUiDescriptor(std::string resourceLocation)
 {
 	std::ifstream	stream(resourceLocation);

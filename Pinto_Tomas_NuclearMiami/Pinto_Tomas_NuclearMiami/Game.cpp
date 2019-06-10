@@ -73,6 +73,10 @@ void Game::Initialize()
 	TUiContainer* pDeathScreen = TUiManager::Get()->GetComponent<TUiContainer>("deathScreen");
 	if (pDeathScreen)
 		pDeathScreen->FadeActive(false);
+	
+	TUiContainer* pEndScreen = TUiManager::Get()->GetComponent<TUiContainer>("endScreen");
+	if (pEndScreen)
+		pEndScreen->FadeActive(false);
 }
 
 void Game::Cleanup()

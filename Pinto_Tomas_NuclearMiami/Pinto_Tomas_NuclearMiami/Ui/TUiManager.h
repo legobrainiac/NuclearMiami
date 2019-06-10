@@ -34,6 +34,7 @@ public:
 	static void Reset();
     
 	void LoadUiDescriptor(std::string resourceLocation);
+	void ExecuteOneLiner(const std::string& script);
     
 	void Update(float dt, Point2f mousePos);
 	void Draw(const Window& window);
