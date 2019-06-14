@@ -54,3 +54,4 @@ void Camera::Transform(Point2f camPosition)
 	glTranslatef(-camPosition.x, -camPosition.y, 0.f);
 }
 
+

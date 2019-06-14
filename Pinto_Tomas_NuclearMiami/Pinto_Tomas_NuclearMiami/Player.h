@@ -22,9 +22,9 @@ public:
 	
 	void Update(float dt) override;
 	void Draw() const override;
-	void DrawHUD() const;
 	
-	// Pickup helpers, NOTE(tomas): this will be gone once we re-implement pickups.
+	void ToggleGodMode() { m_IsGod = !m_IsGod; };
+	
 	bool HasEmptySlot() const override;
 	bool ProcessPickUp(PickUp* pPickUp) override;
 	
@@ -47,6 +47,7 @@ private:
 	
 	int m_Health;
 	float m_Timer;
+	bool m_IsGod;
 
 	Vector2f m_WeaponPivot;
 	

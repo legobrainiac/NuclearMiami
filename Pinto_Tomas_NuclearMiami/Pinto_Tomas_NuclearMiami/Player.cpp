@@ -20,14 +20,15 @@ Player::Player(const Vector2f& position, const Vector2f& scale, float rotation)
 , m_pTorsoSprite(new Sprite("charTorsoAnimated", 10, 1, 0.04f))
 , m_Timer(0.f)
 , m_Health(100)
-, m_WeaponPivot {5.f, 0.f}
+, m_WeaponPivot { 5.f, 0.f }
+, m_IsGod(false)
 {
-	m_VertexCollider.push_back(Point2f {-10.f, -5.f});
-	m_VertexCollider.push_back(Point2f {-10.f, 5.f});
-	m_VertexCollider.push_back(Point2f {10.f, 5.f});
-	m_VertexCollider.push_back(Point2f {10.f, -5.f});
+	m_VertexCollider.push_back(Point2f { -10.f, -5.f });
+	m_VertexCollider.push_back(Point2f { -10.f, 5.f });
+	m_VertexCollider.push_back(Point2f { 10.f, 5.f });
+	m_VertexCollider.push_back(Point2f { 10.f, -5.f });
 	
-	m_Scale = Vector2f{1.25f, 1.25f};
+	m_Scale = Vector2f{ 1.25f, 1.25f };
 }
 
 Player::~Player()
@@ -41,17 +42,16 @@ Player::~Player()
 
 void Player::DrawBottom() const
 {
-	// TODO(tomas): get actual movement speed so this doesnt look goofy af
 	if(m_Accelleration.Length() < 50.f) return;
-	
+	 
 	glPushMatrix();
 	glTranslatef(m_Position.x, m_Position.y, m_ZLayer);
 	glScalef(m_Scale.x, m_Scale.y, 0.f);
 	
-	float angle = -(m_Accelleration.AngleWith(Vector2f{0.f, 1.f}) * 180 / PI);
+	float angle = -(m_Accelleration.AngleWith(Vector2f{ 0.f, 1.f }) * 180 / PI);
 	glRotatef(angle, 0.f, 0.f, 1.f);
 	
-	m_pLegsSprite->Draw(Point2f{-(m_pLegsSprite->GetFrameWidth() / 2), -(m_pLegsSprite->GetFrameHeight() / 2)}, 1.f);
+	m_pLegsSprite->Draw(Point2f{ -(m_pLegsSprite->GetFrameWidth() / 2), -(m_pLegsSprite->GetFrameHeight() / 2) }, 1.f);
 	glPopMatrix();
 }
 
@@ -66,7 +66,7 @@ void Player::DrawTop() const
 	if(m_wWeapons.size() > 0|| m_Accelleration.Length() < 50.f)
 		m_pWeaponHoldTexture->Draw(Point2f{-(m_pWeaponHoldTexture->GetWidth() / 2), -(m_pWeaponHoldTexture->GetHeight() / 2)});
 	else
-		m_pTorsoSprite->Draw(Point2f{-(m_pTorsoSprite->GetFrameWidth() / 2), -(m_pTorsoSprite->GetFrameHeight() / 2)}, 1.f);
+		m_pTorsoSprite->Draw(Point2f{ -(m_pTorsoSprite->GetFrameWidth() / 2), -(m_pTorsoSprite->GetFrameHeight() / 2) }, 1.f);
 	
 	DrawWeapon();
 	
@@ -116,10 +116,6 @@ void Player::Draw() const
 	glPopMatrix();
 }
 
-void Player::DrawHUD() const
-{
-}
-
 void Player::Update(float dt)
 {
 	if(IsDead()) return;
@@ -159,9 +155,7 @@ void Player::Update(float dt)
 		TUiManager::Get()->GetComponent<TUiDynamicLabel>("HUD.ammo")->SetText(std::to_string(m_wWeapons[0]->GetAmmo()));
 	}
 	else
-	{
 		TUiManager::Get()->GetComponent<TUiDynamicLabel>("HUD.ammo")->SetActive(false);
-	}
 	
 	// Base Update
 	GameObject::Update(dt);
@@ -172,7 +166,6 @@ void Player::Update(float dt)
 		m_pScene->GetMainCamera()->SetScale(3);
 }
 
-// NOTETODO(tomas): for now this is kept at two since i dont have a way of switching weapons :), do this later
 bool Player::HasEmptySlot() const
 {
 	return (m_wWeapons.size() < 1);
@@ -182,7 +175,7 @@ bool Player::ProcessPickUp(PickUp* pickUp)
 {
 	// Test if is health pickup
 	HealthPickup* pHp = dynamic_cast<HealthPickup*>(pickUp);
-	if(pHp !=  nullptr)
+	if(pHp != nullptr)
 	{
 		m_Health += pHp->GetHealthGain();
 		return true;
@@ -204,7 +197,7 @@ bool Player::ProcessPickUp(PickUp* pickUp)
 
 void Player::SendMessage(MessageType message, int value)
 {
-	if(message == MessageType::dammage && m_Health > 0)
+	if(message == MessageType::dammage && m_Health > 0 && !m_IsGod)
 	{
 		LDEBUG("Player took " + std::to_string(value) + " dammage...")
 		

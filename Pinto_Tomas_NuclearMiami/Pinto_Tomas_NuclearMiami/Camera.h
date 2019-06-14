@@ -25,6 +25,8 @@ private:
 	
 	Window* m_pWindow;
 	Point2f* m_pMousePos;
+	
+	Vector2f m_CameraShake;
 };
 
 #endif //!CAMERA_H

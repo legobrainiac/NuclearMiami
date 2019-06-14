@@ -1,0 +1,43 @@
+TButton(id="infoButton", sizeX="0.05", sizeY="0.1", posX="0.9", posY="0.05", text="<>", texture="Resources/Images/button.png", clickSound="Resources/Audio/click.wav", hoverSound="Resources/Audio/hover.wav")
+
+TContainer(id="menu", sizeX="0.8", sizeY="0.8", posX="0.1", posY="0.1", title="Main Menu", drawOutline="0", startHidden="0")
+TButton(id="startGame", sizeX="0.2", sizeY="0.1", posX="0.4", posY="0.5", text="", texture="Resources/Images/startButton.png", clickSound="Resources/Audio/click.wav", hoverSound="Resources/Audio/hover.wav")
+TButton(id="settingsButton", sizeX="0.2", sizeY="0.1", posX="0.4", posY="0.35", text="", texture="Resources/Images/settingsButton.png", clickSound="Resources/Audio/click.wav", hoverSound="Resources/Audio/hover.wav")
+TButton(id="exitGame", sizeX="0.2", sizeY="0.1", posX="0.4", posY="0.20", text="", texture="Resources/Images/exitButton.png", clickSound="Resources/Audio/click.wav", hoverSound="Resources/Audio/hover.wav")
+TLabel(id="", sizeX="0.7", sizeY="0.3", posX="0.15", posY="0.75", ptSize="100", text="Nuclear Miami")
+TEndContainer()
+
+TContainer(id="settings", sizeX="0.8", sizeY="0.8", posX="0.1", posY="0.1", title="Settings", drawOutline="0", startHidden="1")
+TLabel(id="", sizeX="0.3", sizeY="0.15", posX="0", posY="0.85", ptSize="100", text="Settings: ")
+TButton(id="fullscreenToggle", sizeX="0.2", sizeY="0.1", posX="0.4", posY="0.80", text="Toggle FullScreen", texture="Resources/Images/button.png", clickSound="Resources/Audio/click.wav", hoverSound="Resources/Audio/hover.wav")
+TButton(id="vsyncToggle", sizeX="0.2", sizeY="0.1", posX="0.4", posY="0.65", text="Toggle Vsync", texture="Resources/Images/button.png", clickSound="Resources/Audio/click.wav", hoverSound="Resources/Audio/hover.wav")
+TButton(id="goDebug", sizeX="0.2", sizeY="0.1", posX="0.15", posY="0.65", text="Toggle Debug", texture="Resources/Images/button.png", clickSound="Resources/Audio/click.wav", hoverSound="Resources/Audio/hover.wav")
+TButton(id="toggleGodMode", text="Toggle God Mode", sizeX="0.2", sizeY="0.1", posX="0.65", posY="0.65", texture="Resources/Images/button.png", clickSound="Resources/Audio/click.wav", hoverSound="Resources/Audio/hover.wav")
+TEndContainer()
+
+TContainer(id="charSelection", sizeX="0.8", sizeY="0.8", posX="0.1", posY="0.1", title="Character Selection", drawOutline="0", startHidden="1")
+TButton(id="next", sizeX="0.2", sizeY="0.1", posX="0.4", posY="0.20", text=">", texture="Resources/Images/button.png", clickSound="Resources/Audio/click.wav", hoverSound="Resources/Audio/hover.wav")
+TEndContainer()
+
+TContainer(id="deathScreen", sizeX="0.8", sizeY="0.8", posX="0.1", posY="0.1", title="Character Selection", drawOutline="0", startHidden="1")
+TLabel(id="", sizeX="1", sizeY="0.3", posX="0", posY="0.5", ptSize="500", text="YOU DIED")
+TLabel(id="", sizeX="1", sizeY="0.3", posX="0", posY="0.2", ptSize="500", text="Game will reload in 5 seconds...")
+TEndContainer()
+
+TContainer(id="endScreen", sizeX="0.8", sizeY="0.8", posX="0.1", posY="0.1", title="Character Selection", drawOutline="0", startHidden="1")
+TLabel(id="", sizeX="1", sizeY="0.3", posX="0", posY="0.5", ptSize="500", text="YOU WON!")
+TLabel(id="", sizeX="1", sizeY="0.3", posX="0", posY="0.2", ptSize="500", text="Game will reload in 5 seconds...")
+TEndContainer()
+
+TContainer(id="info", sizeX="0.4", sizeY="0.4", posX="0.35", posY="0.3", title="Controls!", drawOutline="0", startHidden="1")
+TLabel(id="", sizeX="0.8", sizeY="0.3", posX="0.0", posY="0.8", ptSize="100", text="Controls: ")
+TLabel(id="", sizeX="0.4", sizeY="0.15", posX="0.0", posY="0.65", ptSize="100", text="WASD to jump")
+TLabel(id="", sizeX="0.7", sizeY="0.15", posX="0.0", posY="0.5", ptSize="100", text="Mouse movement to aim")
+TLabel(id="", sizeX="0.8", sizeY="0.15", posX="0.0", posY="0.35", ptSize="100", text="Mouse 1 to shoot primary")
+TLabel(id="", sizeX="0.8", sizeY="0.15", posX="0.0", posY="0.2", ptSize="100", text="Q to drop weapons")
+TEndContainer()
+
+TContainer(id="HUD", sizeX="1", sizeY="1", posX="0", posY="0", title="", drawOutline="0", startHidden="1")
+	TDynamicLabel(id="health", sizeX="2", sizeY="2", posX="10", posY="10", prefix="Health: ")
+	TDynamicLabel(id="ammo", sizeX="2", sizeY="2", posX="10", posY="40", prefix="Ammo: ")
+TEndContainer()

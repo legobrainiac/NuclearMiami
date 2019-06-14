@@ -35,8 +35,6 @@ void NextLevelPad::Update(float dt)
 	Player* pPlayer = Scene::Get()->GetPlayer();
 	
 	if(pPlayer)
-	{
 		if(pPlayer->GetPosition().ToPoint2f().DistanceTo(m_Position.ToPoint2f()) < m_Range && AiAgent::GetAiInstanceCount() <= 0) 
 			Scene::Get()->Load(m_Level, pPlayer);
-	}
 }

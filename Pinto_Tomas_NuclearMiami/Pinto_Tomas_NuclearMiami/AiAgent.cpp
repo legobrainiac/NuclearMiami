@@ -22,10 +22,12 @@ AiAgent::AiAgent(const Vector2f& position, const Vector2f& scale, float rotation
 	m_Friction = 10.f;
 	m_MaxAcceleration = 100.f;
 	
-	m_VertexCollider.push_back(Point2f {-10.f, -5.f});
-	m_VertexCollider.push_back(Point2f {-10.f, 5.f});
-	m_VertexCollider.push_back(Point2f {10.f, 5.f});
-	m_VertexCollider.push_back(Point2f {10.f, -5.f});
+	m_WanderRotation = m_Rotation;
+	
+	m_VertexCollider.push_back(Point2f { -10.f, -5.f });
+	m_VertexCollider.push_back(Point2f { -10.f, 5.f });
+	m_VertexCollider.push_back(Point2f { 10.f, 5.f });
+	m_VertexCollider.push_back(Point2f { 10.f, -5.f });
 	
 	m_AiInstanceCounter++;
 }
@@ -105,8 +107,6 @@ void AiAgent::DrawWeapon() const
 	glColor4f(1.f, 1.f, 0.f, 1.f);
 	
 	glPushMatrix();
-	
-	// m_Weapons[m_SelectedSlot]->Draw();
 	
 	if(m_pWeapons.size() > 0)
 		m_pWeapons[0]->Draw();
@@ -200,6 +200,7 @@ bool AiAgent::InSight(utils::HitInfo& hitOut, Point2f tail, Point2f head)
 
 void AiAgent::Ai(float dt)
 {
+	bool foundTarget = false;
 	utils::HitInfo hit;
 
 	Vector2f ray{ m_Position.ToPoint2f(), m_pTarget->GetPosition().ToPoint2f() };
@@ -213,6 +214,8 @@ void AiAgent::Ai(float dt)
 				ApplyForce(ray.Normalized() * m_MovementSpeed);
 
 			Shoot(ray.Normalized());
+		
+			foundTarget = true;
 		}
 		else // If target not in sight, attempt bounce path-find
 		{
@@ -235,10 +238,30 @@ void AiAgent::Ai(float dt)
 					Vector2f direction{ m_Position.ToPoint2f(), Point2f{ tX, tY } };
 
 					ApplyForce(direction.Normalized() * m_MovementSpeed);
+					
+					foundTarget = true;
 				}
 			}
 		}
 	}
+	
+	if(!foundTarget) Wander(dt);
+}
+
+void AiAgent::Wander(float dt)
+{
+	m_WanderTimer += dt;
+	
+	Vector2f direction {};
+	
+	if(m_WanderTimer > 1.f)
+	{
+		m_WanderTimer -= m_WanderTimer;
+		m_WanderRotation += utils::RandInterval(-180, 180.f);
+	}
+	
+	direction = { cos(m_WanderRotation * PI / 180.f), sin(m_WanderRotation * PI / 180.f)};	
+	ApplyForce(direction * m_MovementSpeed / 32.f);
 }
 
 void AiAgent::Shoot(const Vector2f& direction)

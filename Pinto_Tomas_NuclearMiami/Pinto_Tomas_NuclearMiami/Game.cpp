@@ -1,8 +1,8 @@
 #include "pch.h"
 
+#include "Ui/TUiContainer.h"
 #include "Ui/TUiManager.h"
 #include "Ui/TUiButton.h"
-#include "Ui/TUiContainer.h"
 
 #include "Matrix2x3.h"
 #include "AiAgent.h"
@@ -21,14 +21,12 @@ Game::~Game()
 	Cleanup();
 }
 
-// TODO(tomas): different enemies
-// TODO(tomas): ui slider, ui tick box
+// TODO(tomas): Boss fight
+// TODO(tomas): Melee attack
+// TODO(tomas): one more enemie for level two
 // TODO(tomas): more custom AI :D
-// TODO(tomas): export button for save files?
-// TODO(tomas): level editor button in main menu that leads to a existing scene selector for editing or a new scene creator
-// TODO(tomas): Turret ples
 // TODO(tomas): upercase lambdas
-// TODO(tomas): add option to shoot with arrow keys
+// TODO(tomas): instead of having a song for menu and one for playing, each scene can have their own music
 void Game::Initialize()
 {
 	// Startup timer
@@ -82,10 +80,10 @@ void Game::Initialize()
 void Game::Cleanup()
 {
 	// Singleton memory cleanup
-	delete TUiManager::Get();
-	delete ResourceManager::Get();
 	delete Scene::Get();
 	delete DebugLogger::Get();
+	delete TUiManager::Get();
+	delete ResourceManager::Get();
 
 	// Normal memory cleanup
 	delete m_pCamera;
@@ -204,11 +202,6 @@ void Game::Draw() const
 	m_pScene->Draw();
 	
 	// ENDDRAW
-	glPopMatrix();
-	
-	glPushMatrix();
-	glScalef(2.f, 2.f, 1.f);
-	Scene::Get()->GetPlayer()->DrawHUD();
 	glPopMatrix();
 
 	// Draw Ui
@@ -411,6 +404,10 @@ void Game::UiCallbackSetUp()
 	TUiButton* pToggleDebug = TUiManager::Get()->GetComponent<TUiButton>("settings.goDebug");
 	if (pToggleDebug)
 		pToggleDebug->RegisterClickCallBack([&]() { GameObject::ToggleDebug(); });
+
+	TUiButton* pToggleGodMode = TUiManager::Get()->GetComponent<TUiButton>("settings.toggleGodMode");
+	if (pToggleGodMode)
+		pToggleGodMode->RegisterClickCallBack([&]() { m_pScene->GetPlayer()->ToggleGodMode(); });
 }
 
 void Game::ToggleInfo()

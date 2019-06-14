@@ -41,15 +41,19 @@ private:
 	float m_MaxDistance;
 	float m_MovementSpeed;
 	float m_Timer;
+	float m_WanderTimer;
 	int m_Health;
 	
 	std::string m_Name;
+	GameObject* m_pTarget;
 	Texture* m_pTorsoTexture;
 	Sprite* m_pLegsSprite;
-	GameObject* m_pTarget;
 	std::vector<Weapon*> m_pWeapons;
 	
+	float m_WanderRotation;
+	
 	void Ai(float dt);
+	void Wander(float dt);
 	void Shoot(const Vector2f& direction);
 	bool InSight(utils::HitInfo& hitOut, Point2f tail, Point2f head);
 	

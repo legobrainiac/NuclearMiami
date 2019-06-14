@@ -55,7 +55,5 @@ Texture* TextRenderer::GetChar(char c) const
 TextRenderer::~TextRenderer()
 {
 	for(char c = 0; c < 127; c++)
-	{
 		delete m_pCharTex[int(c)];
-	}
 }

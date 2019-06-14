@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "HealthPickup.h"
+#include "HitMarker.h"
 
 HealthPickup::HealthPickup(const Vector2f& position, const Vector2f& scale, float rotation, int healthGain)
 : PickUp(position, scale, rotation)
@@ -27,6 +28,9 @@ void HealthPickup::Draw() const
 
 int HealthPickup::GetHealthGain()
 { 
+	HitMarker* pHm = new HitMarker(m_Position, "+" + std::to_string(m_HealthGain));
+	m_pScene->Add(pHm);
+	
 	m_pScene->Delete(this); // Marks for deletion
 	return m_HealthGain; 
 }

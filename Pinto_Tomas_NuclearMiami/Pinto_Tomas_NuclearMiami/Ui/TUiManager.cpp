@@ -2,23 +2,24 @@
 
 #include "pch.h"
 
-#include "TUiManager.h"
-#include "TUiNode.h"
+#include "TUiDynamicLabel.h"
 #include "TUiContainer.h"
-#include "TUiLabel.h"
+#include "TUiManager.h"
 #include "TUiButton.h"
 #include "TUiUtils.h"
-#include "TUiDynamicLabel.h"
+#include "TUiLabel.h"
+#include "TUiNode.h"
 
 #include "..\ResourceManager.h"
 #include "..\Scene.h"
 
-#include "..\Player.h"
-#include "..\AiAgent.h"
-#include "..\Weapon.h"
 #include "..\RocketLauncher.h"
-#include "..\NextLevelPad.h"
 #include "..\HealthPickup.h"
+#include "..\NextLevelPad.h"
+#include "..\BossFight.h"
+#include "..\AiAgent.h"
+#include "..\Player.h"
+#include "..\Weapon.h"
 
 #include <sstream>
 #include <deque>
@@ -257,10 +258,27 @@ TUiManager::TUiManager()
 		return new TUiEmpty();
 	};
 	
+	m_TokenMap["TBossFight"] = [](std::ifstream& descriptorStream, std::string resource)
+	{
+		float x = std::stof(utils::GetParameterValue("posx", resource));
+		float y = std::stof(utils::GetParameterValue("posy", resource));
+		
+		Scene::Get()->Add(new BossFight(Vector2f { x,y }, Vector2f { 1.f, 1.f }, 0.f));	
+		return new TUiEmpty();
+	};
+	
 	m_TokenMap["TName"] = [](std::ifstream& descriptorStream, std::string resource)
 	{
 		std::string name = utils::GetParameterValue("name", resource);
 		ResourceManager::Get()->AddName(name);
+		
+		return new TUiEmpty();
+	};
+	
+	m_TokenMap["TDebugMessage"] = [](std::ifstream& descriptorStream, std::string resource)
+	{
+		std::string text = utils::GetParameterValue("text", resource,"'"[0]);
+		LDEBUG(text);
 		
 		return new TUiEmpty();
 	};
@@ -272,8 +290,6 @@ TUiManager::~TUiManager()
 	Reset();
 }
 
-// TODO(tomas): change this to use use ' instead of "
-// Meant for simple adding of objects
 void TUiManager::ExecuteOneLiner(const std::string& script)
 {
 	for (const TokenPair& token : m_TokenMap)
@@ -293,12 +309,12 @@ void TUiManager::ExecuteOneLiner(const std::string& script)
 
 void TUiManager::LoadUiDescriptor(std::string resourceLocation)
 {
-	std::ifstream	stream(resourceLocation);
-	std::string		line;
-	TUiNode*		pNode = nullptr;
-	TUiContainer*	pOpenContainer = nullptr;
+	std::ifstream stream(resourceLocation);
+	TUiContainer* pOpenContainer = nullptr;
+	TUiNode* pNode = nullptr;
+	std::string line;
     
-	bool			isContainerOpen = false;
+	bool isContainerOpen = false;
     
 	while (!stream.eof())
 	{
@@ -332,8 +348,9 @@ void TUiManager::LoadUiDescriptor(std::string resourceLocation)
 					pNode->SetParent(static_cast<TUiNode*>(pOpenContainer));
 					pOpenContainer->GetChildren().push_back(pNode);
 				}
-				else // If no container is open, none container objects can become root nodes
+				else // If no container is open, no container objects can become root nodes
 					m_pRootNodes.push_back(pNode);
+				
 				break;
 			}
 		}

@@ -12,6 +12,7 @@ TLabel(id="titleLabel", sizeX="0.3", sizeY="0.15", posX="0", posY="0.85", ptSize
 TButton(id="fullscreenToggle", sizeX="0.2", sizeY="0.1", posX="0.4", posY="0.80", text="Toggle FullScreen", texture="Resources/Images/button.png", clickSound="Resources/Audio/click.wav", hoverSound="Resources/Audio/hover.wav")
 TButton(id="vsyncToggle", sizeX="0.2", sizeY="0.1", posX="0.4", posY="0.65", text="Toggle Vsync", texture="Resources/Images/button.png", clickSound="Resources/Audio/click.wav", hoverSound="Resources/Audio/hover.wav")
 TButton(id="goDebug", sizeX="0.2", sizeY="0.1", posX="0.15", posY="0.65", text="Toggle Debug", texture="Resources/Images/button.png", clickSound="Resources/Audio/click.wav", hoverSound="Resources/Audio/hover.wav")
+TButton(id="soundToggle", sizeX="0.2", sizeY="0.1", posX="0.65", posY="0.65", text="Toggle Soound", texture="Resources/Images/button.png", clickSound="Resources/Audio/click.wav", hoverSound="Resources/Audio/hover.wav")
 TEndContainer()
 
 TContainer(id="charSelection", sizeX="0.8", sizeY="0.8", posX="0.1", posY="0.1", title="Character Selection", drawOutline="0", startHidden="1")

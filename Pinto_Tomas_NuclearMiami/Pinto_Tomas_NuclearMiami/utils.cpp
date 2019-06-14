@@ -36,13 +36,13 @@ Rectf utils::GetScalar(const TUiNode& node, const Window& window)
 	return scalar;
 }
 
-std::string utils::GetParameterValue(std::string parameter, std::string descriptor)
+std::string utils::GetParameterValue(std::string parameter, std::string descriptor, char delimiter)
 {
 	size_t index = descriptor.find(parameter);
 	if (index != -1)
 	{
-		size_t qmarkStart = descriptor.find('"', index);
-		size_t qmarkEnd = descriptor.find('"', qmarkStart + 1);
+		size_t qmarkStart = descriptor.find(delimiter, index);
+		size_t qmarkEnd = descriptor.find(delimiter, qmarkStart + 1);
         
         if((qmarkEnd - qmarkStart) == 1) return std::string(" ");
         

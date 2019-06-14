@@ -154,6 +154,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AiAgent.h" />
+    <ClInclude Include="AmmoPickup.h" />
+    <ClInclude Include="BossFight.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="DebugLogger.h" />
@@ -181,6 +183,7 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="TextureObject.h" />
+    <ClInclude Include="Turret.h" />
     <ClInclude Include="Ui\TUiDynamicLabel.h" />
     <ClInclude Include="Ui\TUiButton.h" />
     <ClInclude Include="Ui\TUiContainer.h" />
@@ -194,6 +197,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AiAgent.cpp" />
+    <ClCompile Include="AmmoPickup.cpp" />
+    <ClCompile Include="BossFight.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="DebugLogger.cpp" />
@@ -226,6 +231,7 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="TextureObject.cpp" />
+    <ClCompile Include="Turret.cpp" />
     <ClCompile Include="Ui\TUiDynamicLabel.cpp" />
     <ClCompile Include="Ui\TUiButton.cpp" />
     <ClCompile Include="Ui\TUiContainer.cpp" />

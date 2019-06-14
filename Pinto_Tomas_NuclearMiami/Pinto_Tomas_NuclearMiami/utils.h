@@ -29,7 +29,7 @@ namespace utils
 	float Clamp(float min, float max, float val);
 	int RandInterval(int min, int max);
 	
-	std::string GetParameterValue(std::string parameter, std::string descriptor);
+	std::string GetParameterValue(std::string parameter, std::string descriptor, char delimiter = '"');
 	Rectf		GetScalar(const TUiNode& node, const Window& window);
 	void		DrawRectLines(const Rectf& rect, float lineWidth);
 	
