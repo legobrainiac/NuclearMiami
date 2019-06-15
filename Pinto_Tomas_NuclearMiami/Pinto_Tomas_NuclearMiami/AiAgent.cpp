@@ -257,7 +257,7 @@ void AiAgent::Wander(float dt)
 	if(m_WanderTimer > 1.f)
 	{
 		m_WanderTimer -= m_WanderTimer;
-		m_WanderRotation += utils::RandInterval(-180, 180.f);
+		m_WanderRotation += utils::RandInterval(-180.f, 180.f);
 	}
 	
 	direction = { cos(m_WanderRotation * PI / 180.f), sin(m_WanderRotation * PI / 180.f)};	

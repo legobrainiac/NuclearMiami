@@ -3,6 +3,8 @@
 
 #include <deque>
 
+#define MAX_LOG_SIZE 30
+
 class DebugLogger
 {
 public:
@@ -18,6 +20,7 @@ public:
 	
 	void Draw() const;
 	void Log(const std::string& message);
+	void Clear() { m_Log.clear(); }
 	
 private:
 	DebugLogger();

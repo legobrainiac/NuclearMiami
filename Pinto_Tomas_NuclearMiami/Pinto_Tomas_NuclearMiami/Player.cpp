@@ -3,6 +3,7 @@
 
 #include "TextureObject.h"
 #include "HealthPickup.h"
+#include "AmmoPickup.h"
 #include "Projectile.h"
 #include "HitMarker.h"
 #include "AiAgent.h"
@@ -173,15 +174,26 @@ bool Player::HasEmptySlot() const
 
 bool Player::ProcessPickUp(PickUp* pickUp)
 {
-	// Test if is health pickup
-	HealthPickup* pHp = dynamic_cast<HealthPickup*>(pickUp);
-	if(pHp != nullptr)
+	// Test if it is a health pickup
+	if(HealthPickup* pHp = dynamic_cast<HealthPickup*>(pickUp))
 	{
 		m_Health += pHp->GetHealthGain();
 		return true;
 	}
 	
-	// Test if is weapon pickup
+	// Test if it is an ammo pickup
+	if(AmmoPickup* aP = dynamic_cast<AmmoPickup*>(pickUp))
+	{
+		if(m_wWeapons.size() > 0)
+		{
+			m_wWeapons[0]->AddAmmo(aP->GetAmmoGain());
+			return true;
+		}
+		
+		return false;
+	}
+	
+	// Test if it is a weapon pickup
 	Weapon* pPickUp = dynamic_cast<Weapon*>(pickUp);
 	if(pPickUp != nullptr && HasEmptySlot())
 	{

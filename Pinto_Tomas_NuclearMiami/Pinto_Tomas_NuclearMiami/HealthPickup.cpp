@@ -7,7 +7,7 @@ HealthPickup::HealthPickup(const Vector2f& position, const Vector2f& scale, floa
 , m_HealthGain(healthGain)
 , m_pTexture(ResourceManager::Get()->GetTexture("health"))
 {
-	
+	m_ZLayer = -9;
 }
 
 void HealthPickup::Draw() const

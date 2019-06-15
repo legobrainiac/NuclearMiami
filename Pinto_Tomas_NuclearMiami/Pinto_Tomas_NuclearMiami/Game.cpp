@@ -5,6 +5,7 @@
 #include "Ui/TUiButton.h"
 
 #include "Matrix2x3.h"
+#include "BossFight.h"
 #include "AiAgent.h"
 #include "Camera.h"
 #include "Player.h"
@@ -150,7 +151,7 @@ void Game::DoDeathScreen(float dt)
 
 void Game::DoEndScreen(float dt)
 {
-	if (AiAgent::GetAiInstanceCount() <= 0 && !Scene::Get()->GetPlayer()->IsDead() && m_ScreenState != ScreenState::mainMenu && Scene::GetLevel() == WIN_LEVEL)
+	if (AiAgent::GetAiInstanceCount() <= 0 && BossFight::GetBossFightCounter() <= 0 && !Scene::Get()->GetPlayer()->IsDead() && m_ScreenState != ScreenState::mainMenu && Scene::GetLevel() == WIN_LEVEL)
 	{
 		m_ScreenState = ScreenState::endScreen;
 		m_EndScreenTimer += dt;
@@ -257,6 +258,10 @@ void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 	case SDLK_x:
 		if(m_ScreenState != ScreenState::deathScreen && m_ScreenState != ScreenState::endScreen)
 			Scene::Get()->Reset();
+		break;
+		
+	case SDLK_BACKSPACE:
+		DebugLogger::Get()->Clear();
 		break;
 	}
 }

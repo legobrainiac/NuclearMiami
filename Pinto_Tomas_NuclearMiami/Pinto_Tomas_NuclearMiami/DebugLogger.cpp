@@ -15,7 +15,7 @@ DebugLogger::~DebugLogger()
 void DebugLogger::Log(const std::string& message)
 {
 	m_Log.push_back(message);
-	if(m_Log.size() > 35) m_Log.pop_front();
+	if(m_Log.size() > MAX_LOG_SIZE) m_Log.pop_front();
 }
 
 void DebugLogger::Draw() const

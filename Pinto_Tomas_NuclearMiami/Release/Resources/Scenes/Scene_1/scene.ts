@@ -1,12 +1,14 @@
 // Player and basic spawn pistol
 TPlayer(posx="150", posy="300", posz="0", rotation="0")
+TAmmoPickUp(posx="150", posy="320", posz="0", rotation="0")
 TPistol(posx="255", posy="400", posz="-2", rotation="-35")
-THealthPickUp(posx="143", posy="942")
 
 // Basic enemy clusters
 TEnemy(posx="420", posy="380", posz="-1", rotation="90")
 TPistol(posx="450", posy="400", posz="-2", rotation="197")
 TPistol(posx="430", posy="360", posz="-2", rotation="145")
+
+TAmmoPickUp(posx="470", posy="766")
 
 TEnemy(posx="710", posy="390", posz="-1", rotation="90")
 TPistol(posx="680", posy="380", posz="-2", rotation="56")
@@ -36,4 +38,4 @@ TRifle(posx="770", posy="70", posz="-2", rotation="13")
 TEnemy(posx="916", posy="846", posz="-1", rotation="90")
 TRifle(posx="916", posy="846", posz="-2", rotation="13")
 
-TNextLevelPad(posx="975", posy="965", range="30", level="2")
+TNextLevelPad(posx="975", posy="965", range="30", level="5")

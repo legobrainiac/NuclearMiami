@@ -16,6 +16,7 @@
 #include "..\RocketLauncher.h"
 #include "..\HealthPickup.h"
 #include "..\NextLevelPad.h"
+#include "..\AmmoPickup.h"
 #include "..\BossFight.h"
 #include "..\AiAgent.h"
 #include "..\Player.h"
@@ -254,7 +255,16 @@ TUiManager::TUiManager()
 		float x = std::stof(utils::GetParameterValue("posx", resource));
 		float y = std::stof(utils::GetParameterValue("posy", resource));
 		
-		Scene::Get()->Add(new HealthPickup(Vector2f { x,y }, Vector2f { 1.f, 1.f }, 0, 15));	
+		Scene::Get()->Add(new HealthPickup(Vector2f { x,y }, Vector2f { 1.f, 1.f }, 0, 25));	
+		return new TUiEmpty();
+	};
+	
+	m_TokenMap["TAmmoPickUp"] = [](std::ifstream& descriptorStream, std::string resource)
+	{
+		float x = std::stof(utils::GetParameterValue("posx", resource));
+		float y = std::stof(utils::GetParameterValue("posy", resource));
+		
+		Scene::Get()->Add(new AmmoPickup(Vector2f { x,y }, Vector2f { 1.f, 1.f }, 0, 15));	
 		return new TUiEmpty();
 	};
 	

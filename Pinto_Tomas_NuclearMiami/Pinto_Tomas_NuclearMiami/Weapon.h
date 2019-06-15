@@ -26,6 +26,7 @@ public:
 	void SetInWorld(bool val) override;
 	
 	virtual int GetAmmo() const { return m_AmmoCount; }
+	virtual void AddAmmo(int ammotCount) { m_AmmoCount += ammotCount; }
 	
 protected:
 	Texture* m_pTexture;

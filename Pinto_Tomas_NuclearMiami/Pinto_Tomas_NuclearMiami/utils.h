@@ -1,6 +1,5 @@
-#pragma once
-
-// TODO(tomas): think about this
+#ifndef UTILS_H
+#define UTILS_H
 
 #define PI 3.14159265359F
 #define LOG(T) std::cout << T << std::endl
@@ -25,6 +24,8 @@ namespace utils
 	{
 		return (start + percent * (end - start));
 	}
+	
+	float LerpDegrees(float a, float b, float lerpFactor);
 	
 	float Clamp(float min, float max, float val);
 	int RandInterval(int min, int max);
@@ -102,3 +103,4 @@ namespace utils
 	
 }
 
+#endif // !UTILS_H

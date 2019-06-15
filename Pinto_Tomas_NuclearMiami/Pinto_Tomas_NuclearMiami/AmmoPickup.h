@@ -7,8 +7,15 @@ class AmmoPickup :
 	public PickUp
 {
 public:
-	AmmoPickup(const Vector2f& position, const Vector2f& scale, float rotation);
+	AmmoPickup(const Vector2f& position, const Vector2f& scale, float rotation, int ammoGain);
 	~AmmoPickup();
+	
+	void Draw() const;
+	int GetAmmoGain();
+	
+private:
+	int m_AmmoGain;
+	Texture* m_pTexture;
 };
 
 #endif // !AMMO_PICKUP_H

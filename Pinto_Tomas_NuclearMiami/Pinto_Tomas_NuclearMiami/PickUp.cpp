@@ -13,6 +13,8 @@ PickUp::PickUp(const Vector2f& position, const Vector2f& scale, float rotation)
 	m_VertexCollider.push_back(Point2f {-10.f, 5.f});
 	m_VertexCollider.push_back(Point2f {10.f, 5.f});
 	m_VertexCollider.push_back(Point2f {10.f, -5.f});
+	
+	m_ZLayer = -10;
 }
 
 PickUp::~PickUp()
@@ -30,7 +32,7 @@ void PickUp::Update(float dt)
 			Point2f pos = m_Position.ToPoint2f();
 			Point2f goPos = pGo->GetPosition().ToPoint2f();
 			
-			if(pos.DistanceTo(goPos) < 20.f)		
+			if(pos.DistanceTo(goPos + Vector2f { 5.f, 5.f }) < 20.f)		
 			{
 				if(pGo->ProcessPickUp(this)) 
 					break;

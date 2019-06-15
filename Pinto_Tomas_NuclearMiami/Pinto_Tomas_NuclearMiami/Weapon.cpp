@@ -78,6 +78,8 @@ void Weapon::SetInWorld(bool val)
 
 void Weapon::Shoot(const Vector2f& position, const Vector2f& direction, float rofMod)
 {
+	int spreadAmnt = 6;
+	
 	if(m_Timer < (1.f / (m_RateOfFire / rofMod)) || m_InWorld) return;	
 	
 	if(m_AmmoCount <= 0 && m_Timer > (1.f / (m_RateOfFire / rofMod)))
@@ -88,9 +90,9 @@ void Weapon::Shoot(const Vector2f& position, const Vector2f& direction, float ro
 		
 		return;
 	}
-	
-	// this is test code
-	int spread = utils::RandInterval(-10, 10);
+
+	// Spread
+	int spread = utils::RandInterval(-spreadAmnt, spreadAmnt);
 	Matrix2x3 rot = Matrix2x3::CreateRotationMatrix(float(spread));
 	Vector2f d = rot.Transform(direction);
 	

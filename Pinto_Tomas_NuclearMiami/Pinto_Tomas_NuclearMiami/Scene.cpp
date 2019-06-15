@@ -11,7 +11,7 @@
 #include "Ui/TUiManager.h"
 
 Scene* Scene::m_psScene = nullptr;
-int Scene::m_sLevel = 1;
+int Scene::m_sLevel = 5;
 
 Scene* Scene::Get()
 {
