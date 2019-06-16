@@ -15,6 +15,9 @@ TPreloadTexture(path="Resources/Images/health.png", name="health")
 TPreloadTexture(path="Resources/Images/deadAi.png", name="deadAi")
 TPreloadTexture(path="Resources/Images/ammo.png", name="ammo")
 
+TPreloadTexture(path="Resources/Images/Boss/bossMain.png", name="bossMain")
+TPreloadTexture(path="Resources/Images/Boss/bossArm.png", name="bossArm")
+
 TPreloadTexture(path="Resources/Scenes/Scene_1/scene.png", name="scene_1")
 TPreloadTexture(path="Resources/Scenes/Scene_2/scene.png", name="scene_2")
 TPreloadTexture(path="Resources/Scenes/Scene_3/scene.png", name="scene_3")

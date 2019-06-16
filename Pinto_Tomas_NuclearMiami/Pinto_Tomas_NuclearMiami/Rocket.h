@@ -17,6 +17,7 @@ public:
 	
 private:
 	void DoHit();
+	bool InSight(Point2f tail, Point2f head);
 	
 	Texture* m_pTexture;
 	float m_Radius;

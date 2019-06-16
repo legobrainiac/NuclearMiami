@@ -42,13 +42,27 @@ void Rocket::DoHit()
 			
 			Vector2f dir { pos, otherPos };
 			
-			if(pos.DistanceTo(otherPos)  < m_Radius)
+			if(pos.DistanceTo(otherPos) < m_Radius && InSight(m_Position.ToPoint2f(), go->GetPosition().ToPoint2f()))
 			{
 				go->SendMessage(MessageType::dammage, m_Dammage);
 				go->ApplyForce(dir.Normalized() * 1000.f); // TODO(tomas): change this to correct direction
 			}
 		}
 	}
+}
+
+
+bool Rocket::InSight(Point2f tail, Point2f head)
+{
+	utils::HitInfo hit;
+	
+	for (std::vector<Point2f> collider : m_pScene->GetSceneCollider())
+	{
+		if (Raycast(collider, tail, head, hit))
+			return false;
+	}
+	
+	return true;
 }
 
 void Rocket::Collision(float dt) 
