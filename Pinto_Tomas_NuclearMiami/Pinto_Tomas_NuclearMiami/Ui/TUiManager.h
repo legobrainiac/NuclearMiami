@@ -1,7 +1,5 @@
 // Tomas Pinto - 2019
 
-// TODO(tomas): Convert everything from using the shitty calling system to using OpenGL matrices, this would in turn make it even easier to handle the child scaling stuff.
-
 #ifndef TUIMANAGER_H
 #define TUIMANAGER_H
 

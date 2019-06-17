@@ -1,8 +1,5 @@
 // Tomas Pinto - 2019
 
-// The idea would be a custom text renderer but for now, loading a texture like this is good enough
-// No color support for now
-
 #ifndef TUILABEL_H
 #define TUILABEL_H
 
