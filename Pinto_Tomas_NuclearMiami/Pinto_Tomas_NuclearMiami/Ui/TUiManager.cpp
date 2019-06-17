@@ -21,6 +21,7 @@
 #include "..\AiAgent.h"
 #include "..\Player.h"
 #include "..\Weapon.h"
+#include "..\Turret.h"
 
 #include <sstream>
 #include <deque>
@@ -196,6 +197,22 @@ TUiManager::TUiManager()
 		
 		return new TUiEmpty();
 	};
+	
+	
+	m_TokenMap["TTurret"] = [](std::ifstream& descriptorStream, std::string resource)
+	{
+		float x = std::stof(utils::GetParameterValue("posx", resource));
+		float y = std::stof(utils::GetParameterValue("posy", resource));
+		float z = std::stof(utils::GetParameterValue("posz", resource));
+		float r = std::stof(utils::GetParameterValue("rotation", resource));
+	
+		Turret* pTurret = new Turret(Vector2f { x, y }, Vector2f { 1.f, 1.f }, r);
+		pTurret->SetZLayer(z);
+		Scene::Get()->Add(pTurret);
+		
+		return new TUiEmpty();
+	};
+	
 	
 	m_TokenMap["TRifle"] = [](std::ifstream& descriptorStream, std::string resource)
 	{

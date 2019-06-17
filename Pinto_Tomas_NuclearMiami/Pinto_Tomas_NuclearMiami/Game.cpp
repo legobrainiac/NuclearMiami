@@ -96,7 +96,7 @@ void Game::Cleanup()
 
 	// Normal memory cleanup
 	delete m_pCamera;
-}
+} 
 
 void Game::Update(float dt)
 {

@@ -33,3 +33,7 @@ TNextLevelPad(posx="820", posy="877", range="30", level="4")
 
 TAmmoPickUp(posx="682", posy="513", posz="0", rotation="0")
 THealthPickUp(posx="843", posy="797")
+
+TTurret(posx="517", posy="567", posz="-1", rotation="45")
+TTurret(posx="641", posy="825", posz="-1", rotation="-45")
+TTurret(posx="200", posy="563", posz="-1", rotation="45")
