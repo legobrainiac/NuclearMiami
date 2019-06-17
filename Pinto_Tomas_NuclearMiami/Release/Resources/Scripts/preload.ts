@@ -22,7 +22,7 @@ TPreloadTexture(path="Resources/Scenes/Scene_1/scene.png", name="scene_1")
 TPreloadTexture(path="Resources/Scenes/Scene_2/scene.png", name="scene_2")
 TPreloadTexture(path="Resources/Scenes/Scene_3/scene.png", name="scene_3")
 TPreloadTexture(path="Resources/Scenes/Scene_4/scene.png", name="scene_4")
-TPreloadTexture(path="Resources/Scenes/Scene_5/scene.png", name="scene_5")
+TPreloadTexture(path="Resources/Scenes/Scene_99/scene.png", name="scene_99")
 
 TPreloadTextRenderer(path="Resources/Fonts/munro.ttf", name="munroDebug", color="2", alpha="0.5")
 TPreloadTextRenderer(path="Resources/Fonts/munro.ttf", name="munro", color="0", alpha="1.0")

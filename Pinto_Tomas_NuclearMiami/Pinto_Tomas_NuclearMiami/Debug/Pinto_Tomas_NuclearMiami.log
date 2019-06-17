@@ -1,34 +1,45 @@
-﻿  BossFight.cpp
-c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\bossfight.cpp(102): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\bossfight.cpp(102): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+﻿  pch.cpp
+  AiAgent.cpp
+  AmmoPickup.cpp
+  BossFight.cpp
+  Camera.cpp
+  Core.cpp
+  DebugLogger.cpp
+  Explosion.cpp
   Game.cpp
-c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(128): error C2601: 'Game::DoDeathScreen': local function definitions are illegal
-  c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(94): note: this line contains a '{' which has not yet been matched
-c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(160): error C2601: 'Game::DoEndScreen': local function definitions are illegal
-  c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(94): note: this line contains a '{' which has not yet been matched
-c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(192): error C2601: 'Game::Draw': local function definitions are illegal
-  c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(94): note: this line contains a '{' which has not yet been matched
-c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(238): error C2601: 'Game::ProcessKeyDownEvent': local function definitions are illegal
-  c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(94): note: this line contains a '{' which has not yet been matched
-c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(243): error C2601: 'Game::ProcessKeyUpEvent': local function definitions are illegal
-  c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(94): note: this line contains a '{' which has not yet been matched
-c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(277): error C2601: 'Game::ProcessMouseMotionEvent': local function definitions are illegal
-  c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(94): note: this line contains a '{' which has not yet been matched
-c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(282): error C2601: 'Game::ProcessMouseDownEvent': local function definitions are illegal
-  c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(94): note: this line contains a '{' which has not yet been matched
-c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(286): error C2601: 'Game::ProcessMouseUpEvent': local function definitions are illegal
-  c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(94): note: this line contains a '{' which has not yet been matched
-c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(290): error C2601: 'Game::ClearBackground': local function definitions are illegal
-  c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(94): note: this line contains a '{' which has not yet been matched
-c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(298): error C2601: 'Game::StartGame': local function definitions are illegal
-  c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(94): note: this line contains a '{' which has not yet been matched
-c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(305): error C2601: 'Game::UnloadGame': local function definitions are illegal
-  c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(94): note: this line contains a '{' which has not yet been matched
-c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(312): error C2601: 'Game::UiCallbackSetUp': local function definitions are illegal
-  c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(94): note: this line contains a '{' which has not yet been matched
-c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(426): error C2601: 'Game::ToggleInfo': local function definitions are illegal
-  c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(94): note: this line contains a '{' which has not yet been matched
-c:\repositories\1dae_prog_final\pinto_tomas_nuclearmiami\pinto_tomas_nuclearmiami\game.cpp(94): fatal error C1075: '{': no matching token found
+  GameObject.cpp
+  HealthPickup.cpp
+  HitMarker.cpp
+  main.cpp
+  Matrix2x3.cpp
+  NextLevelPad.cpp
+  PickUp.cpp
+  Player.cpp
+  Projectile.cpp
+  Rocket.cpp
+  RocketLauncher.cpp
   Scene.cpp
-  TUiManager.cpp
   Generating Code...
+  Compiling...
+  SoundEffect.cpp
+  SoundStream.cpp
+  Sprite.cpp
+  structs.cpp
+  SVGParser.cpp
+  TextRenderer.cpp
+  Texture.cpp
+  ResourceManager.cpp
+  TextureObject.cpp
+  Turret.cpp
+  TUiDynamicLabel.cpp
+  TUiButton.cpp
+  TUiContainer.cpp
+  TUiLabel.cpp
+  TUiManager.cpp
+  TUiNode.cpp
+  utils.cpp
+  Vector2f.cpp
+  Weapon.cpp
+  Generating Code...
+     Creating library C:\Repositories\1DAE_PROG_FINAL\Pinto_Tomas_NuclearMiami\Debug\Pinto_Tomas_NuclearMiami.lib and object C:\Repositories\1DAE_PROG_FINAL\Pinto_Tomas_NuclearMiami\Debug\Pinto_Tomas_NuclearMiami.exp
+  Pinto_Tomas_NuclearMiami.vcxproj -> C:\Repositories\1DAE_PROG_FINAL\Pinto_Tomas_NuclearMiami\Debug\Pinto_Tomas_NuclearMiami.exe
