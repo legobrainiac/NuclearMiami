@@ -76,6 +76,14 @@ void Game::Initialize()
 	TUiContainer* pEndScreen = TUiManager::Get()->GetComponent<TUiContainer>("endScreen");
 	if (pEndScreen)
 		pEndScreen->FadeActive(false);
+	
+	TUiContainer* pSettingsScreen = TUiManager::Get()->GetComponent<TUiContainer>("settings");
+	if (pSettingsScreen)
+		pSettingsScreen->FadeActive(false);
+	
+	TUiContainer* pInfoScreen = TUiManager::Get()->GetComponent<TUiContainer>("info");
+	if (pInfoScreen)
+		pInfoScreen->FadeActive(false);
 }
 
 void Game::Cleanup()
@@ -93,7 +101,6 @@ void Game::Cleanup()
 void Game::Update(float dt)
 {
 	m_FrameTime = dt;
-	m_ElapsedTime += dt;
 	
 	DoDeathScreen(dt);
 	DoEndScreen(dt);
@@ -114,9 +121,14 @@ void Game::Update(float dt)
 
 	// Don't update if the game is paused, ui still gets updated
 	if (m_ScreenState != ScreenState::paused &&  m_ScreenState != ScreenState::mainMenu)
+	{
 		m_pScene->Update(dt);
-}
 
+		if(!pPlayer->IsDead() && m_ScreenState != ScreenState::endScreen)
+			m_ElapsedTime += dt;
+	}
+}
+	
 void Game::DoDeathScreen(float dt)
 {
 	if (Scene::Get()->GetPlayer()->IsDead() && m_ScreenState != ScreenState::mainMenu)
@@ -146,6 +158,8 @@ void Game::DoDeathScreen(float dt)
 		TUiButton* pInfoButton = TUiManager::Get()->GetComponent<TUiButton>("infoButton");
 		if (pInfoButton)
 			pInfoButton->SetActive(true);
+		
+		m_ElapsedTime = 0.f;
 	}
 }
 
@@ -165,7 +179,7 @@ void Game::DoEndScreen(float dt)
 			pInfoButton->SetActive(false);
 	}
 
-	if (m_EndScreenTimer > 5.f && m_ScreenState == ScreenState::endScreen)
+	if (m_EndScreenTimer > 10.f && m_ScreenState == ScreenState::endScreen)
 	{
 		Scene::Get()->Reset();
 		m_ScreenState = ScreenState::playing;
@@ -178,6 +192,8 @@ void Game::DoEndScreen(float dt)
 		TUiButton* pInfoButton = TUiManager::Get()->GetComponent<TUiButton>("infoButton");
 		if (pInfoButton)
 			pInfoButton->SetActive(true);
+		
+		m_ElapsedTime = 0.f;
 	}
 }
 
@@ -225,6 +241,10 @@ void Game::Draw() const
 	glTranslatef(m_MousePosition.x, m_MousePosition.y, 0.f);
 	ResourceManager::Get()->GetTextRenderer("munro")->DrawString("+", Vector2f { -10.f, -17.f }, textConfig);
 	glPopMatrix();
+
+	// Draw timer
+	if(m_ScreenState != ScreenState::mainMenu)
+		ResourceManager::Get()->GetTextRenderer("munro")->DrawString("Time: " + std::to_string(m_ElapsedTime), Vector2f { 10.f, 320.f }, textConfig);
 }
 
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent & e)
@@ -257,7 +277,11 @@ void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 
 	case SDLK_x:
 		if(m_ScreenState != ScreenState::deathScreen && m_ScreenState != ScreenState::endScreen)
+		{
 			Scene::Get()->Reset();
+			m_ElapsedTime = 0.f;
+		}
+		
 		break;
 		
 	case SDLK_BACKSPACE:
@@ -417,9 +441,7 @@ void Game::UiCallbackSetUp()
 
 void Game::ToggleInfo()
 {
-	std::cout << "Controls: WASD to move, mouse to aim and shoot. Items are picked up automatically if there is an empty weapon slot." << std::endl;
-
-	if (m_ScreenState != ScreenState::mainMenu) return;
+	std::cout << "Controls: WASD to move, mouse to aim and shoot, Q to drop weapons. Items are picked up automatically if there is an empty weapon slot." << std::endl;
 
 	TUiContainer* pInfo = TUiManager::Get()->GetComponent<TUiContainer>("info");
 	if (pInfo)

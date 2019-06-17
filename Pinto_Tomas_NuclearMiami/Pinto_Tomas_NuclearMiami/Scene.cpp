@@ -11,7 +11,7 @@
 #include "Ui/TUiManager.h"
 
 Scene* Scene::m_psScene = nullptr;
-int Scene::m_sLevel = 5;
+int Scene::m_sLevel = 1;
 
 Scene* Scene::Get()
 {
@@ -78,7 +78,7 @@ void Scene::ProcessLoad()
 	// Add carry to the scene
 	Scene::Get()->Add(pCarry);
 	Scene::Get()->SetPlayer(pCarry);
-	pCarry->SendMessage(MessageType::regen, 50);
+	pCarry->SendMessage(MessageType::regen, 20);
 	
 	Initialize();
 	LDEBUG("----------------------------");

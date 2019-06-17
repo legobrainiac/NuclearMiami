@@ -1,7 +1,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#define PI 3.14159265359F
+#define PI 3.14159265359f
 #define LOG(T) std::cout << T << std::endl
 #define DEBUG(T) std::cerr << T << std::endl
 #define LOGASSERT(T, A) if(T) std::cout << A << std::endl

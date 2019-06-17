@@ -38,4 +38,4 @@ TRifle(posx="770", posy="70", posz="-2", rotation="13")
 TEnemy(posx="916", posy="846", posz="-1", rotation="90")
 TRifle(posx="916", posy="846", posz="-2", rotation="13")
 
-TNextLevelPad(posx="975", posy="965", range="30", level="5")
+TNextLevelPad(posx="975", posy="965", range="30", level="2")

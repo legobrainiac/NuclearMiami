@@ -24,10 +24,10 @@ AiAgent::AiAgent(const Vector2f& position, const Vector2f& scale, float rotation
 	
 	m_WanderRotation = m_Rotation;
 	
-	m_VertexCollider.push_back(Point2f { -10.f, -5.f });
-	m_VertexCollider.push_back(Point2f { -10.f, 5.f });
-	m_VertexCollider.push_back(Point2f { 10.f, 5.f });
-	m_VertexCollider.push_back(Point2f { 10.f, -5.f });
+	m_VertexCollider.push_back(Point2f { -20.f, -10.f });
+	m_VertexCollider.push_back(Point2f { -20.f, 10.f });
+	m_VertexCollider.push_back(Point2f { 20.f, 10.f });
+	m_VertexCollider.push_back(Point2f { 20.f, -10.f });
 	
 	m_AiInstanceCounter++;
 }
@@ -257,11 +257,11 @@ void AiAgent::Wander(float dt)
 	if(m_WanderTimer > 1.f)
 	{
 		m_WanderTimer -= m_WanderTimer;
-		m_WanderRotation += utils::RandInterval(-180.f, 180.f);
+		m_WanderRotation += utils::RandInterval(-180, 180);
 	}
 	
 	direction = { cos(m_WanderRotation * PI / 180.f), sin(m_WanderRotation * PI / 180.f)};	
-	ApplyForce(direction * m_MovementSpeed / 32.f);
+	ApplyForce(direction * m_MovementSpeed * dt * 2.f);
 }
 
 void AiAgent::Shoot(const Vector2f& direction)

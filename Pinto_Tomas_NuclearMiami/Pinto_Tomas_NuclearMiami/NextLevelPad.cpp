@@ -24,10 +24,21 @@ NextLevelPad::~NextLevelPad()
 
 void NextLevelPad::Draw() const 
 {
+	TextRenderConfig textConfig;
+	textConfig.spacing = 3.f;
+	textConfig.scale = 1.f;
+	
 	glPushMatrix();
 	glTranslatef(m_Position.x, m_Position.y, m_ZLayer);
-	m_pTexture->Draw();
+	m_pTexture->Draw(Point2f{ -(m_pTexture->GetWidth() / 2), -(m_pTexture->GetHeight() / 2) });
+
+	// Text
+	glPushMatrix();
+	glScalef(0.25f, 0.25f, 1.f);
+	ResourceManager::Get()->GetTextRenderer("munro")->DrawString("NEXT LEVEL", Vector2f { -70.f, 70.f }, textConfig);
+	
 	glPopMatrix();
+	glPopMatrix();	
 }
 
 void NextLevelPad::Update(float dt) 

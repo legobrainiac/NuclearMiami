@@ -255,7 +255,7 @@ TUiManager::TUiManager()
 		float x = std::stof(utils::GetParameterValue("posx", resource));
 		float y = std::stof(utils::GetParameterValue("posy", resource));
 		
-		Scene::Get()->Add(new HealthPickup(Vector2f { x,y }, Vector2f { 1.f, 1.f }, 0, 25));	
+		Scene::Get()->Add(new HealthPickup(Vector2f { x,y }, Vector2f { 1.f, 1.f }, 0, 15));	
 		return new TUiEmpty();
 	};
 	
@@ -264,7 +264,7 @@ TUiManager::TUiManager()
 		float x = std::stof(utils::GetParameterValue("posx", resource));
 		float y = std::stof(utils::GetParameterValue("posy", resource));
 		
-		Scene::Get()->Add(new AmmoPickup(Vector2f { x,y }, Vector2f { 1.f, 1.f }, 0, 15));	
+		Scene::Get()->Add(new AmmoPickup(Vector2f { x,y }, Vector2f { 1.f, 1.f }, 0, 10));	
 		return new TUiEmpty();
 	};
 	

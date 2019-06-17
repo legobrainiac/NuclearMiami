@@ -1,6 +1,5 @@
 // Player and basic spawn pistol
 TPlayer(posx="60", posy="960", posz="-1", rotation="90")
-TRocketLauncher(posx="50", posy="940", posz="-2", rotation="0")
 
 // Basic enemy clusters
 TEnemy(posx="420", posy="380", posz="-1", rotation="90")
@@ -31,3 +30,6 @@ TEnemy(posx="916", posy="846", posz="-1", rotation="90")
 TRifle(posx="916", posy="846", posz="-2", rotation="13")
 
 TNextLevelPad(posx="820", posy="877", range="30", level="4")
+
+TAmmoPickUp(posx="682", posy="513", posz="0", rotation="0")
+THealthPickUp(posx="843", posy="797")

@@ -21,7 +21,7 @@ void AmmoPickup::Draw() const
 	glScalef(m_Scale.x, m_Scale.y, 1.f);
 	glRotatef(m_Rotation, 0.f, 0.f, 1.f);
 	
-	m_pTexture->Draw(Point2f{ 0.f, 0.f });
+	m_pTexture->Draw(Point2f{ -(m_pTexture->GetWidth() / 2), -(m_pTexture->GetHeight() / 2) });
 	
 	GameObject::Draw();
 	glPopMatrix();

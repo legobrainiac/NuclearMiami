@@ -26,10 +26,10 @@ TEndContainer()
 
 TContainer(id="endScreen", sizeX="0.8", sizeY="0.8", posX="0.1", posY="0.1", title="Character Selection", drawOutline="0", startHidden="1")
 TLabel(id="", sizeX="1", sizeY="0.3", posX="0", posY="0.5", ptSize="500", text="YOU WON!")
-TLabel(id="", sizeX="1", sizeY="0.3", posX="0", posY="0.2", ptSize="500", text="Game will reload in 5 seconds...")
+TLabel(id="", sizeX="1", sizeY="0.3", posX="0", posY="0.2", ptSize="500", text="Game will reload in 10 seconds...")
 TEndContainer()
 
-TContainer(id="info", sizeX="0.4", sizeY="0.4", posX="0.35", posY="0.3", title="Controls!", drawOutline="0", startHidden="1")
+TContainer(id="info", sizeX="0.4", sizeY="0.4", posX="0.05", posY="0.3", title="Controls!", drawOutline="0", startHidden="1")
 TLabel(id="", sizeX="0.8", sizeY="0.3", posX="0.0", posY="0.8", ptSize="100", text="Controls: ")
 TLabel(id="", sizeX="0.4", sizeY="0.15", posX="0.0", posY="0.65", ptSize="100", text="WASD to jump")
 TLabel(id="", sizeX="0.7", sizeY="0.15", posX="0.0", posY="0.5", ptSize="100", text="Mouse movement to aim")

@@ -6,6 +6,16 @@
 class Texture;
 class SoundEffect;
 
+#define DYING_EXPLOSION_COUNT 5
+#define BOSS_HEALTH 1000
+
+enum class BossState
+{
+	Alive,
+	Dying, 
+	Dead
+};
+
 class BossFight :
 	public GameObject
 {
@@ -32,9 +42,12 @@ private:
 	
 	float m_ArmRotation;
 	float m_ShotTimer;
+	float m_DyingTimer;
 	
+	int m_ExplosionCounter;
 	int m_Health;
 	
+	BossState m_State;
 	Vector2f m_CenterPosition;
 	
 	static int m_BossFightCounter;
