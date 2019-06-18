@@ -8,8 +8,6 @@
 class DebugLogger
 {
 public:
-	~DebugLogger();
-	
 	static DebugLogger* Get()
 	{
 		if(!m_psDebugLogger)

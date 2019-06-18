@@ -10,10 +10,6 @@ class NextLevelPad :
 {
 public:
 	NextLevelPad(const Vector2f& position, int level, float range);
-	NextLevelPad(const NextLevelPad&) = delete;
-	NextLevelPad& operator=(const NextLevelPad&) = delete;
-	NextLevelPad(NextLevelPad&&) = delete;
-	NextLevelPad& operator=(NextLevelPad&&) = delete;
 	~NextLevelPad();
 	
 	void Draw() const override;

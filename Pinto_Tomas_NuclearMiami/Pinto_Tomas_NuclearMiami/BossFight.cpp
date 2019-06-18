@@ -14,7 +14,7 @@ BossFight::BossFight(const Vector2f& position, const Vector2f& scale, float rota
 , m_pArmTexture(ResourceManager::Get()->GetTexture("bossArm"))
 , m_Health(BOSS_HEALTH)
 , m_CenterPosition(position)
-, m_State(BossState::Alive)
+, m_State(BossState::alive)
 {
 	m_pShootingSound = ResourceManager::Get()->GetSoundEffect("shotgun");
 	
@@ -29,7 +29,7 @@ BossFight::BossFight(const Vector2f& position, const Vector2f& scale, float rota
 
 void BossFight::Draw() const
 {
-	if(m_State == BossState::Dead) return;
+	if(m_State == BossState::dead) return;
 	
 	// Draw Potatoe
 	glPushMatrix();
@@ -44,7 +44,7 @@ void BossFight::Draw() const
 
 void BossFight::DrawHealth() const
 {
-	if(m_State == BossState::Dying) return;
+	if(m_State == BossState::dying) return;
 	
 	// Draw Health
 	glPushMatrix();
@@ -76,7 +76,7 @@ void BossFight::DrawArm() const
 
 void BossFight::Update(float dt)
 {
-	if(m_State == BossState::Alive)
+	if(m_State == BossState::alive)
 	{
 		Player* pTarget = m_pScene->GetPlayer();
 		
@@ -92,7 +92,7 @@ void BossFight::Update(float dt)
 		
 		Shoot(dt);
 	}
-	else if(m_State == BossState::Dying)
+	else if(m_State == BossState::dying)
 	{
 		m_DyingTimer += dt;
 		if(m_DyingTimer > .1f)
@@ -109,7 +109,7 @@ void BossFight::Update(float dt)
 			m_ExplosionCounter++;
 			
 			if(m_ExplosionCounter == 20) 
-				m_State = BossState::Dead;
+				m_State = BossState::dead;
 		}
 	}
 	else
@@ -150,7 +150,7 @@ void BossFight::SendMessage(MessageType message, int value)
 		m_Health -= value;
 		
 		if(m_Health <= 0)
-			m_State = BossState::Dying;
+			m_State = BossState::dying;
 	}
 }
 

@@ -11,9 +11,9 @@ class SoundEffect;
 
 enum class BossState
 {
-	Alive,
-	Dying, 
-	Dead
+	alive,
+	dying, 
+	dead
 };
 
 class BossFight :

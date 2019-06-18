@@ -20,13 +20,7 @@ typedef std::pair<std::string, std::function<TUiNode*(std::ifstream&, std::strin
 class TUiManager
 {
 public:
-	TUiManager();
 	~TUiManager();
-	
-    TUiManager(const TUiManager&) = delete;
-	TUiManager& operator=(const TUiManager&) = delete;
-	TUiManager(TUiManager&&) = delete;
-	TUiManager& operator=(TUiManager&&) = delete;
 	
 	static TUiManager* Get();
 	static void Reset();
@@ -51,6 +45,13 @@ private:
 	std::vector<TUiNode*>	m_pRootNodes;
     
 	std::unordered_map<std::string, std::function<TUiNode*(std::ifstream&, std::string)>> m_TokenMap;
+	
+	TUiManager();
+	
+	TUiManager(const TUiManager& other) = delete;
+	TUiManager& operator=(const TUiManager& other) = delete;
+	TUiManager(TUiManager&&) = delete;
+	TUiManager& operator=(TUiManager&&) = delete;
 };
 
 #endif // !TUIMANAGER_H

@@ -10,7 +10,6 @@ class HitMarker :
 {
 public:
 	HitMarker(const Vector2f& position, const std::string& text);
-	~HitMarker();
 	
 	void Draw() const override;
 	void Update(float dt) override;

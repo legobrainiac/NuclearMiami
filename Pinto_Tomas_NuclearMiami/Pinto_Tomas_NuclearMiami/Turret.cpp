@@ -70,7 +70,3 @@ bool Turret::InSight(Point2f tail, Point2f head)
 	
 	return true;
 }
-
-Turret::~Turret()
-{
-}

@@ -84,6 +84,7 @@ public:
 	static int GetLevel() { return m_sLevel; };
 	
 private:
+
 	void DrawBlood() const;
 	void ProcessAdditions();
 	void ProcessDeletions();
@@ -113,6 +114,12 @@ private:
 	
 	// Singleton stuff
 	Scene(int level);
+	
+	Scene(const Scene& other) = delete;
+	Scene& operator=(const Scene& other) = delete;
+	Scene(Scene&&) = delete;
+	Scene& operator=(Scene&&) = delete;
+	
 	static Scene* m_psScene;
 	static int m_sLevel;
 };

@@ -10,9 +10,6 @@ class PickUp :
 {
 public:
 	PickUp(const Vector2f& position, const Vector2f& scale, float rotation);
-	PickUp(const PickUp& other) = delete;
-	PickUp& operator=(const PickUp& other) = delete;
-	~PickUp();
 	
 	void Update(float dt);
 	void Draw() const;

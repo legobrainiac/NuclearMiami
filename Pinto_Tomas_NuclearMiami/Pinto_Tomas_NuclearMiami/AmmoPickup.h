@@ -8,7 +8,6 @@ class AmmoPickup :
 {
 public:
 	AmmoPickup(const Vector2f& position, const Vector2f& scale, float rotation, int ammoGain);
-	~AmmoPickup();
 	
 	void Draw() const;
 	int GetAmmoGain();

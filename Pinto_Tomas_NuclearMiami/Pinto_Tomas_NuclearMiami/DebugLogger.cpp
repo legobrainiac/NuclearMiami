@@ -8,10 +8,6 @@ DebugLogger::DebugLogger()
 {
 }
 
-DebugLogger::~DebugLogger()
-{
-}
-
 void DebugLogger::Log(const std::string& message)
 {
 	m_Log.push_back(message);

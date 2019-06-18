@@ -10,7 +10,7 @@ class HealthPickup :
 {
 public:
 	HealthPickup(const Vector2f& position, const Vector2f& scale, float rotation, int healthGain);
-
+	
 	void Draw() const;
 	int GetHealthGain();
 	

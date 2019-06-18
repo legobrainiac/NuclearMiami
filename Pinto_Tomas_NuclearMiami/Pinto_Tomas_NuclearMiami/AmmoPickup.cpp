@@ -35,7 +35,3 @@ int AmmoPickup::GetAmmoGain()
 	m_pScene->Delete(this); // Marks for deletion
 	return m_AmmoGain; 
 }
-
-AmmoPickup::~AmmoPickup()
-{
-}

@@ -10,10 +10,6 @@ HitMarker::HitMarker(const Vector2f& position, const std::string& text)
 	m_ZLayer = 10;
 }
 
-HitMarker::~HitMarker()
-{
-}
-
 void HitMarker::Draw() const
 {
 	TextRenderConfig cfg;

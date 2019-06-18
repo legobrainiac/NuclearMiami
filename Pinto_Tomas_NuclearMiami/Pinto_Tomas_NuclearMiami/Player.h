@@ -16,8 +16,12 @@ class Player : public GameObject
 {
 public:
 	Player(const Vector2f& position, const Vector2f& scale, float rotation);	
+	
 	Player(const Player& other) = delete;
 	Player& operator=(const Player& other) = delete;
+	Player(Player&&) = delete;
+	Player& operator=(Player&&) = delete;
+	
 	~Player();
 	
 	void Update(float dt) override;

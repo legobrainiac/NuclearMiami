@@ -1,7 +1,45 @@
-﻿  Game.cpp
+﻿  pch.cpp
+  AiAgent.cpp
+  AmmoPickup.cpp
+  BossFight.cpp
+  Camera.cpp
+  Core.cpp
+  DebugLogger.cpp
+  Explosion.cpp
+  Game.cpp
+  GameObject.cpp
+  HealthPickup.cpp
+  HitMarker.cpp
+  Matrix2x3.cpp
+  NextLevelPad.cpp
+  PickUp.cpp
   Player.cpp
-  Scene.cpp
-  Turret.cpp
-  TUiManager.cpp
+  Projectile.cpp
+  ResourceManager.cpp
+  Rocket.cpp
+  RocketLauncher.cpp
+  SVGParser.cpp
   Generating Code...
+  Compiling...
+  Scene.cpp
+  SoundEffect.cpp
+  SoundStream.cpp
+  Sprite.cpp
+  TextRenderer.cpp
+  Texture.cpp
+  TextureObject.cpp
+  Turret.cpp
+  TUiButton.cpp
+  TUiContainer.cpp
+  TUiDynamicLabel.cpp
+  TUiLabel.cpp
+  TUiManager.cpp
+  TUiNode.cpp
+  Vector2f.cpp
+  Weapon.cpp
+  main.cpp
+  structs.cpp
+  utils.cpp
+  Generating Code...
+     Creating library C:\Repositories\1DAE_PROG_FINAL\Pinto_Tomas_NuclearMiami\Debug\Pinto_Tomas_NuclearMiami.lib and object C:\Repositories\1DAE_PROG_FINAL\Pinto_Tomas_NuclearMiami\Debug\Pinto_Tomas_NuclearMiami.exp
   Pinto_Tomas_NuclearMiami.vcxproj -> C:\Repositories\1DAE_PROG_FINAL\Pinto_Tomas_NuclearMiami\Debug\Pinto_Tomas_NuclearMiami.exe

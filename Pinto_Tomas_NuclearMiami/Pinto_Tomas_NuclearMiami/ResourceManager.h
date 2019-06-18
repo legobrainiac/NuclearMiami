@@ -37,6 +37,11 @@ public:
 private:
 	ResourceManager();
 	
+	ResourceManager(const ResourceManager& other) = delete;
+	ResourceManager& operator=(const ResourceManager& other) = delete;
+	ResourceManager(ResourceManager&&) = delete;
+	ResourceManager& operator=(ResourceManager&&) = delete;
+	
 	std::map<std::string, Texture*> m_TextureMap;
 	std::map<std::string, SoundEffect*> m_SoundEffectMap;
 	std::map<std::string, SoundStream*> m_SoundStreamMap;

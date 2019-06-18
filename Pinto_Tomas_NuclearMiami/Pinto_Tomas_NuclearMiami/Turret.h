@@ -12,8 +12,7 @@ class Turret :
 {
 public:
 	Turret(const Vector2f& position, const Vector2f& scale, float rotation);
-	~Turret();
-	
+
 	void Draw() const;
 	void Update(float dtn);
 	

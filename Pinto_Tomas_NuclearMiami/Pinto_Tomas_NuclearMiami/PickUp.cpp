@@ -17,10 +17,6 @@ PickUp::PickUp(const Vector2f& position, const Vector2f& scale, float rotation)
 	m_ZLayer = -10;
 }
 
-PickUp::~PickUp()
-{
-}
-
 void PickUp::Update(float dt)
 {
 	m_PickupTimer += dt;
